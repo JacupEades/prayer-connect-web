@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { store } from "../redux/store";
 import { Provider } from "react-redux";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function App({ Component, pageProps }: AppProps) {
 	const queryClient = new QueryClient();
@@ -11,6 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
 		<QueryClientProvider client={queryClient}>
 			<Provider store={store}>
 				<Component {...pageProps} />
+				<Analytics />
 			</Provider>
 		</QueryClientProvider>
 	);
