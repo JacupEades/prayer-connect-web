@@ -11,7 +11,7 @@ export default function HomeScreen() {
 	const { isLoading, isError, data, error } = useQuery("prayers", getPrayers);
 
 	if (isLoading) return <div>Prayer is Loading...</div>;
-	if (isError) return <div>Got Error {addMutation.error.message}</div>;
+	if (isError) return <div>Got Error {error}</div>;
 
 	return (
 		<section className={styles.masterContainer}>
