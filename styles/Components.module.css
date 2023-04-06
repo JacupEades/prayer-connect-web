@@ -1,0 +1,33 @@
+/* PrayerCard */
+.cardContainer {
+	width: 100%;
+	margin-bottom: 16px;
+	border: solid 2px var(--text-color-black);
+	border-radius: 10px;
+}
+
+.PrayerCardBtncontainer {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 16px;
+	border-top: 2px solid var(--text-color-black);
+	padding: 10px;
+	background-color: var(--prayer-card-btns);
+	border-radius: 0 0 10px 10px;
+}
+
+.PrayerCardText {
+	padding: 16px;
+	background-color: var(--prayer-card-text);
+	color: var(--text-color-black);
+	border-radius: 10px 10px 0 0;
+}
+
+.PrayerCardBtn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: var(--text-color-black);
+	background-color: var(--primary-btn-color);
+	border-radius: 9999px;
+}
