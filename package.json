@@ -22,7 +22,8 @@
     "react-icons": "^4.8.0",
     "react-query": "^3.39.3",
     "react-redux": "^8.0.5",
-    "typescript": "5.0.3"
+    "typescript": "5.0.3",
+    "vercel": "^28.18.3"
   },
   "devDependencies": {
     "mongoose": "^7.0.3"
