@@ -1,11 +1,24 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Source+Sans+Pro:wght@400;600&display=swap");
+
+/* font-family: 'Lora', serif;
+font-family: 'Source Sans Pro', sans-serif; */
 
 :root {
+	--sys-light-surface-container: #f2ecf1;
+	--sys-light-primary-container: #e9ddff;
+	--sys-light-on-primary-container: #22005d;
+	--sys-light-surface: #fdf8fd;
+	--sys-light-on-surface: #1c1b1e;
+	--sys-light-on-surface-variant: #49454e;
+	--sys-light-secondary-container: #e8def8;
+	--sys-light-on-secondary-container: #1e192b;
+	--sys-light-primary: #6750a4;
+	--sys-light-outline: #7a757f;
+	--sys-light-outline-varient: #cac4cf;
+	/* old colors */
 	--color-off-white: #f8f9fa;
-	--text-color-black: #212529;
 	--text-color-grey: #929292;
 	--text-color-white: #fff;
-	--nav-bg-color: #15aabf;
 	--primary-btn-color: #ffffff9a;
 	--prayer-card-text: #fff4e6;
 	--prayer-card-btns: #99e9f2;
@@ -15,7 +28,7 @@
 	box-sizing: border-box;
 	padding: 0;
 	margin: 0;
-	font-family: "Roboto", sans-serif;
+	font-family: "Source Sans Pro", sans-serif;
 }
 
 html,
@@ -28,7 +41,7 @@ body {
 	color: var(--text-color-white);
 	background: var(--color-off-white);
 	max-width: 425px;
-	margin: 97px auto 0 auto;
+	margin: 6.5rem auto 0 auto;
 }
 
 h1 {

@@ -1,21 +1,60 @@
-.navMasterContainer {
+/* NAVIGATION */
+.navMasterContainer.navMasterContainer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	max-width: 425px;
+	color: var(--sys-light-on-surface);
+}
+/* Add Button */
+.addBtn.addBtn {
+	display: block;
+	margin: 0 auto 1rem auto;
+	border-radius: 12px;
+	padding: 0.5rem;
+	min-width: 0;
+	width: 2.5rem;
+	height: 2.5rem;
+
+	background-color: var(--sys-light-primary-container);
+	color: var(--sys-light-on-surface);
+	box-shadow: 0px 4px 8px 3px rgba(0, 0, 0, 0.15),
+		0px 1px 3px rgba(0, 0, 0, 0.3);
+}
+.addBtnIcon.addBtnIcon {
+	font-size: 1.5rem;
+}
+.navMainMasterContainer.navMainMasterContainer {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 
-	position: fixed;
-	bottom: 0;
-	padding: 0 16px;
-	height: 50px;
-	width: 100%;
-	max-width: 425px;
-	background-color: var(--nav-bg-color);
-	color: var(--text-color-white);
+	padding: 0 0.5rem;
+	height: 5rem;
+	background-color: var(--sys-light-surface-container);
 }
-
-.btn {
+.navBtnContainer.navBtnContainer {
 	display: flex;
-	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.25rem;
+	width: 4.375rem;
+}
+.navBtn.navBtn {
+	min-width: 4rem;
+	height: 2rem;
+	padding: 0.25rem 1.25rem;
+	border-radius: 1rem;
 
-	width: 72px;
+	background-color: var(--sys-light-primary-container);
+	color: var(--sys-light-on-surface);
+}
+.navBtnIcon.navBtnIcon {
+	font-size: 1.5rem;
+	transform: scaleX(-1);
+}
+.navBtnText.navBtnText {
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-align: center;
 }

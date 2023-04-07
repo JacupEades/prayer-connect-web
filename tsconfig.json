@@ -24,7 +24,7 @@
 		"**/*.tsx",
 		"components/PrayerCard.js",
 		"pages/api/prayers/index.js",
-		"pages/screens/HomeScreen.js",
+		"pages/community.js",
 		"components/Navigation.JS"
 	],
 	"exclude": ["node_modules"]

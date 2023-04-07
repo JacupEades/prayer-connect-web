@@ -1,11 +1,6 @@
 import React from "react";
 import styles from "@/styles/Components.module.css";
-import {
-	AiOutlineEdit,
-	AiOutlineFire,
-	AiOutlineCheck,
-	AiOutlineDelete,
-} from "react-icons/ai";
+import { FaPray } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	toggleChangeAction,
@@ -14,10 +9,12 @@ import {
 } from "@/redux/reducer";
 import { deletePrayer, getPrayers } from "@/lib/helper";
 import { useQueryClient } from "react-query";
+import { Button } from "@mui/material";
 
 export default function PrayerCard({
 	prayerNumber,
 	_id,
+	title,
 	answered,
 	approved,
 	createdAt,
@@ -63,9 +60,26 @@ export default function PrayerCard({
 	};
 
 	return (
-		<article className={styles.cardContainer}>
+		<article className={styles.prayerCardContainer}>
+			{/* Name */}
+			<div className={styles.cardName}>{name}</div>
+			{/* Title and Message */}
+			<div className={styles.cardTextContainer}>
+				<h2>{title}</h2>
+				<p>{message}</p>
+			</div>
+			{/* Count and pray Btn */}
+			<div className={styles.cardPrayContainer}>
+				<div className={styles.cardPrayedForContainer}>
+					<FaPray className={styles.prayCountIcon} />
+					<p className={styles.prayCountNumber}>{prayedFor}</p>
+				</div>
+				<Button variant="contained" className={styles.prayBtn}>
+					<FaPray className={styles.prayBtnIcon} />
+				</Button>
+			</div>
 			{/* prayer */}
-			<div className={styles.PrayerCardText}>
+			{/* <div className={styles.PrayerCardText}>
 				<p>
 					{name} prayer #{prayerNumber}
 				</p>
@@ -73,22 +87,16 @@ export default function PrayerCard({
 				<p>{answered === true ? "Answered" : "Ongoing"}</p>
 				<p>{prayedFor}</p>
 				<p>{createdAt}</p>
-			</div>
+			</div> */}
 			{/* Buttons */}
-			<div className={styles.PrayerCardBtncontainer}>
+			{/* <div className={styles.PrayerCardBtncontainer}>
 				<button onClick={onUpdate} className={styles.PrayerCardBtn}>
 					<AiOutlineEdit size={32} />
 				</button>
-				{/* <div className={styles.PrayerCardBtn}>
-					<AiOutlineCheck size={32} />
-				</div>
-				<div className={styles.PrayerCardBtn}>
-					<AiOutlineFire size={32} />
-				</div> */}
 				<button onClick={onDelete} className={styles.PrayerCardBtn}>
 					<AiOutlineDelete size={32} />
 				</button>
-			</div>
+			</div> */}
 		</article>
 	);
 }

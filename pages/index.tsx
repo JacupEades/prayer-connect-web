@@ -1,9 +1,5 @@
 import Head from "next/head";
-import Image from "next/image";
 import styles from "@/styles/Main.module.css";
-import Header from "@/components/Header";
-import Navigation from "@/components/Navigation.js";
-import HomeScreen from "./screens/HomeScreen.js";
 
 export default function Home() {
 	return (
@@ -15,9 +11,9 @@ export default function Home() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main className={styles.main}>
-				<Header />
-				<Navigation />
-				<HomeScreen />
+				{/* <a href="/community" style={{ color: "red" }}>
+					community page
+				</a> */}
 			</main>
 		</>
 	);

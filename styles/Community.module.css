@@ -1,7 +1,18 @@
 .masterContainer {
 	display: flex;
-	justify-content: space-between;
+	flex-direction: column;
 	align-items: center;
+
+	/* margin-top: 6.5rem; */
+}
+.masterContainerP {
+	max-width: 392px;
+	width: 100%;
+	min-width: 288px;
+
+	padding: 0.75rem 0.75rem 0 0.75rem;
+	color: var(--sys-light-on-surface-variant);
+	font-size: 0.875rem;
 }
 
 .cardSection {
@@ -9,8 +20,8 @@
 	width: 100%;
 	min-width: 288px;
 
-	margin: 16px;
-	margin-bottom: 115px;
+	padding: 0.75rem;
+	margin-bottom: 8rem;
 }
 
 .messageContainer {
@@ -21,7 +32,7 @@
 
 	position: fixed;
 	bottom: 49px;
-	border-top: 1px solid var(--text-color-black);
+	border-top: 1px solid var(--sys-light-on-surface);
 	padding: 16px 16px 0 16px;
 	height: 65px;
 	width: 100%;
@@ -37,12 +48,4 @@
 	border: 0;
 	border-radius: 10px;
 	padding: 6px;
-}
-
-.messageBtn {
-	background-color: var(--primary-btn-color);
-	height: 42px;
-	width: 42px;
-	border-radius: 9999px;
-	border: 0;
 }

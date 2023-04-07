@@ -1,20 +1,72 @@
-.headerMasterContainer {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+.headerMasterContainer.headerMasterContainer {
+	display: grid;
+	gap: 0.5rem;
 
 	position: fixed;
 	top: 0px;
-	padding: 0 16px;
-	border-bottom: 1px solid var(--text-color-black);
-	height: 97px;
+	padding: 1.125rem 1.5rem 0.5rem 0.75rem;
+	height: 104px;
 	width: 100%;
 	max-width: 425px;
-	background-color: var(--nav-bg-color);
-	color: var(--text-color-white);
+	background-color: var(--sys-light-surface);
 }
 
-.iconContainer {
-	width: 42px;
-	height: 42px;
+/* Top header */
+.headerTopContainer.headerTopContainer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.headerTitle.headerTitle {
+	color: var(--sys-light-on-surface);
+	font-family: "Lora", serif;
+	font-weight: 500;
+	font-size: 1.375rem;
+}
+.headerSearchIcon.headerSearchIcon {
+	color: var(--sys-light-on-surface-variant);
+	font-size: 1.5rem;
+}
+
+/* Bottom header */
+.headerBottomContainer.headerBottomContainer {
+	display: flex;
+	align-items: center;
+
+	gap: 0.5rem;
+}
+.headerFilterIconContainer.headerFilterIconContainer {
+	min-width: 0;
+	width: 2rem;
+	height: 2rem;
+	padding: 6px 8px;
+	border-color: var(--sys-light-outline);
+	border-radius: 0.5rem;
+}
+.headerFilterIcon.headerFilterIcon {
+	color: var(--sys-light-primary);
+	font-size: 1.125rem;
+}
+.headerOptionIconContainer.headerOptionIconContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5rem;
+	height: 2rem;
+
+	padding: 6px 8px 6px 12px;
+	border: 0;
+	border-radius: 0.5rem;
+	color: var(--sys-light-on-secondary-container);
+	background-color: var(--sys-light-secondary-container);
+}
+.headerOptionText.headerOptionText {
+	font-family: "Source Sans Pro", sans-serif;
+	font-weight: 600;
+	font-size: 0.875rem;
+
+	text-transform: none;
+}
+.headerOptionIcon.headerOptionIcon {
+	font-size: 1.125rem;
 }

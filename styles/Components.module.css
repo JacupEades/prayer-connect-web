@@ -1,33 +1,61 @@
-/* PrayerCard */
-.cardContainer {
-	width: 100%;
-	margin-bottom: 16px;
-	border: solid 2px var(--text-color-black);
-	border-radius: 10px;
-}
-
-.PrayerCardBtncontainer {
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	gap: 16px;
-	border-top: 2px solid var(--text-color-black);
-	padding: 10px;
-	background-color: var(--prayer-card-btns);
-	border-radius: 0 0 10px 10px;
-}
-
-.PrayerCardText {
-	padding: 16px;
-	background-color: var(--prayer-card-text);
-	color: var(--text-color-black);
-	border-radius: 10px 10px 0 0;
-}
-
-.PrayerCardBtn {
+.prayerCardContainer.prayerCardContainer {
 	display: flex;
-	justify-content: center;
+	flex-direction: column;
+	gap: 1rem;
+
+	width: 100%;
+	margin-bottom: 0.75rem;
+	border-radius: 0.75rem;
+	border: 1px solid var(--sys-light-outline-varient);
+	padding: 1rem;
+}
+.cardName.cardName {
+	font-size: 0.75rem;
+	font-weight: 400;
+	color: var(--sys-light-on-surface-variant);
+}
+.cardTextContainer h2 {
+	font-family: "Lora", serif;
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--sys-light-on-surface);
+}
+.cardTextContainer p {
+	font-size: 0.875rem;
+	font-weight: 400;
+	color: var(--sys-light-on-surface-variant);
+	/* Truncation logic */
+	display: block;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-line-clamp: 2;
+}
+.cardPrayContainer.cardPrayContainer {
+	display: flex;
+	justify-content: space-between;
 	align-items: center;
-	color: var(--text-color-black);
-	background-color: var(--primary-btn-color);
+	color: var(--sys-light-on-surface-variant);
+}
+.cardPrayedForContainer.cardPrayedForContainer {
+	display: flex;
+	gap: 0.25rem;
+}
+.prayCountIcon.prayCountIcon {
+	font-size: 1rem;
+}
+.prayCountNumber.prayCountNumber {
+	font-size: 0.75rem;
+}
+.prayBtn.prayBtn {
+	min-width: 0;
+	width: 2.5rem;
+	height: 2.5rem;
+	padding: 0;
 	border-radius: 9999px;
+	background-color: var(--sys-light-primary);
+}
+.prayBtnIcon.prayBtnIcon {
+	font-size: 1.5rem;
 }

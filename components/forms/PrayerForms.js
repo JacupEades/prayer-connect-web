@@ -1,13 +1,13 @@
 import React, { useReducer } from "react";
-import styles from "@/styles/Home.module.css";
+import styles from "@/styles/Community.module.css";
 import { AiOutlineSend } from "react-icons/ai";
 import PrayerCard from "@/components/PrayerCard";
 import { getPrayers, addPrayer } from "../../lib/helper";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleChangeAction } from "@/redux/reducer";
-import AddPrayerForm from "../../components/forms/AddPrayerForm";
-import UpdatePrayerForm from "../../components/forms/UpdatePrayerForm";
+import AddPrayerForm from "./AddPrayerForm";
+import UpdatePrayerForm from "./UpdatePrayerForm";
 
 const formReducer = (state, event) => {
 	return {

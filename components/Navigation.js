@@ -5,6 +5,12 @@ import PrayerCard from "@/components/PrayerCard";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleChangeAction, updateAction } from "@/redux/reducer";
+import GroupsIcon from "@mui/icons-material/Groups";
+import SignLanguageIcon from "@mui/icons-material/SignLanguage";
+import PersonIcon from "@mui/icons-material/Person";
+import SettingsIcon from "@mui/icons-material/Settings";
+import AddIcon from "@mui/icons-material/Add";
+import { Button } from "@mui/material";
 
 export default function Navigation() {
 	const formId = useSelector((state) => state.app.client.formId);
@@ -31,12 +37,47 @@ export default function Navigation() {
 
 	return (
 		<nav className={styles.navMasterContainer}>
-			<button onClick={handleAddPrayer} className={styles.btn}>
-				Add prayer
-			</button>
-			<div className={styles.btn}>Nav2</div>
-			<div className={styles.btn}>Nav3</div>
-			<div className={styles.btn}>Nav4</div>
+			<Button className={styles.addBtn}>
+				<AddIcon className={styles.addBtnIcon} />
+			</Button>
+			<div className={styles.navMainMasterContainer}>
+				<div className={styles.navBtnContainer}>
+					<Button
+						href="/community"
+						onClick={handleAddPrayer}
+						className={styles.navBtn}>
+						<GroupsIcon className={styles.navBtnIcon} />
+					</Button>
+					<p className={styles.navBtnText}>Community</p>
+				</div>
+				<div className={styles.navBtnContainer}>
+					<Button
+						href="/answered"
+						onClick={handleAddPrayer}
+						className={styles.navBtn}>
+						<SignLanguageIcon className={styles.navBtnIcon} />
+					</Button>
+					<p className={styles.navBtnText}>Answered</p>
+				</div>
+				<div className={styles.navBtnContainer}>
+					<Button
+						href="/private-prayers"
+						onClick={handleAddPrayer}
+						className={styles.navBtn}>
+						<PersonIcon className={styles.navBtnIcon} />
+					</Button>
+					<p className={styles.navBtnText}>Private</p>
+				</div>
+				<div className={styles.navBtnContainer}>
+					<Button
+						href="/settings"
+						onClick={handleAddPrayer}
+						className={styles.navBtn}>
+						<SettingsIcon className={styles.navBtnIcon} />
+					</Button>
+					<p className={styles.navBtnText}>Settings</p>
+				</div>
+			</div>
 		</nav>
 	);
 }

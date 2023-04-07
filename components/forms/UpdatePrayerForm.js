@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "@/styles/Home.module.css";
+import styles from "@/styles/Community.module.css";
 import { AiOutlineSend } from "react-icons/ai";
 import { getPrayer, updatePrayer, getPrayers } from "../../lib/helper";
 import { useQuery, useQueryClient, useMutation } from "react-query";
