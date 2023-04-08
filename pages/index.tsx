@@ -1,5 +1,7 @@
 import Head from "next/head";
 import styles from "@/styles/Main.module.css";
+import Image from "next/image";
+import { Button } from "@mui/material";
 
 export default function Home() {
 	return (
@@ -11,6 +13,29 @@ export default function Home() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main className={styles.main}>
+				<Image
+					src={"/Illustration.svg"}
+					alt={"Globe with two missionaries on a journey to spread the gospel."}
+					height={161}
+					width={156}
+				/>
+				<h1 className={styles.h1}>Prayer-Connect</h1>
+				<p className={styles.p}>
+					This app is designed to help you connect with a diverse community and
+					share your prayer requests. Whether you&#39;re looking for support,
+					lament, or a space to praise God, this app welcomes all kinds of
+					prayers. With features like public and private prayer requests,
+					answered prayers, and email notifications, you can customize your
+					experience to suit your needs.
+				</p>
+				<div className={styles.startBtnContainer}>
+					<Button href="/login/new-user" className={styles.startBtn}>
+						Get Started
+					</Button>
+					<Button href="/login/existing-user" className={styles.loginBtn}>
+						Log in
+					</Button>
+				</div>
 				{/* <a href="/community" style={{ color: "red" }}>
 					community page
 				</a> */}

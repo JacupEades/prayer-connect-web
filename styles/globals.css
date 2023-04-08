@@ -1,20 +1,23 @@
-@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Source+Sans+Pro:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@700&family=Lora:wght@500;600&family=Source+Sans+Pro:wght@400;600&display=swap");
 
 /* font-family: 'Lora', serif;
-font-family: 'Source Sans Pro', sans-serif; */
+font-family: 'Source Sans Pro', sans-serif;
+font-family: 'Bodoni Moda', serif; */
 
 :root {
 	--sys-light-surface-container: #f2ecf1;
 	--sys-light-primary-container: #e9ddff;
 	--sys-light-on-primary-container: #22005d;
+	--sys-light-inverse-surface: #313033;
 	--sys-light-surface: #fdf8fd;
 	--sys-light-on-surface: #1c1b1e;
 	--sys-light-on-surface-variant: #49454e;
 	--sys-light-secondary-container: #e8def8;
 	--sys-light-on-secondary-container: #1e192b;
 	--sys-light-primary: #6750a4;
+	--sys-light-on-primary: #ffffff;
 	--sys-light-outline: #7a757f;
-	--sys-light-outline-varient: #cac4cf;
+	--sys-light-outline-variant: #cac4cf;
 	/* old colors */
 	--color-off-white: #f8f9fa;
 	--text-color-grey: #929292;
@@ -41,7 +44,7 @@ body {
 	color: var(--text-color-white);
 	background: var(--color-off-white);
 	max-width: 425px;
-	margin: 6.5rem auto 0 auto;
+	margin: 0 auto;
 }
 
 h1 {

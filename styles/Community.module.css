@@ -3,7 +3,7 @@
 	flex-direction: column;
 	align-items: center;
 
-	/* margin-top: 6.5rem; */
+	margin: 6.5rem auto 0 auto;
 }
 .masterContainerP {
 	max-width: 392px;
