@@ -4,7 +4,7 @@ import { AiOutlineSend } from "react-icons/ai";
 import PrayerCard from "@/components/PrayerCard";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleChangeAction, updateAction } from "@/redux/reducer";
+// import { toggleChangeAction, updateAction } from "@/redux/reducer";
 import GroupsIcon from "@mui/icons-material/Groups";
 import SignLanguageIcon from "@mui/icons-material/SignLanguage";
 import PersonIcon from "@mui/icons-material/Person";
@@ -13,26 +13,26 @@ import AddIcon from "@mui/icons-material/Add";
 import { Button } from "@mui/material";
 
 export default function Navigation() {
-	const formId = useSelector((state) => state.app.client.formId);
-	const visible = useSelector((state) => state.app.client.toggleFormVisible);
+	// const formId = useSelector((state) => state.app.client.formId);
+	// const visible = useSelector((state) => state.app.client.toggleFormVisible);
 	const dispatch = useDispatch();
 
 	const handleAddPrayer = () => {
 		// console.log(formId);
 		// dispatch(toggleChangeAction(formId));
-		if (visible && formId !== undefined) {
-			dispatch(updateAction(undefined));
-			dispatch(toggleChangeAction());
-		} else if (visible && formId === undefined) {
-			dispatch(toggleChangeAction());
-		} else if (!visible && formId !== undefined) {
-			dispatch(updateAction(undefined));
-			dispatch(toggleChangeAction());
-		} else if (visible) {
-			dispatch(updateAction(undefined));
-		} else {
-			dispatch(toggleChangeAction());
-		}
+		// if (visible && formId !== undefined) {
+		// 	dispatch(updateAction(undefined));
+		// 	dispatch(toggleChangeAction());
+		// } else if (visible && formId === undefined) {
+		// 	dispatch(toggleChangeAction());
+		// } else if (!visible && formId !== undefined) {
+		// 	dispatch(updateAction(undefined));
+		// 	dispatch(toggleChangeAction());
+		// } else if (visible) {
+		// 	dispatch(updateAction(undefined));
+		// } else {
+		// 	dispatch(toggleChangeAction());
+		// }
 	};
 
 	return (

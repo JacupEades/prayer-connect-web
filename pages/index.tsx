@@ -29,7 +29,7 @@ export default function Home() {
 					experience to suit your needs.
 				</p>
 				<div className={styles.startBtnContainer}>
-					<Button href="/login/new-user" className={styles.startBtn}>
+					<Button href="/login/signup" className={styles.startBtn}>
 						Get Started
 					</Button>
 					<Button href="/login/existing-user" className={styles.loginBtn}>

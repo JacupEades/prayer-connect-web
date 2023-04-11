@@ -1,5 +1,4 @@
 import { Schema, models, model } from "mongoose";
-// const mongoose = require("mongoose");
 
 const prayerSchema = new Schema(
 	{

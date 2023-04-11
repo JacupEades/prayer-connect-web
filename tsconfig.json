@@ -25,7 +25,8 @@
 		"components/PrayerCard.js",
 		"pages/api/prayers/index.js",
 		"pages/community.js",
-		"components/Navigation.JS"
+		"components/Navigation.JS",
+		"redux/reducers/userReducer.js"
 	],
 	"exclude": ["node_modules"]
 }
