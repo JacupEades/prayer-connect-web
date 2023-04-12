@@ -1,4 +1,46 @@
+import Users from "../model/user";
 import Prayers from "../model/prayer";
+
+// GET: http://localhost:3000/api/users
+export async function getUsers(req, res) {
+	try {
+		const users = await Users.find({});
+
+		if (!users)
+			return res.status(404).json({ error: "Error, No prayers to load." });
+		res.status(200).json(users);
+	} catch (error) {
+		return res.status(404).json({ error: "Error While Fetching Data" });
+	}
+}
+
+// GET single user: http://localhost:3000/api/users/userId
+export async function getUser(req, res) {
+	try {
+		const { userId } = req.query;
+		const user = await Users.findById(userId);
+
+		if (!userId)
+			res.status(404).json({ error: "Can not get the user to load." });
+		res.status(200).json(user);
+	} catch (error) {
+		return res.status(404).json({ error: "Can not get the user." });
+	}
+}
+
+// POST: http://localhost:3000/api/users
+export async function postUsers(req, res) {
+	try {
+		const formData = await Users.create(req.body);
+
+		if (!formData) {
+			return res.status(404).json({ error: "Form data not found." });
+		}
+		return res.status(200).json(formData);
+	} catch (error) {
+		return res.status(404).json({ error });
+	}
+}
 
 // GET: http://localhost:3000/api/prayers
 export async function getPrayers(req, res) {

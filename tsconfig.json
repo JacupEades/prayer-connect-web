@@ -23,10 +23,11 @@
 		"**/*.ts",
 		"**/*.tsx",
 		"components/PrayerCard.js",
-		"pages/api/prayers/index.js",
-		"pages/community.js",
+		"pages/api/prayers/index.ts",
+		"pages/homehome/community.js",
 		"components/Navigation.JS",
-		"redux/reducers/userReducer.js"
+		"redux/reducers/userReducer.js",
+		"components/pages/Community.js"
 	],
 	"exclude": ["node_modules"]
 }

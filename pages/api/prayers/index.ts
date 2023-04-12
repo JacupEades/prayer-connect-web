@@ -6,7 +6,18 @@ import {
 	deletePrayer,
 } from "../../../database/controller";
 
-export default async function ogPrayerHandler(req, res) {
+export default async function ogPrayerHandler(
+	req: { method: any },
+	res: {
+		status: (arg0: number) => {
+			(): any;
+			new (): any;
+			json: { (arg0: { error: string }): any; new (): any };
+			end: { (arg0: string): void; new (): any };
+		};
+		setHeader: (arg0: string, arg1: string[]) => void;
+	}
+) {
 	connectMongo().catch(() =>
 		res.status(405).json({ error: "Error in the connection." })
 	);

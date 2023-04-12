@@ -47,4 +47,3 @@ const prayerSchema = new Schema(
 
 const Prayers = models.prayer || model("prayer", prayerSchema);
 export default Prayers;
-// module.exports = mongoose.model("Prayer", prayerSchema);

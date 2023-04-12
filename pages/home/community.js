@@ -2,8 +2,11 @@ import React from "react";
 import styles from "@/styles/Community.module.css";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation.js";
+import { useSelector } from "react-redux";
 
 export default function Community() {
+	const user = useSelector((state) => state.user);
+	console.log(user);
 	return (
 		<>
 			<Header />
