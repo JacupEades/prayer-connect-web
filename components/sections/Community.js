@@ -1,12 +1,16 @@
 import React from "react";
 import styles from "@/styles/Community.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function Community() {
-	const user = useSelector((state) => state.user);
-	const dispatch = useDispatch();
+	// const visible = useSelector((state) => state.app.client.toggleFormVisible);
+	// const { isLoading, isError, data, error } = useQuery("prayers", getPrayers);
 
-	console.log(user);
+	const user = useSelector((state) => state.user);
+
+	// if (isLoading) return <div>Prayer is Loading...</div>;
+	// if (isError) return <div>Got Error {error}</div>;
+	console.log("Community file user from state:", user);
 	return (
 		<>
 			<section className={styles.masterContainer}>

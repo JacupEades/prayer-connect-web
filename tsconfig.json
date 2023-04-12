@@ -27,7 +27,8 @@
 		"pages/homehome/community.js",
 		"components/overlays/Navigation.js",
 		"redux/reducers/userReducer.js",
-		"components/pages/Community.js"
+		"components/pages/Community.js",
+		"components/cards/PrayerCard.js"
 	],
 	"exclude": ["node_modules"]
 }
