@@ -26,7 +26,7 @@ export default function SignUpForm() {
 	// kick out logged in users who are logged in
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
-			!user ? null : router.push("home/community");
+			!user ? null : router.push("/home");
 		});
 		console.log("useEffect ran");
 	}, []);
@@ -69,7 +69,7 @@ export default function SignUpForm() {
 			})
 			.then(
 				// Send the user to the community page
-				router.push("home/community")
+				router.push("/home")
 			)
 			.catch((error) => {
 				const errorCode = error.code;

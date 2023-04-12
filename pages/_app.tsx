@@ -8,18 +8,21 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // Redux
 import { Provider } from "react-redux";
-import { store } from "../redux/store";
+import { store, persistor } from "../redux/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 export default function App({ Component, pageProps }: AppProps) {
 	const queryClient = new QueryClient();
 
 	return (
 		<Provider store={store}>
-			<QueryClientProvider client={queryClient}>
-				<ToastContainer />
-				<Component {...pageProps} />
-				<Analytics />
-			</QueryClientProvider>
+			<PersistGate loading={null} persistor={persistor}>
+				<QueryClientProvider client={queryClient}>
+					<ToastContainer />
+					<Component {...pageProps} />
+					<Analytics />
+				</QueryClientProvider>
+			</PersistGate>
 		</Provider>
 	);
 }

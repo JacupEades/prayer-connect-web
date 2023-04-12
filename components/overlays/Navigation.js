@@ -7,33 +7,53 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import AddIcon from "@mui/icons-material/Add";
 import { Button } from "@mui/material";
 
-export default function Navigation() {
+export default function Navigation({ selectString }) {
 	return (
 		<nav className={styles.navMasterContainer}>
 			<Button className={styles.addBtn}>
 				<AddIcon className={styles.addBtnIcon} />
 			</Button>
 			<div className={styles.navMainMasterContainer}>
+				{/* Community Prayers button */}
 				<div className={styles.navBtnContainer}>
-					<Button href="/home/community" className={styles.navBtn}>
+					<Button
+						onClick={() => {
+							selectString("Community Prayers");
+						}}
+						className={styles.navBtn}>
 						<GroupsIcon className={styles.navBtnIcon} />
 					</Button>
 					<p className={styles.navBtnText}>Community</p>
 				</div>
+				{/* Answered Prayers button */}
 				<div className={styles.navBtnContainer}>
-					<Button href="/home/answered" className={styles.navBtn}>
+					<Button
+						onClick={() => {
+							selectString("Answered Prayers");
+						}}
+						className={styles.navBtn}>
 						<SignLanguageIcon className={styles.navBtnIcon} />
 					</Button>
 					<p className={styles.navBtnText}>Answered</p>
 				</div>
+				{/* Private Prayers button */}
 				<div className={styles.navBtnContainer}>
-					<Button href="/home/private-prayers" className={styles.navBtn}>
+					<Button
+						onClick={() => {
+							selectString("Private Prayers");
+						}}
+						className={styles.navBtn}>
 						<PersonIcon className={styles.navBtnIcon} />
 					</Button>
 					<p className={styles.navBtnText}>Private</p>
 				</div>
+				{/* Settings button */}
 				<div className={styles.navBtnContainer}>
-					<Button href="/home/settings" className={styles.navBtn}>
+					<Button
+						onClick={() => {
+							selectString("Settings");
+						}}
+						className={styles.navBtn}>
 						<SettingsIcon className={styles.navBtnIcon} />
 					</Button>
 					<p className={styles.navBtnText}>Settings</p>

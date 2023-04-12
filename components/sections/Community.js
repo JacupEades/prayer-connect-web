@@ -1,15 +1,14 @@
 import React from "react";
 import styles from "@/styles/Community.module.css";
-import Header from "@/components/Header";
-import Navigation from "@/components/Navigation.js";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function Community() {
 	const user = useSelector((state) => state.user);
+	const dispatch = useDispatch();
+
 	console.log(user);
 	return (
 		<>
-			<Header />
 			<section className={styles.masterContainer}>
 				<p className={styles.masterContainerP}>
 					Prayer requests shared by your church community. The prayer count only
@@ -22,7 +21,6 @@ export default function Community() {
 					))}
 				</div> */}
 			</section>
-			<Navigation />
 		</>
 	);
 }

@@ -25,7 +25,7 @@
 		"components/PrayerCard.js",
 		"pages/api/prayers/index.ts",
 		"pages/homehome/community.js",
-		"components/Navigation.JS",
+		"components/overlays/Navigation.js",
 		"redux/reducers/userReducer.js",
 		"components/pages/Community.js"
 	],

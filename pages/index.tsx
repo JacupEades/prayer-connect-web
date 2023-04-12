@@ -13,7 +13,7 @@ export default function Home() {
 	// kick out logged in users who are logged in
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
-			!user ? null : router.push("/home/community");
+			!user ? null : router.push("/home");
 		});
 		console.log("useEffect ran");
 	}, []);
@@ -50,7 +50,7 @@ export default function Home() {
 						Log in
 					</Button>
 				</div>
-				{/* <a href="/home/community" style={{ color: "red" }}>
+				{/* <a href="/home" style={{ color: "red" }}>
 					community page
 				</a> */}
 			</main>

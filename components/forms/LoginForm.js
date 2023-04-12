@@ -20,9 +20,8 @@ export default function LoginForm() {
 	// kick out logged in users who are logged in
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
-			!user ? null : router.push("/home/community");
+			!user ? null : router.push("/home");
 		});
-		console.log("useEffect ran");
 	}, []);
 
 	const handleSubmit = async (e) => {
@@ -43,6 +42,7 @@ export default function LoginForm() {
 				// Get user information
 				const user = userCredential.user;
 				const idTokenResult = user.getIdTokenResult();
+				console.log("token:", idTokenResult.token);
 
 				// Redux store
 				dispatch(
@@ -57,7 +57,7 @@ export default function LoginForm() {
 			})
 			.then(
 				// Send the user to the community page
-				router.push("/home/community")
+				router.push("/home")
 			)
 			.catch((error) => {
 				const errorCode = error.code;
