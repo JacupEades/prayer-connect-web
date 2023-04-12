@@ -1,9 +1,23 @@
+import React, { useEffect } from "react";
 import Head from "next/head";
-import styles from "@/styles/Main.module.css";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import styles from "@/styles/Main.module.css";
 import { Button } from "@mui/material";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebase/firebaseApp";
 
 export default function Home() {
+	const router = useRouter();
+
+	// kick out logged in users who are logged in
+	useEffect(() => {
+		onAuthStateChanged(auth, (user) => {
+			!user ? null : router.push("/home");
+		});
+		console.log("useEffect ran");
+	}, []);
+
 	return (
 		<>
 			<Head>
@@ -29,14 +43,14 @@ export default function Home() {
 					experience to suit your needs.
 				</p>
 				<div className={styles.startBtnContainer}>
-					<Button href="/login/new-user" className={styles.startBtn}>
+					<Button href="/login/signup" className={styles.startBtn}>
 						Get Started
 					</Button>
 					<Button href="/login/existing-user" className={styles.loginBtn}>
 						Log in
 					</Button>
 				</div>
-				{/* <a href="/community" style={{ color: "red" }}>
+				{/* <a href="/home" style={{ color: "red" }}>
 					community page
 				</a> */}
 			</main>

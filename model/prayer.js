@@ -1,5 +1,4 @@
 import { Schema, models, model } from "mongoose";
-// const mongoose = require("mongoose");
 
 const prayerSchema = new Schema(
 	{
@@ -48,4 +47,3 @@ const prayerSchema = new Schema(
 
 const Prayers = models.prayer || model("prayer", prayerSchema);
 export default Prayers;
-// module.exports = mongoose.model("Prayer", prayerSchema);
