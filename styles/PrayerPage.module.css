@@ -1,0 +1,152 @@
+.prayerMain {
+	display: flex;
+
+	height: 100vh;
+	max-width: 425px;
+	gap: 0.5rem;
+	padding: 0.5rem 1rem 1rem 1rem;
+	margin-bottom: 5rem;
+	flex-direction: column;
+	background-color: var(--sys-light-surface);
+	color: var(--sys-light-on-surface);
+}
+.topBtns {
+	display: flex;
+	justify-content: space-between;
+}
+.backArrowBtn.backArrowBtn {
+	padding: 0.5rem;
+	min-width: 2.5rem;
+	border-radius: 999px;
+	color: var(--sys-light-on-surface-variant);
+}
+.backArrowIcon {
+	font-size: 1.5rem;
+}
+.prayBtn.prayBtn {
+	min-width: 0;
+	width: 2.5rem;
+	height: 2.5rem;
+	padding: 0;
+	border-radius: 999px;
+	background-color: var(--sys-light-primary);
+}
+.prayBtnIcon.prayBtnIcon {
+	font-size: 1.5rem;
+}
+.title {
+	font-family: "Lora", serif;
+	font-size: 1.375rem;
+	font-weight: 500;
+}
+.viewSelectBtnContainer {
+	display: flex;
+	justify-content: space-between;
+
+	border-bottom: 1px solid var(--sys-light-outline-variant);
+}
+.selectBtn.selectBtn {
+	height: 3rem;
+	font-family: "Roboto", sans-serif;
+	font-weight: 500;
+	font-size: 0.875rem;
+	color: var(--sys-light-on-surface-variant);
+	border-radius: 0;
+}
+
+.selectBtn.selectBtn:focus {
+	height: 2.75rem;
+	color: var(--sys-light-primary);
+	border-bottom: 0.25rem solid var(--sys-light-primary);
+}
+.detailText {
+	font-weight: 400;
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+
+	margin-top: 0.75rem;
+	color: var(--sys-light-on-surface-variant);
+}
+.statsContainer {
+	flex-direction: column;
+	display: flex;
+	justify-content: center;
+
+	gap: 0.75rem;
+	margin-top: 1.375rem;
+}
+.blockFlex {
+	display: flex;
+	align-items: center;
+	gap: 0.375rem;
+}
+.statIcon.statIcon {
+	font-size: 1rem;
+}
+.statText {
+	font-size: 0.75rem;
+	font-weight: 600;
+}
+.secondText {
+	font-size: 0.75rem;
+	font-weight: 400;
+	color: var(--sys-light-on-surface-variant);
+}
+/* Edit page */
+.optionBtn.optionBtn {
+	font-family: "Source Sans Pro", sans-serif;
+	font-size: 0.875rem;
+	font-weight: 600;
+	text-transform: none;
+	height: 2.5rem;
+	padding: 0.625rem 0.75rem;
+	color: var(--sys-light-primary);
+}
+
+/* Form */
+.editFormContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+.optionToggleContainer p {
+	font-size: 0.875rem;
+	margin-bottom: 0.25rem;
+	color: var(--sys-light-outline);
+}
+.optionToggleContainer Button {
+	height: 2.5rem;
+	width: 50%;
+	border: 1px solid var(--sys-light-outline);
+	line-height: normal;
+	vertical-align: middle;
+	text-transform: none;
+}
+.optionToggleBtnLeft.optionToggleBtnLeft {
+	border-radius: 100px 0 0 100px;
+	color: var(--sys-light-on-secondary-container);
+	background-color: var(--sys-light-secondary-container);
+}
+.optionToggleBtnRight.optionToggleBtnRight {
+	border-radius: 0 100px 100px 0;
+	color: var(--sys-light-on-surface);
+	background-color: var(--sys-light-surface);
+}
+.toggleIcon.toggleIcon {
+	font-size: 1.125rem;
+	margin-right: 0.5rem;
+	transform: scaleX(-1);
+}
+.deleteBtn.deleteBtn {
+	font-family: "Source Sans Pro", sans-serif;
+	font-size: 0.875rem;
+	font-weight: 600;
+	text-transform: none;
+	height: 2.5rem;
+	padding: 0.625rem 0.75rem;
+	margin: 1.75rem 0 0 0;
+	border-radius: 999px;
+	border: 1px solid var(--sys-light-outline);
+	color: var(--sys-light-on-surface);
+	background-color: var(--sys-light-delete-bg);
+}

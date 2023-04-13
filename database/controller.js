@@ -1,5 +1,5 @@
-import Users from "../model/user";
-import Prayers from "../model/prayer";
+// import Users from "../model/user";
+// import Prayers from "../model/prayer";
 
 // GET: http://localhost:3000/api/users
 export async function getUsers(req, res) {
@@ -43,17 +43,17 @@ export async function postUsers(req, res) {
 }
 
 // GET: http://localhost:3000/api/prayers
-export async function getPrayers(req, res) {
-	try {
-		const prayers = await Prayers.find({});
+// export async function getPrayers(req, res) {
+// 	try {
+// 		const prayers = await Prayers.find({});
 
-		if (!prayers)
-			return res.status(404).json({ error: "Error, No prayers to load." });
-		res.status(200).json(prayers);
-	} catch (error) {
-		return res.status(404).json({ error: "Error While Fetching Data" });
-	}
-}
+// 		if (!prayers)
+// 			return res.status(404).json({ error: "Error, No prayers to load." });
+// 		res.status(200).json(prayers);
+// 	} catch (error) {
+// 		return res.status(404).json({ error: "Error While Fetching Data" });
+// 	}
+// }
 
 // GET single user: http://localhost:3000/api/prayers/prayerId
 export async function getPrayer(req, res) {

@@ -9,6 +9,11 @@
 	border: 1px solid var(--sys-light-outline-variant);
 	padding: 1rem;
 }
+.prayerCardClickContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
 .cardName.cardName {
 	font-size: 0.75rem;
 	font-weight: 400;
