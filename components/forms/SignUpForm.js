@@ -29,7 +29,7 @@ export default function SignUpForm() {
 			!user ? null : router.push("/home");
 		});
 		console.log("useEffect ran");
-	}, []);
+	}, [router]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();

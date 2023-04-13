@@ -16,7 +16,7 @@ export default function Home() {
 			!user ? null : router.push("/home");
 		});
 		console.log("useEffect ran");
-	}, []);
+	}, [router]);
 
 	return (
 		<>

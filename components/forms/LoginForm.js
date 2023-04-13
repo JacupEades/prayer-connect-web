@@ -22,7 +22,7 @@ export default function LoginForm() {
 		onAuthStateChanged(auth, (user) => {
 			!user ? null : router.push("/home");
 		});
-	}, []);
+	}, [router]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
