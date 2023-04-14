@@ -2,8 +2,54 @@ import styles from "@/styles/Login.module.css";
 import Image from "next/image";
 import { Button } from "@mui/material";
 import LoginForm from "../../../components/forms/LoginForm";
+import React from "react";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import { provider } from "@/firebase/firebaseApp";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { userLoggedIn } from "@/redux/slices/userSlice";
 
-export default function existingUser() {
+export default function ExistingUser() {
+	const router = useRouter();
+	const dispatch = useDispatch();
+	const auth = getAuth();
+
+	const handleGoogle = async () => {
+		signInWithPopup(auth, provider)
+			.then((result) => {
+				// This gives you a Google Access Token. You can use it to access the Google API.
+				const credential: any = GoogleAuthProvider.credentialFromResult(result);
+				const token = credential.accessToken;
+				// The signed-in user info.
+				const user = result.user;
+				const uEmail: any = user.email;
+				const currentUserName: any = auth.currentUser?.displayName;
+
+				toast.success(`Email ${uEmail} is now a user.`);
+				dispatch(
+					userLoggedIn({
+						name: currentUserName,
+						email: user.email,
+						role: "admin",
+						uid: user.uid,
+						token: token,
+					})
+				);
+			})
+			.catch((error) => {
+				const errorCode = error.code;
+				const errorMessage = error.message;
+				console.log(errorCode);
+				console.log(errorMessage);
+				// Email not registered notification
+				if (errorCode === "auth/email-already-in-use") {
+					toast.error("Email already in use. Please log in here.");
+					router.push("/login/existing-user");
+				}
+				return;
+			});
+	};
 	return (
 		<main className={styles.main}>
 			<h1 className={styles.h1}>Welcome back!</h1>
@@ -15,7 +61,7 @@ export default function existingUser() {
 			</div>
 
 			<div className={styles.startBtnContainer}>
-				<Button className={styles.altSigntBtn}>
+				<Button onClick={handleGoogle} className={styles.altSigntBtn}>
 					<Image
 						src={"/google_icon.svg"}
 						alt={"Google"}
