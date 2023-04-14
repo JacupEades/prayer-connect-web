@@ -1,5 +1,5 @@
-// import Users from "../model/user";
-// import Prayers from "../model/prayer";
+import Prayers from "@/model/prayer";
+import Users from "@/model/user";
 
 // GET: http://localhost:3000/api/users
 export async function getUsers(req, res) {
@@ -7,10 +7,23 @@ export async function getUsers(req, res) {
 		const users = await Users.find({});
 
 		if (!users)
-			return res.status(404).json({ error: "Error, No prayers to load." });
+			return res.status(404).json({ error: "Error, No users to load." });
 		res.status(200).json(users);
 	} catch (error) {
 		return res.status(404).json({ error: "Error While Fetching Data" });
+	}
+}
+// POST: http://localhost:3000/api/users
+export async function postUser(req, res) {
+	try {
+		const formData = await Users.create(req.body);
+
+		if (!formData) {
+			return res.status(404).json({ error: "Form data not found." });
+		}
+		return res.status(200).json(formData);
+	} catch (error) {
+		return res.status(404).json({ error });
 	}
 }
 
@@ -28,32 +41,36 @@ export async function getUser(req, res) {
 	}
 }
 
-// POST: http://localhost:3000/api/users
-export async function postUsers(req, res) {
+// PUT: http://localhost:3000/api/prayers/prayerId
+export async function putUsers(req, res) {
 	try {
-		const formData = await Users.create(req.body);
+		const { prayerId } = req.query;
+		const formData = req.body;
 
-		if (!formData) {
-			return res.status(404).json({ error: "Form data not found." });
+		if (prayerId && formData) {
+			let updatedPrayer = await Prayers.findByIdAndUpdate(prayerId, formData);
+			return res.status(200).json(updatedPrayer);
 		}
-		return res.status(200).json(formData);
+		return res
+			.status(404)
+			.json({ error: "Error editing prayer. PUT request." });
 	} catch (error) {
-		return res.status(404).json({ error });
+		return res.status(404).json({ error: "Error while updating the data." });
 	}
 }
 
 // GET: http://localhost:3000/api/prayers
-// export async function getPrayers(req, res) {
-// 	try {
-// 		const prayers = await Prayers.find({});
+export async function getPrayers(req, res) {
+	try {
+		const prayers = await Prayers.find({});
 
-// 		if (!prayers)
-// 			return res.status(404).json({ error: "Error, No prayers to load." });
-// 		res.status(200).json(prayers);
-// 	} catch (error) {
-// 		return res.status(404).json({ error: "Error While Fetching Data" });
-// 	}
-// }
+		if (!prayers)
+			return res.status(404).json({ error: "Error, No prayers to load." });
+		res.status(200).json(prayers);
+	} catch (error) {
+		return res.status(404).json({ error: "Error While Fetching Data" });
+	}
+}
 
 // GET single user: http://localhost:3000/api/prayers/prayerId
 export async function getPrayer(req, res) {

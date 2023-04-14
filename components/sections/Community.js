@@ -5,6 +5,7 @@ import PrayerCard from "../cards/PrayerCard";
 import PrayerCardCopy from "../cards/PrayerCardCopy";
 import { useQuery } from "react-query";
 import { getPrayers } from "../../database/controller";
+import data from "../../database/data.json";
 
 export default function Community() {
 	// const visible = useSelector((state) => state.app.client.toggleFormVisible);
@@ -16,6 +17,17 @@ export default function Community() {
 	// if (isError) return <div>Got Error {error}</div>;
 	// console.log("Community file user from state:", user);
 	// console.log("Community file prayer data:", data);
+	function Card({ id, name, role, language }) {
+		return (
+			<div style={{ color: "black" }}>
+				<p>{id}</p>
+				<p>{name}</p>
+				<p>{role}</p>
+				<p>{language}</p>
+			</div>
+		);
+	}
+
 	return (
 		<>
 			<section className={styles.masterContainer}>
@@ -23,8 +35,11 @@ export default function Community() {
 					Prayer requests shared by your church community. The prayer count only
 					includes the number of times you’ve prayed.
 				</p>
+				{data.map((obj, i) => (
+					<Card {...obj} key={i} />
+				))}
 				{/* Cards space */}
-				<PrayerCardCopy />
+				{/* <PrayerCardCopy /> */}
 				{/* <div className={styles.cardSection}>
 					{data.map((obj, i) => (
 						<PrayerCard {...obj} prayerNumber={i + 1} key={i} />

@@ -54,6 +54,9 @@ export default function ExistingUser() {
 		<main className={styles.main}>
 			<h1 className={styles.h1}>Welcome back!</h1>
 			{LoginForm()}
+			<p className={styles.terms}>
+				<a href="/login/forgot-password">Forgot your password?</a>
+			</p>
 			<div className={styles.orSeperator}>
 				<div></div>
 				<p>or</p>

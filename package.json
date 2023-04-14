@@ -1,40 +1,38 @@
 {
-  "name": "prayer-connect-web",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
-    "@mui/icons-material": "^5.11.16",
-    "@mui/material": "^5.11.16",
-    "@reduxjs/toolkit": "^1.9.3",
-    "@types/node": "18.15.11",
-    "@types/react": "18.0.31",
-    "@types/react-dom": "18.0.11",
-    "@vercel/analytics": "^0.1.11",
-    "eslint": "8.37.0",
-    "eslint-config-next": "13.2.4",
-    "firebase": "^9.19.1",
-    "framer-motion": "^10.11.6",
-    "next": "13.2.4",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-icons": "^4.8.0",
-    "react-query": "^3.39.3",
-    "react-redux": "^8.0.5",
-    "react-toastify": "^9.1.2",
-    "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.4.2",
-    "typescript": "5.0.3",
-    "vercel": "^28.18.3"
-  },
-  "devDependencies": {
-    "mongoose": "^7.0.3"
-  }
+	"name": "prayer-connect-web",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@emotion/react": "^11.10.6",
+		"@emotion/styled": "^11.10.6",
+		"@mui/icons-material": "^5.11.16",
+		"@mui/material": "^5.11.16",
+		"@reduxjs/toolkit": "^1.9.3",
+		"@types/node": "18.15.11",
+		"@types/react": "18.0.31",
+		"@types/react-dom": "18.0.11",
+		"@vercel/analytics": "^0.1.11",
+		"eslint": "8.37.0",
+		"eslint-config-next": "13.2.4",
+		"firebase": "^9.19.1",
+		"framer-motion": "^10.11.6",
+		"mongoose": "^7.0.3",
+		"next": "13.2.4",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
+		"react-icons": "^4.8.0",
+		"react-query": "^3.39.3",
+		"react-redux": "^8.0.5",
+		"react-toastify": "^9.1.2",
+		"redux-persist": "^6.0.0",
+		"redux-thunk": "^2.4.2",
+		"typescript": "5.0.3",
+		"vercel": "^28.18.3"
+	}
 }

@@ -28,7 +28,8 @@
 		"components/overlays/Navigation.js",
 		"redux/reducers/userReducer.js",
 		"components/pages/Community.js",
-		"components/cards/PrayerCard.js"
+		"components/cards/PrayerCard.js",
+		"pages/login/forgot-password/index.tsx"
 	],
 	"exclude": ["node_modules"]
 }

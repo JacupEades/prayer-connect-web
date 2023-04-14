@@ -67,17 +67,17 @@
 // 	return (
 // 		<article className={styles.prayerCardContainer}>
 // 			{/* Name */}
-// 			<div className={styles.cardName}>{name}</div>
+// 			<div className={styles.cardName}>{name || "unknown"}</div>
 // 			{/* Title and Message */}
 // 			<div className={styles.cardTextContainer}>
-// 				<h2>{title}</h2>
-// 				<p>{message}</p>
+// 				<h2>{title || "unknown"}</h2>
+// 				<p>{message || "unknown"}</p>
 // 			</div>
 // 			{/* Count and pray Btn */}
 // 			<div className={styles.cardPrayContainer}>
 // 				<div className={styles.cardPrayedForContainer}>
 // 					<FaPray className={styles.prayCountIcon} />
-// 					<p className={styles.prayCountNumber}>{prayedFor}</p>
+// 					<p className={styles.prayCountNumber}>{prayedFor || 0}</p>
 // 				</div>
 // 				<Button variant="contained" className={styles.prayBtn}>
 // 					<FaPray className={styles.prayBtnIcon} />
@@ -88,7 +88,7 @@
 // 				<p>
 // 					{name} prayer #{prayerNumber}
 // 				</p>
-// 				<p>{message}</p>
+// 				<p>{message || "unknown"}</p>
 // 				<p>{answered === true ? "Answered" : "Ongoing"}</p>
 // 				<p>{prayedFor}</p>
 // 				<p>{createdAt}</p>

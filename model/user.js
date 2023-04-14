@@ -1,25 +1,41 @@
-import { Schema, models, model } from "mongoose";
+import { Schema, model } from "mongoose";
+
+let Users;
 
 const userSchema = new Schema(
 	{
-		name: String,
+		name: {
+			type: String,
+			required: true,
+		},
 		email: {
 			type: String,
 			required: true,
-			index: true,
+			unique: true,
 		},
 		role: {
 			type: String,
-			default: "subscriber",
+			enum: ["user", "admin"],
+			default: "user",
 		},
-		prayers: {
-			type: Array,
-			default: [],
+		prayers: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: "Prayer",
+			},
+		],
+		language: {
+			type: String,
+			required: true,
+			enum: ["Spanish", "English", "Mandarin"],
 		},
-		language: String,
 	},
 	{ timestamps: true }
 );
 
-const Users = models.user || model("user", userSchema);
+try {
+	Users = model("user");
+} catch {
+	Users = model("user", userSchema);
+}
 export default Users;

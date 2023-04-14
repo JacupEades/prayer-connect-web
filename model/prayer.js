@@ -1,4 +1,6 @@
-import { Schema, models, model } from "mongoose";
+import { Schema, model } from "mongoose";
+
+let Prayers;
 
 const prayerSchema = new Schema(
 	{
@@ -45,5 +47,9 @@ const prayerSchema = new Schema(
 	{ timestamps: true }
 );
 
-const Prayers = models.prayer || model("prayer", prayerSchema);
+try {
+	Prayers = model("prayer");
+} catch {
+	Prayers = model("prayer", prayerSchema);
+}
 export default Prayers;

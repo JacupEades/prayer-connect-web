@@ -1,14 +1,27 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from "next";
-import connectMongo from "../../../database/conn";
+import connectMongo from "@/database/conn";
+import { getUsers, postUser } from "@/database/controller";
 
-type Data = {
-	name: string;
-};
+export default async function userHandler(req: { method: any }, res: any) {
+	connectMongo().catch(() =>
+		res.status(405).json({ error: "Error in the connection." })
+	);
 
-export default async function userHandler(
-	req: NextApiRequest,
-	res: NextApiResponse<Data>
-) {
-	connectMongo();
+	const { method } = req;
+	switch (method) {
+		case "GET":
+			getUsers(req, res);
+			// res.status(200).json({ method, name: "GET Request" });
+			break;
+		case "POST":
+			postUser(req, res);
+			// res.status(200).json({ method, name: "POST Request" });
+			break;
+		case "PUT":
+			// putUsers(req, res);
+			res.status(200).json({ method, name: "PUT Request" });
+			break;
+		default:
+			res.setHeader("Allow", ["GET", "POST", "PUT"]);
+			res.status(405).end(`Method ${method} Not Allowed`);
+	}
 }
