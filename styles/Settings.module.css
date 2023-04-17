@@ -1,0 +1,40 @@
+.main {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+
+	margin: 6.5rem auto 0 auto;
+	padding: 0 0.825rem 10rem 0.75rem;
+}
+.settingsBtnContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+
+	width: 100%;
+	margin-bottom: 0.75rem;
+	border-radius: 0.75rem;
+	border: 1px solid var(--sys-light-outline-variant);
+	background-color: var(--sys-light-surface);
+}
+.settingsBtn.settingsBtn {
+	display: flex;
+	justify-content: space-between;
+
+	width: 100%;
+	padding: 1rem;
+
+	font-size: 1rem;
+	line-height: normal;
+	vertical-align: middle;
+	text-transform: none;
+	color: var(--sys-light-on-surface);
+}
+.settingsBtnLeft {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+}
+.settingsBtnText {
+	line-height: normal;
+}

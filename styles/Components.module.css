@@ -19,23 +19,26 @@
 	font-weight: 400;
 	color: var(--sys-light-on-surface-variant);
 }
+.cardNameContainer {
+	display: flex;
+	justify-content: space-between;
+}
 .cardTextContainer h2 {
 	font-family: "Lora", serif;
 	font-size: 1rem;
 	font-weight: 600;
 	color: var(--sys-light-on-surface);
 }
-.cardTextContainer p {
+.cardTextContainer.cardTextContainer p {
 	font-size: 0.875rem;
 	font-weight: 400;
 	color: var(--sys-light-on-surface-variant);
 	/* Truncation logic */
 	display: block;
-	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	-webkit-line-clamp: 2;
+	-webkit-line-clamp: 4;
 }
 .cardPrayContainer.cardPrayContainer {
 	display: flex;

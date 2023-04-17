@@ -1,32 +1,33 @@
 import React from "react";
 import styles from "@/styles/Community.module.css";
-import { useSelector } from "react-redux";
-import PrayerCard from "../cards/PrayerCard";
-import PrayerCardCopy from "../cards/PrayerCardCopy";
+import PrayerCard from "../cards/PrayerCardOG";
+import { getPrayers } from "../../lib/prayerHelper";
 import { useQuery } from "react-query";
-import { getPrayers } from "../../database/controller";
-import data from "../../database/data.json";
+import cardStyles from "@/styles/Components.module.css";
+import { FaPray } from "react-icons/fa";
+import { Button } from "@mui/material";
+import { useRouter } from "next/router";
+import moment from "moment";
 
 export default function Community() {
-	// const visible = useSelector((state) => state.app.client.toggleFormVisible);
-	// const { isLoading, isError, data, error } = useQuery("prayers", getPrayers);
+	const router = useRouter();
+	const { isLoading, isError, data, error } = useQuery("prayers", getPrayers);
 
-	// const user = useSelector((state) => state.user);
-
-	// if (isLoading) return <div>Prayer is Loading...</div>;
-	// if (isError) return <div>Got Error {error}</div>;
-	// console.log("Community file user from state:", user);
-	// console.log("Community file prayer data:", data);
-	function Card({ id, name, role, language }) {
+	if (isLoading)
+		return <div className={styles.loadingOrError}>Prayers are Loading...</div>;
+	if (isError)
 		return (
-			<div style={{ color: "black" }}>
-				<p>{id}</p>
-				<p>{name}</p>
-				<p>{role}</p>
-				<p>{language}</p>
+			<div className={styles.loadingOrError}>
+				Prayers being loaded error {error}
 			</div>
 		);
-	}
+	const handleCardClick = () => {
+		router.push("/home/my-prayer");
+	};
+
+	const prayerBtnclicked = () => {
+		console.log("prayer Btn clicked");
+	};
 
 	return (
 		<>
@@ -35,16 +36,58 @@ export default function Community() {
 					Prayer requests shared by your church community. The prayer count only
 					includes the number of times you’ve prayed.
 				</p>
-				{data.map((obj, i) => (
-					<Card {...obj} key={i} />
-				))}
-				{/* Cards space */}
-				{/* <PrayerCardCopy /> */}
-				{/* <div className={styles.cardSection}>
-					{data.map((obj, i) => (
-						<PrayerCard {...obj} prayerNumber={i + 1} key={i} />
-					))}
-				</div> */}
+				{/* Card Section */}
+				<div className={styles.cardSection}>
+					{data
+						.slice(0)
+						.reverse()
+						.map((obj, i) => {
+							const createdAt = obj.createdAt;
+							const momentCreatedAt = moment(createdAt);
+							const daysAgo = moment().diff(momentCreatedAt, "days");
+
+							return (
+								<article className={cardStyles.prayerCardContainer} key={i}>
+									<div
+										onClick={handleCardClick}
+										className={cardStyles.prayerCardClickContainer}>
+										{/* Name & Date */}
+										<div className={cardStyles.cardNameContainer}>
+											<div className={cardStyles.cardName}>{obj.name}</div>
+											<div className={cardStyles.cardName}>
+												{daysAgo === 0
+													? "Today"
+													: daysAgo === 1
+													? "Yesterday"
+													: `${daysAgo} days ago`}
+											</div>
+										</div>
+
+										{/* Title and Message */}
+										<div className={cardStyles.cardTextContainer}>
+											<h2>{obj.title}</h2>
+											<p>{obj.message}</p>
+										</div>
+									</div>
+									{/* Count and pray Btn */}
+									<div className={cardStyles.cardPrayContainer}>
+										<div className={cardStyles.cardPrayedForContainer}>
+											<FaPray className={cardStyles.prayCountIcon} />
+											<p className={cardStyles.prayCountNumber}>
+												{obj.prayedFor}
+											</p>
+										</div>
+										<Button
+											onClick={prayerBtnclicked}
+											variant="contained"
+											className={cardStyles.prayBtn}>
+											<FaPray className={cardStyles.prayBtnIcon} />
+										</Button>
+									</div>
+								</article>
+							);
+						})}
+				</div>
 			</section>
 		</>
 	);

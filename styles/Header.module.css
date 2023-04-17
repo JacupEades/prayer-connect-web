@@ -9,6 +9,7 @@
 	width: 100%;
 	max-width: 425px;
 	background-color: var(--sys-light-surface);
+	z-index: 10;
 }
 
 /* Top header */

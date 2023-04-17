@@ -6,11 +6,18 @@ import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AddIcon from "@mui/icons-material/Add";
 import { Button } from "@mui/material";
+import { useRouter } from "next/router";
 
 export default function Navigation({ selectString }) {
+	const router = useRouter();
+
+	const handleAddPrayerBtn = () => {
+		router.push("/home/my-prayer/new-prayer");
+	};
+
 	return (
 		<nav className={styles.navMasterContainer}>
-			<Button className={styles.addBtn}>
+			<Button onClick={handleAddPrayerBtn} className={styles.addBtn}>
 				<AddIcon className={styles.addBtnIcon} />
 			</Button>
 			<div className={styles.navMainMasterContainer}>

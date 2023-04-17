@@ -4,6 +4,10 @@ let Prayers;
 
 const prayerSchema = new Schema(
 	{
+		userId: {
+			type: String,
+			required: true,
+		},
 		name: {
 			type: String,
 			default: "Anonymous",

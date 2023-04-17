@@ -4,6 +4,7 @@
 	align-items: center;
 
 	margin: 6.5rem auto 0 auto;
+	padding-bottom: 10rem;
 }
 .masterContainerP {
 	max-width: 392px;
@@ -14,7 +15,15 @@
 	color: var(--sys-light-on-surface-variant);
 	font-size: 0.875rem;
 }
+.loadingOrError {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
+	margin: 6.5rem auto 0 auto;
+	padding-bottom: 10rem;
+	color: red;
+}
 .cardSection {
 	max-width: 392px;
 	width: 100%;

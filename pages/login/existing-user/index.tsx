@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { userLoggedIn } from "@/redux/slices/userSlice";
+import Link from "next/link";
 
 export default function ExistingUser() {
 	const router = useRouter();
@@ -55,7 +56,7 @@ export default function ExistingUser() {
 			<h1 className={styles.h1}>Welcome back!</h1>
 			{LoginForm()}
 			<p className={styles.terms}>
-				<a href="/login/forgot-password">Forgot your password?</a>
+				<Link href="/login/forgot-password">Forgot your password?</Link>
 			</p>
 			<div className={styles.orSeperator}>
 				<div></div>

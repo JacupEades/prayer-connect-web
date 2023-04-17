@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { userLoggedIn } from "@/redux/slices/userSlice";
+import Link from "next/link";
 
 export default function NewUser() {
 	const router = useRouter();
@@ -54,7 +55,7 @@ export default function NewUser() {
 			<h1 className={styles.h1}>Create an Account</h1>
 			{SignUpForm()}
 			<p className={styles.terms}>
-				By signing up, I agree to <a>Terms and Conditions</a>
+				By signing up, I agree to <Link href={"#"}>Terms and Conditions</Link>
 			</p>
 			<div className={styles.orSeperator}>
 				<div></div>

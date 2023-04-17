@@ -1,6 +1,6 @@
 import connectMongo from "../../../database/conn";
 import {
-	getPrayer,
+	getPrayers,
 	postPrayers,
 	putPrayers,
 	deletePrayer,
@@ -24,6 +24,10 @@ export default async function ogPrayerHandler(
 
 	const { method } = req;
 	switch (method) {
+		case "GET":
+			getPrayers(req, res);
+			// res.status(200).json({ method, name: "GET Request" });
+			break;
 		case "POST":
 			postPrayers(req, res);
 			// res.status(200).json({ method, name: "POST Request" });
