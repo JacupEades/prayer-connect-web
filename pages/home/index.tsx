@@ -14,7 +14,6 @@ export default function HomePage({}: Props) {
 	const selectCall = (data: string) => {
 		setSelection(data);
 	};
-
 	const componentSelector = () => {
 		switch (selection) {
 			case "Community Prayers":

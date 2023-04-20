@@ -1,15 +1,17 @@
 import React from "react";
 import styles from "@/styles/Community.module.css";
-import PrayerCard from "../cards/PrayerCardOG";
-import { getPrayers } from "../../lib/prayerHelper";
+import { getPrayers, getPrayer } from "../../lib/prayerHelper";
 import { useQuery } from "react-query";
 import cardStyles from "@/styles/Components.module.css";
 import { FaPray } from "react-icons/fa";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import { prayerById } from "@/redux/slices/prayerSlice";
 
 export default function Community() {
+	const dispatch = useDispatch();
 	const router = useRouter();
 	const { isLoading, isError, data, error } = useQuery("prayers", getPrayers);
 
@@ -21,11 +23,24 @@ export default function Community() {
 				Prayers being loaded error {error}
 			</div>
 		);
-	const handleCardClick = () => {
-		router.push("/home/my-prayer");
+	const handleCardClick = async (_id) => {
+		try {
+			const res = await getPrayer(_id);
+			// Redux store
+			dispatch(
+				prayerById({
+					prayerId: res._id,
+					uid: res.userId,
+				})
+			);
+			router.push("/home/my-prayer");
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
-	const prayerBtnclicked = () => {
+	const prayerBtnclicked = (e) => {
+		e.stopPropagation();
 		console.log("prayer Btn clicked");
 	};
 
@@ -47,10 +62,11 @@ export default function Community() {
 							const daysAgo = moment().diff(momentCreatedAt, "days");
 
 							return (
-								<article className={cardStyles.prayerCardContainer} key={i}>
-									<div
-										onClick={handleCardClick}
-										className={cardStyles.prayerCardClickContainer}>
+								<article
+									onClick={() => handleCardClick(obj._id)}
+									className={cardStyles.prayerCardContainer}
+									key={i}>
+									<div className={cardStyles.prayerCardClickContainer}>
 										{/* Name & Date */}
 										<div className={cardStyles.cardNameContainer}>
 											<div className={cardStyles.cardName}>{obj.name}</div>

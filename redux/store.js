@@ -1,5 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./slices/userSlice";
+import prayerReducer from "./slices/prayerSlice";
+import { combineReducers } from "redux";
 // Persist
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
@@ -12,11 +14,15 @@ const persistConfig = {
 
 // Make the reducer persistable
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
+const persistedPrayerReducer = persistReducer(persistConfig, prayerReducer);
+
+const rootReducer = combineReducers({
+	user: persistedUserReducer,
+	prayer: persistedPrayerReducer,
+});
 
 export const store = configureStore({
-	reducer: {
-		persistedUserReducer,
-	},
+	reducer: rootReducer,
 	// Thunk middleware, which will intercept and stop non-serializable values
 	// https://blog.logrocket.com/async-actions-bare-redux-thunk-custom-middleware/#using-thunk-redux-toolkit-manage-asynchronous-actions
 	middleware: [thunk],

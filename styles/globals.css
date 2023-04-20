@@ -7,6 +7,7 @@ font-family: 'Source Sans Pro', sans-serif;*/
 
 :root {
 	--sys-light-surface-container: #f2ecf1;
+	--sys-light-surface-container-high: #ece7eb;
 	--sys-light-primary-container: #e9ddff;
 	--sys-light-on-primary-container: #22005d;
 	--sys-light-inverse-surface: #313033;
@@ -19,8 +20,10 @@ font-family: 'Source Sans Pro', sans-serif;*/
 	--sys-light-on-primary: #ffffff;
 	--sys-light-outline: #7a757f;
 	--sys-light-outline-variant: #cac4cf;
+	--sys-light-error: #ba1a1a;
+	--sys-light-warning: #ba1a1a;
 	/* Jacob made */
-	--sys-light-delete-bg: #ff8787;
+	--sys-light-overlay-bg: #00000050;
 	/* old colors */
 	--color-off-white: #f8f9fa;
 	--text-color-grey: #929292;

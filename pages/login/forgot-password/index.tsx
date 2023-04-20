@@ -30,6 +30,7 @@ export default function ForgotPassword() {
 		onAuthStateChanged(auth, (user) => {
 			!user ? null : router.push("/home");
 		});
+		console.log("logged in check pushed you home");
 	}, [router]);
 
 	const handleSubmit = async (e: any) => {

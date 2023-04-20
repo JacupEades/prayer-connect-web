@@ -29,52 +29,42 @@ export default function NewPrayer({}: Props) {
 		prayedFor: 0,
 		prayerNumber: 0,
 		answered: prayerStatus,
-		personal: true,
+		personal: false,
 		approved: false,
 	});
-	const { persistedUserReducer } = useSelector((state: any) => ({
+	const { user } = useSelector((state: any) => ({
 		...state,
 	}));
-
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const userId = () => {
-		return persistedUserReducer.uid;
-	};
-
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const displayName = () => {
-		if (postAs === true) {
-			return persistedUserReducer.name;
-		} else {
-			return "Anonymous";
-		}
-	};
+	const router = useRouter();
 
 	useEffect(() => {
+		const name = postAs ? user.name : "Anonymous";
+
 		setFormData({
-			userId: userId(),
-			name: displayName(),
+			userId: user.uid,
+			name: name,
 			title: title,
 			message: detail,
 			prayedFor: 0,
 			prayerNumber: 0,
 			answered: prayerStatus,
-			personal: true,
+			personal: postIn,
 			approved: false,
 		});
-	}, [title, detail, postIn, postAs, prayerStatus, userId, displayName]);
-	const router = useRouter();
+	}, [title, detail, postIn, postAs, prayerStatus, user.uid, user.name]);
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
 		if (detail.length > 2000) {
 			return toast.error("Prayer detail is to long.");
 		}
-		if (userId() && title && detail) {
+		if (user.uid && title && detail) {
 			await addPrayer(formData);
 			toast.success("Prayer submitted");
-			router.push("/home");
-			console.log(formData);
+			router.back();
+			// console.log(formData);
+		} else if (user.uid === "") {
+			toast.error("Prayer not added. Please log in to add prayers");
 		} else {
 			toast.error("Error in prayer submit");
 			console.log(formData);
@@ -147,13 +137,13 @@ export default function NewPrayer({}: Props) {
 							type="radio"
 							name="privacy"
 							id="privacy1"
-							value="true"
+							value="false"
 							className={styles.radioInput}
-							checked={inSelected(true)}
+							checked={inSelected(false)}
 							onChange={handleCheckedIn}
 						/>
 						<label htmlFor="privacy1" className={styles.radioLabel}>
-							{postIn === true ? (
+							{postIn === false ? (
 								<CheckIcon className={styles.toggleIcon} />
 							) : (
 								<GroupsIcon className={styles.toggleIcon} />
@@ -164,13 +154,13 @@ export default function NewPrayer({}: Props) {
 							type="radio"
 							name="privacy"
 							id="privacy2"
-							value="false"
+							value="true"
 							className={styles.radioInput}
-							checked={inSelected(false)}
+							checked={inSelected(true)}
 							onChange={handleCheckedIn}
 						/>
 						<label htmlFor="privacy2" className={styles.radioLabel}>
-							{postIn === false ? (
+							{postIn === true ? (
 								<CheckIcon className={styles.toggleIcon} />
 							) : (
 								<LockIcon className={styles.toggleIcon} />

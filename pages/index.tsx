@@ -15,7 +15,7 @@ export default function Home() {
 		onAuthStateChanged(auth, (user) => {
 			!user ? null : router.push("/home");
 		});
-		console.log("useEffect ran");
+		console.log("logged in check pushed you home");
 	}, [router]);
 
 	return (

@@ -28,7 +28,7 @@ export default function SignUpForm() {
 		onAuthStateChanged(auth, (user) => {
 			!user ? null : router.push("/home");
 		});
-		console.log("useEffect ran");
+		console.log("logged in check pushed you home");
 	}, [router]);
 
 	const handleSubmit = async (e) => {

@@ -1,32 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-	client: {
-		toggleFormVisible: false,
-		formId: undefined,
-		deleteId: null,
-	},
+	prayerId: "",
+	uid: "",
 };
 
-export const ReducerSlice = createSlice({
-	name: "prayer-connect-web",
+export const prayerSlice = createSlice({
+	name: "prayer",
 	initialState,
 	reducers: {
-		toggleChangeAction: (state) => {
-			// This syntax makes it toggle
-			state.client.toggleFormVisible = !state.client.toggleFormVisible;
+		prayerById: (state, action) => {
+			state.prayerId = action.payload.prayerId;
+			state.uid = action.payload.uid;
 		},
-		updateAction: (state, action) => {
-			// console.log("Handler action: ", action.payload);
-			state.client.formId = action.payload;
-		},
-		deleteAction: (state, action) => {
-			state.client.deleteId = action.payload;
+		resetPrayerStore: (state) => {
+			state.prayerId = "";
+			state.uid = "";
 		},
 	},
 });
 
-export const { toggleChangeAction, updateAction, deleteAction } =
-	ReducerSlice.actions;
+export const { prayerById, resetPrayerStore } = prayerSlice.actions;
 
-export default ReducerSlice.reducer;
+export default prayerSlice.reducer;

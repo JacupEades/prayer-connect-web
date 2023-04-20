@@ -62,6 +62,7 @@
 	font-weight: 400;
 	font-size: 0.875rem;
 	line-height: 1.25rem;
+	overflow-wrap: break-word;
 
 	margin-top: 0.75rem;
 	color: var(--sys-light-on-surface-variant);
@@ -98,8 +99,25 @@
 	font-weight: 600;
 	text-transform: none;
 	height: 2.5rem;
-	padding: 0.625rem 0.75rem;
+	min-width: none;
+	width: fit-content;
+	padding: 0.625rem 1.5rem;
+	border-radius: 999px;
 	color: var(--sys-light-primary);
+}
+.optionBtn.optionBtn:nth-child(2) {
+	color: var(--sys-light-on-secondary-container);
+	background-color: var(--sys-light-secondary-container);
+}
+.optionBtn.optionBtn:hover {
+	transition: all 0.25s;
+	color: var(--sys-light-on-secondary-container);
+	background-color: var(--sys-light-secondary-container);
+}
+.optionBtn.optionBtn:nth-child(2):hover {
+	transition: all 0.25s;
+	color: var(--sys-light-on-primary);
+	background-color: var(--sys-light-primary);
 }
 
 /* Form */
@@ -149,6 +167,11 @@
 .radioInput:checked + .radioLabel {
 	background-color: var(--sys-light-secondary-container);
 }
+.radioLabel.radioLabel:hover {
+	transition: all 0.25s;
+	color: var(--sys-light-on-primary);
+	background-color: var(--sys-light-primary);
+}
 .optionToggleBtnLeft.optionToggleBtnLeft {
 	border-radius: 100px 0 0 100px;
 	color: var(--sys-light-on-secondary-container);
@@ -169,10 +192,15 @@
 	font-weight: 600;
 	text-transform: none;
 	height: 2.5rem;
-	padding: 0.625rem 0.75rem;
+	min-width: none;
+	width: fit-content;
+	padding: 0.625rem 1.5rem;
 	margin: 1.75rem 0 0 0;
 	border-radius: 999px;
-	border: 1px solid var(--sys-light-outline);
-	color: var(--sys-light-on-surface);
-	background-color: var(--sys-light-delete-bg);
+	color: var(--sys-light-primary);
+}
+.deleteBtn.deleteBtn:hover {
+	transition: all 0.25s;
+	color: var(--sys-light-on-secondary-container);
+	background-color: var(--sys-light-secondary-container);
 }

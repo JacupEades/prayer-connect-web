@@ -76,9 +76,12 @@ export async function getPrayers(req, res) {
 export async function getPrayer(req, res) {
 	try {
 		const { prayerId } = req.query;
+		// console.log("prayerId:", prayerId);
 		const prayer = await Prayers.findById(prayerId);
 
-		if (!prayerId)
+		// console.log("prayer:", prayer);
+
+		if (!prayer)
 			res.status(404).json({ error: "Can not get the prayer to load." });
 		res.status(200).json(prayer);
 	} catch (error) {
