@@ -17,9 +17,9 @@ import { useDispatch } from "react-redux";
 import { userLoggedIn } from "@/redux/slices/userSlice";
 
 export default function SignUpForm() {
-	const [name, setName] = useState("Jacob Eades");
-	const [email, setEmail] = useState("jwae98@gmail.com");
-	const [password, setPassword] = useState("12345678");
+	const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 	const router = useRouter();
 	const dispatch = useDispatch();
 

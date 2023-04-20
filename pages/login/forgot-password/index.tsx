@@ -22,7 +22,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import InputAdornment from "@mui/material/InputAdornment";
 
 export default function ForgotPassword() {
-	const [email, setEmail] = useState("jwae98@gmail.com");
+	const [email, setEmail] = useState("");
 	const router = useRouter();
 	const dispatch = useDispatch();
 
