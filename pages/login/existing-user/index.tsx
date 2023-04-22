@@ -24,19 +24,29 @@ export default function ExistingUser() {
 				const token = credential.accessToken;
 				// The signed-in user info.
 				const user = result.user;
-				const uEmail: any = user.email;
 				const currentUserName: any = auth.currentUser?.displayName;
-
-				toast.success(`Email ${uEmail} is now a user.`);
-				dispatch(
-					userLoggedIn({
-						name: currentUserName,
-						email: user.email,
-						role: "admin",
-						uid: user.uid,
-						token: token,
-					})
-				);
+				if (!currentUserName) {
+					dispatch(
+						userLoggedIn({
+							email: user.email,
+							role: "admin",
+							uid: user.uid,
+							token: token,
+						})
+					);
+					return router.push("/login/google-add-username");
+				} else {
+					toast.success(`Welcome back ${currentUserName}`);
+					dispatch(
+						userLoggedIn({
+							name: currentUserName,
+							email: user.email,
+							role: "admin",
+							uid: user.uid,
+							token: token,
+						})
+					);
+				}
 			})
 			.catch((error) => {
 				const errorCode = error.code;
