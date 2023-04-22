@@ -10,7 +10,10 @@ export default function Header({ selection }) {
 		return (
 			<header className={styles.headerMasterContainer}>
 				<div className={styles.headerTopContainer}>
-					<h1 className={styles.headerTitle}>{selection}</h1>
+					<h1 className={styles.headerTitle}>
+						{selection === "Private Prayers" ? "My " : ""}
+						{selection}
+					</h1>
 					<SearchIcon className={styles.headerSearchIcon} />
 				</div>
 				<div className={styles.headerBottomContainer}>

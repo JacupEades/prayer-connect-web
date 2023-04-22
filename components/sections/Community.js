@@ -54,6 +54,11 @@ export default function Community() {
 				{/* Card Section */}
 				<div className={styles.cardSection}>
 					{data
+						.filter((obj) => {
+							if (obj.answered === false && obj.personal === false) {
+								return obj.answered === false;
+							}
+						})
 						.slice(0)
 						.reverse()
 						.map((obj, i) => {

@@ -22,6 +22,7 @@ font-family: 'Source Sans Pro', sans-serif;*/
 	--sys-light-outline-variant: #cac4cf;
 	--sys-light-error: #ba1a1a;
 	--sys-light-warning: #ba1a1a;
+	--sys-light-tertiary: #006b5d;
 	/* State Layer */
 	--sl-light-on-surface: #d8d5d8;
 	--sl-light-on-secondary: #d1c8e2;
@@ -31,6 +32,7 @@ font-family: 'Source Sans Pro', sans-serif;*/
 	--sys-light-overlay-bg: #00000050;
 	--box-shadow-1: 0px 0px 2px rgba(0, 0, 0, 0.15),
 		0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+	--black: #000000;
 	/* old colors */
 	--color-off-white: #f8f9fa;
 	--text-color-grey: #929292;
@@ -51,6 +53,7 @@ html,
 body {
 	max-width: 100vw;
 	overflow-x: hidden;
+	background-color: var(--black);
 }
 
 body {
