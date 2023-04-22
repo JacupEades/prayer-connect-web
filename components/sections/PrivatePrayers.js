@@ -45,7 +45,6 @@ export default function PrivatePrayers() {
 	};
 
 	const PrayerButton = (answered) => {
-		console.log(answered.answered);
 		if (answered.answered === true) {
 			return <p className={styles.prayeredAnswered}>Answered!</p>;
 		} else {

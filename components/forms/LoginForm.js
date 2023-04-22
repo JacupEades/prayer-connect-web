@@ -92,7 +92,7 @@ export default function LoginForm() {
 	return (
 		<form onSubmit={handleSubmit} className={styles.formInputContainer}>
 			<OutlinedInput
-				id="passwordInput"
+				id="emailInput"
 				placeholder="Email"
 				className={styles.formInputField}
 				type="email"

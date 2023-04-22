@@ -118,7 +118,7 @@ export default function SignUpForm() {
 				}
 			/>
 			<OutlinedInput
-				id="passwordInput"
+				id="emailInput"
 				placeholder="Email"
 				className={styles.formInputField}
 				type="email"
