@@ -6,17 +6,35 @@ import styles from "@/styles/Main.module.css";
 import { Button } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebase/firebaseApp";
+import { userLoggedIn } from "@/redux/slices/userSlice";
+import { useDispatch } from "react-redux";
 
 export default function Home() {
 	const router = useRouter();
+	const dispatch = useDispatch();
 
 	// kick out logged in users who are logged in
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
-			!user ? null : router.push("/home");
+			if (user) {
+				// Redux store
+				dispatch(
+					userLoggedIn({
+						name: user.displayName,
+						email: user.email,
+						role: "admin",
+						uid: user.uid,
+					})
+				);
+			}
+			if (user && user.uid) {
+				router.push("/home");
+			} else {
+				console.log("User is null");
+			}
 		});
 		console.log("logged in check pushed you home");
-	}, [router]);
+	}, [dispatch, router]);
 
 	return (
 		<>
@@ -56,4 +74,7 @@ export default function Home() {
 			</main>
 		</>
 	);
+}
+function dispatch(arg0: any) {
+	throw new Error("Function not implemented.");
 }

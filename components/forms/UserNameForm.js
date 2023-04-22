@@ -24,10 +24,25 @@ export default function UserNameForm() {
 	// kick out logged in users who are logged in
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
-			!user ? null : router.push("/home");
+			if (user) {
+				// Redux store
+				dispatch(
+					userLoggedIn({
+						name: user.displayName,
+						email: user.email,
+						role: "admin",
+						uid: user.uid,
+					})
+				);
+			}
+			if (user && user.uid) {
+				router.push("/home");
+			} else {
+				console.log("User is null");
+			}
 		});
 		console.log("logged in check pushed you home");
-	}, [router]);
+	}, [dispatch, router]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();

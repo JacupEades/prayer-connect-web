@@ -9,17 +9,35 @@ import { useRouter } from "next/router";
 import { OutlinedInput } from "@mui/material";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import InputAdornment from "@mui/material/InputAdornment";
+import { userLoggedIn } from "@/redux/slices/userSlice";
 
 export default function ForgotPassword() {
 	const [email, setEmail] = useState("");
 	const router = useRouter();
+	const dispatch = useDispatch();
 
+	// kick out logged in users who are logged in
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
-			!user ? null : router.push("/home");
+			if (user) {
+				// Redux store
+				dispatch(
+					userLoggedIn({
+						name: user.displayName,
+						email: user.email,
+						role: "admin",
+						uid: user.uid,
+					})
+				);
+			}
+			if (user && user.uid) {
+				router.push("/home");
+			} else {
+				console.log("User is null");
+			}
 		});
 		console.log("logged in check pushed you home");
-	}, [router]);
+	}, [dispatch, router]);
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
