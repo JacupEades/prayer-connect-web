@@ -64,7 +64,7 @@ export default function NewUser() {
 			</div>
 
 			<div className={styles.startBtnContainer}>
-				<Button onClick={handleGoogle} className={styles.altSigntBtn}>
+				<Button onClick={handleGoogle} className={styles.altSignBtn}>
 					<Image
 						src={"/google_icon.svg"}
 						alt={"Google"}

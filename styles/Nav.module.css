@@ -9,8 +9,11 @@
 }
 /* Add Button */
 .addBtn.addBtn {
-	display: block;
-	margin: 0 auto 1rem auto;
+	position: absolute;
+	top: -2.25rem;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
 	border-radius: 12px;
 	padding: 0.5rem;
 	min-width: 0;
@@ -21,6 +24,17 @@
 	color: var(--sys-light-on-surface);
 	box-shadow: 0px 4px 8px 3px rgba(0, 0, 0, 0.15),
 		0px 1px 3px rgba(0, 0, 0, 0.3);
+}
+.addBtn.addBtn:hover {
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	background-color: var(--sl-light-on-secondary);
+}
+.navBtn.navBtn:hover {
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	color: var(--sys-light-on-secondary-container);
+	background-color: var(--sl-light-on-surface);
 }
 .addBtnIcon.addBtnIcon {
 	font-size: 1.5rem;
@@ -47,8 +61,25 @@
 	padding: 0.25rem 1.25rem;
 	border-radius: 1rem;
 
-	background-color: var(--sys-light-primary-container);
-	color: var(--sys-light-on-surface);
+	color: var(--sys-light-on-surface-variant);
+	background-color: var(--sys-light-surface-container);
+}
+.navBtnFocus.navBtnFocus {
+	min-width: 4rem;
+	height: 2rem;
+	padding: 0.25rem 1.25rem;
+	border-radius: 1rem;
+
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	color: var(--sys-light-on-secondary-container);
+	background-color: var(--sys-light-secondary-container);
+}
+.navBtnFocus.navBtnFocus:hover {
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	color: var(--sys-light-on-secondary-container);
+	background-color: var(--sl-light-on-surface);
 }
 .navBtnIcon.navBtnIcon {
 	font-size: 1.5rem;

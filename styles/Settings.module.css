@@ -3,7 +3,7 @@
 	flex-direction: column;
 	width: 100%;
 
-	margin: 6.5rem auto 0 auto;
+	margin: 5.5rem auto 0 auto;
 	padding: 0 0.825rem 10rem 0.75rem;
 }
 .settingsBtnContainer {
@@ -23,12 +23,18 @@
 
 	width: 100%;
 	padding: 1rem;
+	border-radius: 0.75rem;
 
 	font-size: 1rem;
 	line-height: normal;
 	vertical-align: middle;
 	text-transform: none;
 	color: var(--sys-light-on-surface);
+}
+.settingsBtn.settingsBtn:hover {
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	background-color: var(--sl-light-on-surface);
 }
 .settingsBtnLeft {
 	display: flex;

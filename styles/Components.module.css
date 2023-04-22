@@ -10,11 +10,15 @@
 	border: 1px solid var(--sys-light-outline-variant);
 	padding: 1rem;
 }
+.prayerCardContainer:hover {
+	transition: all 0.15s;
+	box-shadow: var(--box-shadow-1);
+	background-color: var(--sl-light-card);
+}
 .prayerCardClickContainer {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
-	cursor: pointer;
 }
 .cardName.cardName {
 	font-size: 0.75rem;
@@ -31,7 +35,7 @@
 	font-weight: 600;
 	color: var(--sys-light-on-surface);
 }
-.cardTextContainer.cardTextContainer p {
+.cardTextContainer p {
 	font-size: 0.875rem;
 	font-weight: 400;
 	color: var(--sys-light-on-surface-variant);
@@ -66,6 +70,11 @@
 	padding: 0;
 	border-radius: 9999px;
 	background-color: var(--sys-light-primary);
+}
+.prayBtn.prayBtn:hover {
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	background-color: var(--sl-light-on-primary);
 }
 .prayBtnIcon.prayBtnIcon {
 	font-size: 1.5rem;

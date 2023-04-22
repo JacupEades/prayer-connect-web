@@ -82,7 +82,12 @@
 	padding: 10px 24px;
 	border-radius: 9999px;
 }
-.altSigntBtn.altSigntBtn {
+.startBtn.startBtn:hover {
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	background-color: var(--sl-light-on-primary);
+}
+.altSignBtn.altSignBtn {
 	display: flex;
 	gap: 0.5rem;
 	font-family: "Source Sans Pro", sans-serif;
@@ -94,6 +99,12 @@
 	padding: 10px 24px;
 	border: 1px solid var(--sys-light-outline);
 	border-radius: 9999px;
+}
+.altSignBtn.altSignBtn:hover {
+	transition: all 0.25s;
+	border: 1px solid rgba(255, 255, 255, 0.001);
+	box-shadow: var(--box-shadow-1);
+	background-color: var(--sl-light-on-surface);
 }
 .loginBtnContainer {
 	display: flex;
@@ -114,4 +125,9 @@
 	background-color: var(--sys-light-on-primary);
 	padding: 10px 24px;
 	border-radius: 9999px;
+}
+.loginBtn.loginBtn:hover {
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	background-color: var(--sl-light-on-surface);
 }

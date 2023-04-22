@@ -1,30 +1,18 @@
 import styles from "@/styles/Login.module.css";
-import Image from "next/image";
 import { Button } from "@mui/material";
-import LoginForm from "../../../components/forms/LoginForm";
 import React, { useEffect, useState } from "react";
-import {
-	ActionCodeSettings,
-	GoogleAuthProvider,
-	getAuth,
-	onAuthStateChanged,
-	sendPasswordResetEmail,
-	signInWithPopup,
-} from "firebase/auth";
-import { provider, auth } from "@/firebase/firebaseApp";
+import { onAuthStateChanged, sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "@/firebase/firebaseApp";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { userLoggedIn } from "@/redux/slices/userSlice";
 import { OutlinedInput } from "@mui/material";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import InputAdornment from "@mui/material/InputAdornment";
 
 export default function ForgotPassword() {
 	const [email, setEmail] = useState("");
 	const router = useRouter();
-	const dispatch = useDispatch();
 
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
@@ -35,6 +23,9 @@ export default function ForgotPassword() {
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
+		if (!email) {
+			return toast.error("Email must be provided.");
+		}
 		sendPasswordResetEmail(auth, email, {
 			url: "https://prayer-connect-web.vercel.app/login/existing-user",
 			handleCodeInApp: true,
@@ -60,7 +51,7 @@ export default function ForgotPassword() {
 						</InputAdornment>
 					}
 				/>
-				<Button type="submit" className={styles.startBtn} disabled={!email}>
+				<Button type="submit" className={styles.startBtn}>
 					Send password recovery email
 				</Button>
 			</form>

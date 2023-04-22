@@ -4,18 +4,21 @@
 	align-items: center;
 	gap: 1.5rem;
 	padding: 1.75rem;
+	height: 100vh;
 	flex-direction: column;
 	background-color: var(--sys-light-surface);
 	color: var(--sys-light-primary);
 }
 .h1 {
 	font-size: 2.25rem;
+	line-height: 2.75rem;
 	font-family: "Bodoni Moda", serif;
 	font-weight: 700;
 	white-space: nowrap;
 }
 .p {
 	font-size: 0.875rem;
+	line-height: 1.25rem;
 	font-weight: 400;
 	text-align: center;
 	color: var(--sys-light-on-surface-variant);
@@ -35,6 +38,11 @@
 	padding: 10px 24px;
 	border-radius: 9999px;
 }
+.startBtn.startBtn:hover {
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	background-color: var(--sl-light-on-primary);
+}
 .loginBtn.loginBtn {
 	font-family: "Source Sans Pro", sans-serif;
 	font-weight: 600;
@@ -44,4 +52,9 @@
 	background-color: var(--sys-light-on-primary);
 	padding: 10px 24px;
 	border-radius: 9999px;
+}
+.loginBtn.loginBtn:hover {
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	background-color: var(--sl-light-on-surface);
 }

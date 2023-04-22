@@ -1,10 +1,10 @@
 .prayerMain {
 	display: flex;
 
-	height: 100vh;
+	min-height: 100vh;
 	max-width: 425px;
 	gap: 0.5rem;
-	padding: 0.5rem 1rem 1rem 1rem;
+	padding: 0.5rem 1rem 10rem 1rem;
 	flex-direction: column;
 	background-color: var(--sys-light-surface);
 	color: var(--sys-light-on-surface);
@@ -19,6 +19,11 @@
 	border-radius: 999px;
 	color: var(--sys-light-on-surface-variant);
 }
+.backArrowBtn.backArrowBtn:hover {
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	background-color: var(--sl-light-on-surface);
+}
 .backArrowIcon {
 	font-size: 1.5rem;
 }
@@ -29,6 +34,11 @@
 	padding: 0;
 	border-radius: 999px;
 	background-color: var(--sys-light-primary);
+}
+.prayBtn.prayBtn:hover {
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	background-color: var(--sl-light-on-primary);
 }
 .prayBtnIcon.prayBtnIcon {
 	font-size: 1.5rem;
@@ -44,6 +54,9 @@
 
 	border-bottom: 1px solid var(--sys-light-outline-variant);
 }
+.leftTwoBtns {
+	display: flex;
+}
 .selectBtn.selectBtn {
 	height: 3rem;
 	font-family: "Roboto", sans-serif;
@@ -52,11 +65,29 @@
 	color: var(--sys-light-on-surface-variant);
 	border-radius: 0;
 }
-
 .selectBtn.selectBtn:focus {
-	height: 2.75rem;
 	color: var(--sys-light-primary);
-	border-bottom: 0.25rem solid var(--sys-light-primary);
+}
+.block {
+	width: 100%;
+	height: 0.1875rem;
+	border-radius: 100px 100px 0 0;
+	background-color: var(--sys-light-primary);
+}
+.blockHover {
+	width: 100%;
+	height: 0.1875rem;
+	border-radius: 100px 100px 0 0;
+	background-color: var(--sys-light-surface);
+}
+.selectBtnContainer:hover .blockHover {
+	background-color: var(--sys-light-on-surface-variant);
+}
+.selectBtnContainer:hover .block {
+	background-color: var(--sys-light-on-surface-variant);
+}
+.selectBtnContainer:focus .block {
+	background-color: var(--sys-light-primary);
 }
 .detailText {
 	font-weight: 400;
@@ -111,13 +142,11 @@
 }
 .optionBtn.optionBtn:hover {
 	transition: all 0.25s;
-	color: var(--sys-light-on-secondary-container);
 	background-color: var(--sys-light-secondary-container);
 }
 .optionBtn.optionBtn:nth-child(2):hover {
 	transition: all 0.25s;
-	color: var(--sys-light-on-primary);
-	background-color: var(--sys-light-primary);
+	background-color: var(--sl-light-on-secondary);
 }
 
 /* Form */
@@ -165,12 +194,12 @@
 	border-right: 1px solid var(--sys-light-outline);
 }
 .radioInput:checked + .radioLabel {
+	cursor: default;
 	background-color: var(--sys-light-secondary-container);
 }
-.radioLabel.radioLabel:hover {
+.radioInput:not(:checked) + .radioLabel.radioLabel:hover {
 	transition: all 0.25s;
-	color: var(--sys-light-on-primary);
-	background-color: var(--sys-light-primary);
+	background-color: var(--sl-light-on-surface);
 }
 .optionToggleBtnLeft.optionToggleBtnLeft {
 	border-radius: 100px 0 0 100px;
@@ -201,6 +230,5 @@
 }
 .deleteBtn.deleteBtn:hover {
 	transition: all 0.25s;
-	color: var(--sys-light-on-secondary-container);
 	background-color: var(--sys-light-secondary-container);
 }

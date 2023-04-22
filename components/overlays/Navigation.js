@@ -8,7 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 
-export default function Navigation({ selectString }) {
+export default function Navigation({ selectString, selection }) {
 	const router = useRouter();
 
 	const handleAddPrayerBtn = () => {
@@ -17,9 +17,14 @@ export default function Navigation({ selectString }) {
 
 	return (
 		<nav className={styles.navMasterContainer}>
-			<Button onClick={handleAddPrayerBtn} className={styles.addBtn}>
-				<AddIcon className={styles.addBtnIcon} />
-			</Button>
+			{selection === "Settings" ? (
+				""
+			) : (
+				<Button onClick={handleAddPrayerBtn} className={styles.addBtn}>
+					<AddIcon className={styles.addBtnIcon} />
+				</Button>
+			)}
+
 			<div className={styles.navMainMasterContainer}>
 				{/* Community Prayers button */}
 				<div className={styles.navBtnContainer}>
@@ -27,7 +32,11 @@ export default function Navigation({ selectString }) {
 						onClick={() => {
 							selectString("Community Prayers");
 						}}
-						className={styles.navBtn}>
+						className={
+							selection === "Community Prayers"
+								? styles.navBtnFocus
+								: styles.navBtn
+						}>
 						<GroupsIcon className={styles.navBtnIcon} />
 					</Button>
 					<p className={styles.navBtnText}>Community</p>
@@ -38,7 +47,11 @@ export default function Navigation({ selectString }) {
 						onClick={() => {
 							selectString("Answered Prayers");
 						}}
-						className={styles.navBtn}>
+						className={
+							selection === "Answered Prayers"
+								? styles.navBtnFocus
+								: styles.navBtn
+						}>
 						<SignLanguageIcon className={styles.navBtnIcon} />
 					</Button>
 					<p className={styles.navBtnText}>Answered</p>
@@ -49,7 +62,11 @@ export default function Navigation({ selectString }) {
 						onClick={() => {
 							selectString("Private Prayers");
 						}}
-						className={styles.navBtn}>
+						className={
+							selection === "Private Prayers"
+								? styles.navBtnFocus
+								: styles.navBtn
+						}>
 						<PersonIcon className={styles.navBtnIcon} />
 					</Button>
 					<p className={styles.navBtnText}>Private</p>
@@ -60,7 +77,9 @@ export default function Navigation({ selectString }) {
 						onClick={() => {
 							selectString("Settings");
 						}}
-						className={styles.navBtn}>
+						className={
+							selection === "Settings" ? styles.navBtnFocus : styles.navBtn
+						}>
 						<SettingsIcon className={styles.navBtnIcon} />
 					</Button>
 					<p className={styles.navBtnText}>Settings</p>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "@/styles/PrayerPage.module.css";
 import { Button } from "@mui/material";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
@@ -64,6 +64,8 @@ export default function MyPrayerView({}: Props) {
 		switch (selection) {
 			case "Details":
 				return <Details detail={objectWithId?.message || ""} />;
+			case "Edit":
+				return "";
 			case "Stats":
 				return (
 					<Stats
@@ -107,23 +109,44 @@ export default function MyPrayerView({}: Props) {
 			<section>
 				{/* Two buttons and edit */}
 				<div className={styles.viewSelectBtnContainer}>
-					<div>
-						<Button
-							onClick={() => setSelection("Details")}
-							className={styles.selectBtn}>
-							Details
-						</Button>
-						<Button
-							onClick={() => setSelection("Stats")}
-							className={styles.selectBtn}>
-							Stats
-						</Button>
+					<div className={styles.leftTwoBtns}>
+						<div className={styles.selectBtnContainer}>
+							<Button
+								onClick={() => setSelection("Details")}
+								className={styles.selectBtn}>
+								Details
+							</Button>
+							<div
+								className={
+									selection === "Details" ? styles.block : styles.blockHover
+								}></div>
+						</div>
+						<div className={styles.selectBtnContainer}>
+							<Button
+								onClick={() => setSelection("Stats")}
+								className={styles.selectBtn}>
+								Stats
+							</Button>
+							<div
+								className={
+									selection === "Stats" ? styles.block : styles.blockHover
+								}></div>
+						</div>
 					</div>
-					<Button
-						onClick={() => router.push("/home/my-prayer/prayer-edit")}
-						className={styles.selectBtn}>
-						<CreateOutlinedIcon />
-					</Button>
+					<div className={styles.selectBtnContainer}>
+						<Button
+							onClick={() => {
+								router.push("/home/my-prayer/prayer-edit");
+								setSelection("Edit");
+							}}
+							className={styles.selectBtn}>
+							<CreateOutlinedIcon />
+						</Button>
+						<div
+							className={
+								selection === "Edit" ? styles.block : styles.blockHover
+							}></div>
+					</div>
 				</div>
 				{componentSelector(selection)}
 			</section>

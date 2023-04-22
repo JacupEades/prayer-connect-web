@@ -31,9 +31,9 @@ export default function HomePage({}: Props) {
 
 	return (
 		<>
-			<Header title={selection} />
+			<Header selection={selection} />
 			{componentSelector()}
-			<Navigation selectString={selectCall} />
+			<Navigation selectString={selectCall} selection={selection} />
 		</>
 	);
 }
