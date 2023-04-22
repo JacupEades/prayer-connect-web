@@ -38,11 +38,11 @@ export default function NewPrayer({}: Props) {
 	const router = useRouter();
 
 	useEffect(() => {
-		const name = postAs ? user.name : "Anonymous";
+		const displayName = postAs ? user.name : "Anonymous";
 
 		setFormData({
 			userId: user.uid,
-			name: name,
+			name: displayName,
 			title: title,
 			message: detail,
 			prayedFor: 0,
@@ -205,7 +205,7 @@ export default function NewPrayer({}: Props) {
 							) : (
 								<PersonIcon className={styles.toggleIcon} />
 							)}
-							Jacob Eades
+							{!user.name ? "Add name in settings" : user.name}
 						</label>
 					</div>
 				</div>

@@ -27,7 +27,7 @@ type Props = {
 
 export default function MyPrayerView({}: Props) {
 	const [selection, setSelection] = useState("Details");
-	const { prayer } = useSelector((state: any) => ({
+	const { prayer, user } = useSelector((state: any) => ({
 		...state,
 	}));
 	const router = useRouter();
@@ -36,6 +36,7 @@ export default function MyPrayerView({}: Props) {
 		"prayer",
 		getPrayers
 	);
+	const userId = user.uid;
 	const prayerId = prayer.prayerId;
 	// Temporary fix
 	// If the prayer ID didn't load
@@ -92,6 +93,27 @@ export default function MyPrayerView({}: Props) {
 		router.back();
 	};
 
+	const EditButton = () => {
+		if (objectWithId?.userId !== userId) {
+			return null;
+		}
+		return (
+			<div className={styles.selectBtnContainer}>
+				<Button
+					onClick={() => {
+						router.push("/home/my-prayer/prayer-edit");
+						setSelection("Edit");
+					}}
+					className={styles.selectBtn}>
+					<CreateOutlinedIcon />
+				</Button>
+				<div
+					className={
+						selection === "Edit" ? styles.block : styles.blockHover
+					}></div>
+			</div>
+		);
+	};
 	return (
 		<main className={styles.prayerMain}>
 			{/* Back arrow and pray button */}
@@ -133,20 +155,8 @@ export default function MyPrayerView({}: Props) {
 								}></div>
 						</div>
 					</div>
-					<div className={styles.selectBtnContainer}>
-						<Button
-							onClick={() => {
-								router.push("/home/my-prayer/prayer-edit");
-								setSelection("Edit");
-							}}
-							className={styles.selectBtn}>
-							<CreateOutlinedIcon />
-						</Button>
-						<div
-							className={
-								selection === "Edit" ? styles.block : styles.blockHover
-							}></div>
-					</div>
+					{/* {objectWithId?.userId !== userId <><></> : ""} */}
+					<EditButton />
 				</div>
 				{componentSelector(selection)}
 			</section>

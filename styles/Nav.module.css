@@ -83,7 +83,6 @@
 }
 .navBtnIcon.navBtnIcon {
 	font-size: 1.5rem;
-	transform: scaleX(-1);
 }
 .navBtnText.navBtnText {
 	font-size: 0.75rem;

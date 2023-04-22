@@ -22,19 +22,28 @@ export default function Stats({
 	name,
 }: Props) {
 	const dateString = createdAt;
-	const date = new Date(dateString);
-	const options: Intl.DateTimeFormatOptions = {
-		year: "numeric",
-		month: "long",
-		day: "numeric",
-		hour: "numeric",
-		minute: "numeric",
-		hour12: true,
-	};
+	const HRDate = () => {
+		// Date Loaded Check
+		if (dateString === "") {
+			return null;
+		}
+		if (dateString !== "") {
+			const date = new Date(dateString);
+			const options: Intl.DateTimeFormatOptions = {
+				year: "numeric",
+				month: "long",
+				day: "numeric",
+				hour: "numeric",
+				minute: "numeric",
+				hour12: true,
+			};
 
-	const formatter = new Intl.DateTimeFormat("en-US", options);
-	const formattedDate = formatter.format(date);
-	console.log(formattedDate);
+			const formatter = new Intl.DateTimeFormat("en-US", options);
+			const formattedDate = formatter.format(date);
+			return <div className={styles.secondText}>{formattedDate}</div>;
+		}
+		return null;
+	};
 
 	return (
 		<div className={styles.statsContainer}>
@@ -64,7 +73,7 @@ export default function Stats({
 				<TodayIcon className={styles.statIcon} />
 				<div>
 					<p className={styles.statText}>Date posted:</p>
-					<p className={styles.secondText}>{formattedDate}</p>
+					<HRDate />
 				</div>
 			</div>
 		</div>

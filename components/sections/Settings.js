@@ -6,7 +6,7 @@ import { Button } from "@mui/material";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/firebaseApp";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userLoggedOut } from "@/redux/slices/userSlice";
 import SettingsNavCard from "../cards/SettingsNavCard";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -14,18 +14,28 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 
 export default function Settings() {
+	const { user } = useSelector((state) => ({
+		...state,
+	}));
 	const dispatch = useDispatch();
 
+	const userId = user.uid;
+
 	const logout = () => {
-		signOut(auth)
-			.then(() => {
-				toast.success("Logged Out");
-				dispatch(userLoggedOut());
-				router.push("/login/existing-user");
-			})
-			.catch((error) => {
-				toast.error("User Log Out failed: ", { error });
-			});
+		if (userId !== "") {
+			signOut(auth)
+				.then(() => {
+					toast.success("Logged Out");
+					dispatch(userLoggedOut());
+					router.push("/login/existing-user");
+				})
+				.catch((error) => {
+					toast.error("User Log Out failed: ", { error });
+				});
+		} else {
+			dispatch(userLoggedOut());
+			router.push("/login/existing-user");
+		}
 	};
 
 	return (
@@ -51,7 +61,7 @@ export default function Settings() {
 			/>
 			<div className={stylesLogin.loginBtnContainer}>
 				<Button onClick={logout} className={stylesLogin.loginBtn}>
-					Log out
+					{userId === "" ? "Log in" : "Log out"}
 				</Button>
 			</div>
 		</main>
