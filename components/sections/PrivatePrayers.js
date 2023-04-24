@@ -7,10 +7,11 @@ import { FaPray } from "react-icons/fa";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import moment from "moment";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
 
 export default function PrivatePrayers() {
+	const { user } = useSelector((state) => ({ ...state }));
 	const dispatch = useDispatch();
 	const router = useRouter();
 	const { isLoading, isError, data, error } = useQuery("prayers", getPrayers);
@@ -67,7 +68,9 @@ export default function PrivatePrayers() {
 				<div className={styles.cardSection}>
 					{data
 						.filter((obj) => {
-							return obj.personal === true;
+							if (obj.personal === true && obj.userId === user.uid) {
+								return obj;
+							}
 						})
 						.slice(0)
 						.reverse()

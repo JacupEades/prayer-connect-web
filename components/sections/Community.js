@@ -56,7 +56,7 @@ export default function Community() {
 					{data
 						.filter((obj) => {
 							if (obj.answered === false && obj.personal === false) {
-								return obj.answered === false;
+								return obj;
 							}
 						})
 						.slice(0)

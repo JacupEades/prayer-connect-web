@@ -70,7 +70,7 @@ export default function Answered() {
 					{data
 						.filter((obj) => {
 							if (obj.answered === true && obj.personal === false) {
-								return obj.answered === true;
+								return obj;
 							}
 						})
 						.slice(0)
