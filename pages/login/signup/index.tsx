@@ -67,7 +67,10 @@ export default function NewUser() {
 			<h1 className={styles.h1}>Create an Account</h1>
 			{SignUpForm()}
 			<p className={styles.terms}>
-				By signing up, I agree to <Link href={"#"}>Terms and Conditions</Link>
+				By signing up, I agree to{" "}
+				<Link href={"/login/signup/terms-and-conditions"}>
+					Terms and Conditions
+				</Link>
 			</p>
 			<div className={styles.orSeperator}>
 				<div></div>

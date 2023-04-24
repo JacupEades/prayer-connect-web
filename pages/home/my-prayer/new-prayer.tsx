@@ -108,7 +108,7 @@ export default function NewPrayer({}: Props) {
 						Cancel
 					</Button>
 					<Button type="submit" className={styles.optionBtn}>
-						Save
+						Publish
 					</Button>
 				</div>
 

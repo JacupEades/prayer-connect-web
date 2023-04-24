@@ -17,17 +17,52 @@ export default function Header({ selection }) {
 					<SearchIcon className={styles.headerSearchIcon} />
 				</div>
 				<div className={styles.headerBottomContainer}>
-					<Button
-						variant="outlined"
-						className={styles.headerFilterIconContainer}>
-						<FilterAltIcon className={styles.headerFilterIcon} />
-					</Button>
-					<Button
-						variant="outlined"
-						className={styles.headerOptionIconContainer}>
-						<p className={styles.headerOptionText}>Sort: Lowest Prayer Count</p>
-						<CloseIcon className={styles.headerOptionIcon} />
-					</Button>
+					<div className={styles.btnContainer}>
+						<Button
+							variant="outlined"
+							className={styles.headerFilterIconContainer}>
+							<FilterAltIcon className={styles.headerFilterIcon} />
+						</Button>
+					</div>
+					<div className={styles.btnContainer}>
+						<Button
+							variant="outlined"
+							className={styles.headerOptionIconContainer}>
+							<p className={styles.headerOptionText}>Oldest First</p>
+						</Button>
+					</div>
+					<div className={styles.btnContainer}>
+						<Button
+							variant="outlined"
+							className={styles.headerOptionIconContainer}>
+							<p className={styles.headerOptionText}>
+								Least Prayed For (by me)
+							</p>
+						</Button>
+					</div>
+					<div className={styles.btnContainer}>
+						<Button
+							variant="outlined"
+							className={styles.headerFilterIconContainer}>
+							<FilterAltIcon className={styles.headerFilterIcon} />
+						</Button>
+					</div>
+					<div className={styles.btnContainer}>
+						<Button
+							variant="outlined"
+							className={styles.headerOptionIconContainer}>
+							<p className={styles.headerOptionText}>Oldest First</p>
+						</Button>
+					</div>
+					<div className={styles.btnContainer}>
+						<Button
+							variant="outlined"
+							className={styles.headerOptionIconContainer}>
+							<p className={styles.headerOptionText}>
+								Least Prayed For (by me)
+							</p>
+						</Button>
+					</div>
 				</div>
 			</header>
 		);
