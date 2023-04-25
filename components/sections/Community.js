@@ -10,7 +10,7 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
 
-export default function Community() {
+export default function Community({ fliterMenu, oldest, leastPrayed }) {
 	const dispatch = useDispatch();
 	const router = useRouter();
 	const { isLoading, isError, data, error } = useQuery("prayers", getPrayers);
@@ -48,23 +48,26 @@ export default function Community() {
 		<>
 			<section className={styles.masterContainer}>
 				<p className={styles.masterContainerP}>
-					Prayer requests shared by your church community. The prayer count only
-					includes the number of times you’ve prayed.
+					Prayer requests shared by your church community.
 				</p>
 				{/* Card Section */}
 				<div className={styles.cardSection}>
 					{data
+						.sort((a, b) =>
+							oldest
+								? new Date(b.createdAt) - new Date(a.createdAt)
+								: new Date(a.createdAt) - new Date(b.createdAt)
+						)
 						.filter((obj) => {
 							if (obj.answered === false && obj.personal === false) {
 								return obj;
 							}
 						})
-						.slice(0)
-						.reverse()
 						.map((obj, i) => {
 							const createdAt = obj.createdAt;
 							const momentCreatedAt = moment(createdAt);
 							const daysAgo = moment().diff(momentCreatedAt, "days");
+							// console.log(obj);
 
 							return (
 								<article

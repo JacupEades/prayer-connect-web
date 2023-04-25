@@ -123,3 +123,59 @@
 .headerOptionIcon.headerOptionIcon {
 	font-size: 1.125rem;
 }
+/* Filter/ sort drawer */
+.swipeableDrawer.swipeableDrawer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto;
+	max-width: 425px;
+	width: 100%;
+	border-radius: 1.75rem 1.75rem 0 0;
+	background-color: var(--sys-light-surface-container);
+}
+.swipeableDrawer h3 {
+	font-family: "Lora", serif;
+	font-weight: 600;
+	font-size: 1rem;
+}
+.drawerTop {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.125rem 1rem;
+	width: 100%;
+	margin-bottom: 1rem;
+}
+.topBtn.topBtn {
+	padding: 0.625rem 0.75rem;
+	min-width: none;
+	text-transform: none;
+	color: var(--sys-light-primary);
+}
+.blob {
+	width: 2rem;
+	height: 0.25rem;
+	background-color: var(--sys-light-outline);
+}
+.sortList {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	padding: 0 1.5rem;
+	color: var(--sys-light-on-surface);
+}
+.formControl.formControl {
+	padding-left: 0.875rem;
+	/* color: var(--sys-light-primary); */
+}
+/* filter section */
+.filterList {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	width: 100%;
+	padding: 0 1.5rem 2rem 1.5rem;
+	color: var(--sys-light-on-surface);
+}

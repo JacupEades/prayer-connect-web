@@ -36,7 +36,6 @@ export default function NewUser() {
 					);
 					return router.push("/login/google-add-username");
 				} else {
-					toast.success(`Welcome back ${currentUserName}`);
 					dispatch(
 						userLoggedIn({
 							name: currentUserName,
