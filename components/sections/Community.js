@@ -7,12 +7,23 @@ import { FaPray } from "react-icons/fa";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import moment from "moment";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
 
-export default function Community({ filterMenu, sortValue }) {
+export default function Community({
+	filterMenu,
+	sortValue,
+	whoValue,
+	namedValue,
+}) {
+	const { user } = useSelector((state) => ({
+		...state,
+	}));
 	const dispatch = useDispatch();
 	const router = useRouter();
+	// default filters state should be allboth
+	const filters = whoValue + "/" + namedValue;
+
 	const { isLoading, isError, data, error } = useQuery("prayers", getPrayers);
 
 	if (isLoading)
@@ -59,9 +70,64 @@ export default function Community({ filterMenu, sortValue }) {
 								: new Date(a.createdAt) - new Date(b.createdAt)
 						)
 						.filter((obj) => {
-							if (obj.answered === false && obj.personal === false) {
-								return obj;
+							const tabDefault =
+								obj.answered === false && obj.personal === false;
+							const other = obj.userId !== user.uid;
+							const mine = obj.userId === user.uid;
+							const anon = obj.name === "Anonymous";
+							const publicName = obj.name !== "Anonymous";
+
+							switch (filters) {
+								case "other/both":
+									if (other && tabDefault) {
+										return obj;
+									}
+									break;
+								case "mine/both":
+									if (mine && tabDefault) {
+										return obj;
+									}
+									break;
+								case "all/anon":
+									if (anon && tabDefault) {
+										return obj;
+									}
+									break;
+								case "all/public":
+									if (publicName && tabDefault) {
+										return obj;
+									}
+									break;
+								case "other/anon":
+									if (other && anon && tabDefault) {
+										return obj;
+									}
+									break;
+								case "other/public":
+									if (other && publicName && tabDefault) {
+										return obj;
+									}
+									break;
+								case "mine/anon":
+									if (mine && anon && tabDefault) {
+										return obj;
+									}
+									break;
+								case "mine/public":
+									if (mine && publicName && tabDefault) {
+										return obj;
+									}
+									break;
+								default:
+									if (tabDefault) {
+										return obj;
+									}
 							}
+
+							// Backup no filters
+							// if (obj.answered === false && obj.personal === false) {
+							// 	return obj;
+							// }
 						})
 						.map((obj, i) => {
 							const createdAt = obj.createdAt;

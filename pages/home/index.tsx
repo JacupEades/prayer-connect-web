@@ -16,10 +16,15 @@ export default function HomePage({}: Props) {
 	const [fMenuOpen, setFMenuOpen] = useState(false);
 	// Sort right now can only take one value
 	const [sortValue, setSortValue] = useState("newest");
+	// Filter Values
+	const [whoValue, setWhoValue] = useState("all");
+	const [namedValue, setNamedValue] = useState("both");
 
 	useEffect(() => {
 		console.log("current sortValue: ", sortValue);
-	}, [sortValue]);
+		console.log("current whoValue: ", whoValue);
+		console.log("current namedValue: ", namedValue);
+	}, [namedValue, sortValue, whoValue]);
 
 	// functions for the Header
 	const filterMenu = () => {
@@ -42,7 +47,14 @@ export default function HomePage({}: Props) {
 	const componentSelector = () => {
 		switch (selection) {
 			case "Community Prayers":
-				return <Community filterMenu={filterMenu} sortValue={sortValue} />;
+				return (
+					<Community
+						filterMenu={filterMenu}
+						sortValue={sortValue}
+						whoValue={whoValue}
+						namedValue={namedValue}
+					/>
+				);
 			case "Private Prayers":
 				return <PrivatePrayers />;
 			case "Answered Prayers":
