@@ -10,7 +10,7 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
 
-export default function Community({ fliterMenu, oldest, leastPrayed }) {
+export default function Community({ filterMenu, oldest, leastPrayed }) {
 	const dispatch = useDispatch();
 	const router = useRouter();
 	const { isLoading, isError, data, error } = useQuery("prayers", getPrayers);

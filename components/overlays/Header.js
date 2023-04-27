@@ -6,9 +6,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "@mui/material";
 
 export default function Header({
-	fliterMenu,
+	filterMenu,
 	oldFirst,
+	oldest,
 	leastPrayed,
+	least,
 	selection,
 }) {
 	const PrayerHeader = () => {
@@ -26,66 +28,62 @@ export default function Header({
 						<Button
 							variant="outlined"
 							onClick={() => {
-								fliterMenu();
+								filterMenu();
 							}}
 							className={styles.headerFilterIconContainer}>
 							<FilterAltIcon className={styles.headerFilterIcon} />
 						</Button>
 					</div>
-					<div className={styles.btnContainer}>
-						<Button
-							variant="outlined"
-							onClick={() => {
-								oldFirst();
-							}}
-							className={styles.headerOptionIconContainer}>
-							<p className={styles.headerOptionText}>Oldest First</p>
-						</Button>
-					</div>
-					<div className={styles.btnContainer}>
-						<Button
-							variant="outlined"
-							onClick={() => {
-								leastPrayed();
-							}}
-							className={styles.headerOptionIconContainer}>
-							<p className={styles.headerOptionText}>
-								Least Prayed For (by me)
-							</p>
-						</Button>
-					</div>
-					<div className={styles.btnContainer}>
-						<Button
-							variant="outlined"
-							onClick={() => {
-								fliterMenu();
-							}}
-							className={styles.headerFilterIconContainer}>
-							<FilterAltIcon className={styles.headerFilterIcon} />
-						</Button>
-					</div>
-					<div className={styles.btnContainer}>
-						<Button
-							variant="outlined"
-							onClick={() => {
-								oldFirst();
-							}}
-							className={styles.headerOptionIconContainer}>
-							<p className={styles.headerOptionText}>Oldest First</p>
-						</Button>
-					</div>
-					<div className={styles.btnContainer}>
-						<Button
-							variant="outlined"
-							onClick={() => {
-								leastPrayed();
-							}}
-							className={styles.headerOptionIconContainer}>
-							<p className={styles.headerOptionText}>
-								Least Prayed For (by me)
-							</p>
-						</Button>
-					</div>
+					{least === true ? (
+						<></>
+					) : (
+						<div className={styles.btnContainer}>
+							<Button
+								variant="outlined"
+								onClick={() => {
+									oldFirst();
+								}}
+								className={
+									oldest === false
+										? styles.headerOptionSelected
+										: styles.headerOptionIconContainer
+								}>
+								<p className={styles.headerOptionText}>Oldest First</p>
+								{oldest === false ? (
+									<CloseIcon className={styles.closeIcon} />
+								) : (
+									""
+								)}
+							</Button>
+						</div>
+					)}
+
+					{oldest === false ? (
+						<></>
+					) : (
+						<div className={styles.btnContainer}>
+							<Button
+								disabled
+								variant="outlined"
+								onClick={() => {
+									leastPrayed();
+								}}
+								className={
+									least === true
+										? styles.headerOptionSelected
+										: styles.headerOptionIconContainer
+								}>
+								<p className={styles.headerOptionText}>
+									Least Prayed For (by me)
+								</p>
+								{least === true ? (
+									<CloseIcon className={styles.closeIcon} />
+								) : (
+									""
+								)}
+							</Button>
+						</div>
+					)}
 				</div>
 			</header>
 		);
