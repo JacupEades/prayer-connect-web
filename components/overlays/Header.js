@@ -8,10 +8,9 @@ import { Button } from "@mui/material";
 export default function Header({
 	filterMenu,
 	oldFirst,
-	oldest,
 	leastPrayed,
-	least,
 	selection,
+	sortValue,
 }) {
 	const PrayerHeader = () => {
 		return (
@@ -34,7 +33,7 @@ export default function Header({
 							<FilterAltIcon className={styles.headerFilterIcon} />
 						</Button>
 					</div>
-					{least === true ? (
+					{sortValue === "leastPrayers" ? (
 						<></>
 					) : (
 						<div className={styles.btnContainer}>
@@ -44,12 +43,12 @@ export default function Header({
 									oldFirst();
 								}}
 								className={
-									oldest === false
+									sortValue === "oldest"
 										? styles.headerOptionSelected
 										: styles.headerOptionIconContainer
 								}>
 								<p className={styles.headerOptionText}>Oldest First</p>
-								{oldest === false ? (
+								{sortValue === "oldest" ? (
 									<CloseIcon className={styles.closeIcon} />
 								) : (
 									""
@@ -58,25 +57,24 @@ export default function Header({
 						</div>
 					)}
 
-					{oldest === false ? (
+					{sortValue === "oldest" ? (
 						<></>
 					) : (
 						<div className={styles.btnContainer}>
 							<Button
-								disabled
 								variant="outlined"
 								onClick={() => {
 									leastPrayed();
 								}}
 								className={
-									least === true
+									sortValue === "leastPrayers"
 										? styles.headerOptionSelected
 										: styles.headerOptionIconContainer
 								}>
 								<p className={styles.headerOptionText}>
 									Least Prayed For (by me)
 								</p>
-								{least === true ? (
+								{sortValue === "leastPrayers" ? (
 									<CloseIcon className={styles.closeIcon} />
 								) : (
 									""

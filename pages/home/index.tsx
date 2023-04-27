@@ -14,30 +14,35 @@ export default function HomePage({}: Props) {
 	const [selection, setSelection] = useState("Community Prayers");
 	// Drawer open
 	const [fMenuOpen, setFMenuOpen] = useState(false);
-	// Main menu filter state
-	const [oldest, setOldest] = useState(true);
-	const [sortLeast, setSortLeast] = useState(false);
+	// Sort right now can only take one value
+	const [sortValue, setSortValue] = useState("newest");
+
+	useEffect(() => {
+		console.log("current sortValue: ", sortValue);
+	}, [sortValue]);
 
 	// functions for the Header
 	const filterMenu = () => {
 		setFMenuOpen(!fMenuOpen);
 	};
 	const oldFirst = () => {
-		setOldest(!oldest);
+		if (sortValue === "oldest") {
+			setSortValue("newest");
+		} else {
+			setSortValue("oldest");
+		}
 	};
 	const leastPrayed = () => {
-		setSortLeast(!sortLeast);
+		if (sortValue === "leastPrayers") {
+			setSortValue("newest");
+		} else {
+			setSortValue("leastPrayers");
+		}
 	};
 	const componentSelector = () => {
 		switch (selection) {
 			case "Community Prayers":
-				return (
-					<Community
-						filterMenu={filterMenu}
-						oldest={oldest}
-						leastPrayed={leastPrayed}
-					/>
-				);
+				return <Community filterMenu={filterMenu} sortValue={sortValue} />;
 			case "Private Prayers":
 				return <PrivatePrayers />;
 			case "Answered Prayers":
@@ -54,20 +59,14 @@ export default function HomePage({}: Props) {
 		setSelection(data);
 	};
 
-	// Sending the open close function to the drawer
-	const openCall = () => {
-		setFMenuOpen(!fMenuOpen);
-	};
-
 	return (
 		<>
 			<Header
 				filterMenu={filterMenu}
 				oldFirst={oldFirst}
-				oldest={oldest}
 				leastPrayed={leastPrayed}
-				least={sortLeast}
 				selection={selection}
+				sortValue={sortValue}
 			/>
 			{componentSelector()}
 			<Navigation selectString={selectCall} selection={selection} />
@@ -76,10 +75,10 @@ export default function HomePage({}: Props) {
 				fMenuOpen={fMenuOpen}
 				filterMenu={filterMenu}
 				oldFirst={oldFirst}
-				oldest={oldest}
 				leastPrayed={leastPrayed}
-				least={sortLeast}
 				selection={selection}
+				sortValue={sortValue}
+				setSortValue={setSortValue}
 			/>
 		</>
 	);

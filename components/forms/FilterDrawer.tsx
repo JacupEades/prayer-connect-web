@@ -15,23 +15,21 @@ type Props = {
 	fMenuOpen: boolean;
 	filterMenu: any;
 	oldFirst: any;
-	oldest: boolean;
 	leastPrayed: any;
-	least: any;
 	selection: any;
+	sortValue: string;
+	setSortValue: any;
 };
 
 export default function FilterDrawer({
 	fMenuOpen,
 	filterMenu,
 	oldFirst,
-	oldest,
 	leastPrayed,
-	least,
 	selection,
+	sortValue,
+	setSortValue,
 }: Props) {
-	// Sub menu form states
-	const [sortValue, setSortValue] = useState("newest");
 	// Filters (who's)
 	const [filterOther, setFilterOther] = useState(false);
 	const [filterMine, setFilterMine] = useState(false);
@@ -66,18 +64,18 @@ export default function FilterDrawer({
 
 	const sortSelector = () => {
 		console.log("sort value: ", sortValue);
-		// switch (sortValue) {
-		// 	case "newest":
-		// 		return setOldest(false);
-		// 	case "oldest":
-		// 		return setOldest(true);
-		// 	case "mostPrayers":
-		// 		return setSortLeast(false);
-		// 	case "leastPrayers":
-		// 		return setSortLeast(true);
-		// 	default:
-		// 		console.log("Sort Select error!");
-		// }
+		switch (sortValue) {
+			case "newest":
+				return setSortValue(sortValue);
+			case "oldest":
+				return setSortValue(sortValue);
+			case "mostPrayers":
+				return setSortValue(sortValue);
+			case "leastPrayers":
+				return setSortValue(sortValue);
+			default:
+				console.log("Sort Select error!");
+		}
 	};
 	// Filter clicked's
 	const clickWho1 = () => {

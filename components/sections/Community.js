@@ -10,7 +10,7 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
 
-export default function Community({ filterMenu, oldest, leastPrayed }) {
+export default function Community({ filterMenu, sortValue }) {
 	const dispatch = useDispatch();
 	const router = useRouter();
 	const { isLoading, isError, data, error } = useQuery("prayers", getPrayers);
@@ -54,7 +54,7 @@ export default function Community({ filterMenu, oldest, leastPrayed }) {
 				<div className={styles.cardSection}>
 					{data
 						.sort((a, b) =>
-							oldest
+							sortValue !== "oldest"
 								? new Date(b.createdAt) - new Date(a.createdAt)
 								: new Date(a.createdAt) - new Date(b.createdAt)
 						)
