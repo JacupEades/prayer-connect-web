@@ -14,21 +14,21 @@ import customRadios from "@/styles/PrayerPage.module.css";
 type Props = {
 	fMenuOpen: boolean;
 	filterMenu: any;
-	oldFirst: any;
-	leastPrayed: any;
-	selection: any;
-	sortValue: string;
 	setSortValue: any;
+	setWhoValue: any;
+	setNamedValue: any;
+	setSortApplied: any;
+	sortApplied: boolean;
 };
 
 export default function FilterDrawer({
 	fMenuOpen,
 	filterMenu,
-	oldFirst,
-	leastPrayed,
-	selection,
-	sortValue,
 	setSortValue,
+	setWhoValue,
+	setNamedValue,
+	setSortApplied,
+	sortApplied,
 }: Props) {
 	// Filters (who's)
 	const [filterOther, setFilterOther] = useState(false);
@@ -36,81 +36,113 @@ export default function FilterDrawer({
 	// (Name given)
 	const [filterNoName, setFilterNoName] = useState(false);
 	const [filterNamed, setFilterNamed] = useState(false);
+	// Form Values
+	const [formSort, setFormSort] = useState("newest");
+	const [formWho, setFormWho] = useState("all");
+	const [formName, setFormName] = useState("both");
 	const [formData, setFormData] = useState({
 		sort: "newest",
-		who: true,
-		loctaion: true,
+		who: "all",
+		loctaion: "both",
 	});
 
 	// Drawer utiliies
 	useEffect(() => {
 		setFormData({
-			sort: sortValue,
-			who: true,
-			loctaion: true,
+			sort: formSort,
+			who: formWho,
+			loctaion: formName,
 		});
-	}, [sortValue]);
+	}, [formName, formWho, formSort]);
 
 	// Drawer Utilies
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
-		console.log("formData: ", formData);
-		sortSelector();
+		// Change the default chips if there is any selection
+		if (
+			formData.sort === "newest" &&
+			formData.who === "all" &&
+			formData.loctaion === "both"
+		) {
+			setSortApplied(false);
+		} else {
+			setSortApplied(true);
+		}
+		// Form to the parent's state
+		setSortValue(formData.sort);
+		setWhoValue(formData.who);
+		setNamedValue(formData.loctaion);
+		// Close drawer
+		filterMenu();
+		// console.log("formData: ", formData);
+	};
+	const resetSortFilters = (e: any) => {
+		e.preventDefault();
+		// Form data
+		setFormSort("newest");
+		setFormWho("all");
+		setFormName("both");
+		// Filter Buttons
+		setFilterOther(false);
+		setFilterMine(false);
+		setFilterNamed(false);
+		setFilterNoName(false);
+		// Default chips
+		setSortApplied(false);
+		// Parent state
+		setSortValue("newest");
+		setWhoValue("all");
+		setNamedValue("both");
 	};
 	const handleSort = (e: any) => {
 		e.preventDefault();
-		setSortValue(e.target.value);
+		setFormSort(e.target.value);
 	};
 
-	const sortSelector = () => {
-		console.log("sort value: ", sortValue);
-		switch (sortValue) {
-			case "newest":
-				return setSortValue(sortValue);
-			case "oldest":
-				return setSortValue(sortValue);
-			case "mostPrayers":
-				return setSortValue(sortValue);
-			case "leastPrayers":
-				return setSortValue(sortValue);
-			default:
-				console.log("Sort Select error!");
-		}
-	};
 	// Filter clicked's
 	const clickWho1 = () => {
 		if (filterOther === true) {
 			setFilterOther(false);
+			setFormWho("all");
 		} else {
 			setFilterOther(true);
 			setFilterMine(false);
+			setFormWho("other");
 		}
 	};
 	const clickWho2 = () => {
 		if (filterMine === true) {
 			setFilterMine(false);
+			setFormWho("all");
 		} else {
 			setFilterOther(false);
 			setFilterMine(true);
+			setFormWho("mine");
 		}
 	};
 
 	const clickNamed1 = () => {
 		if (filterNoName === true) {
 			setFilterNoName(false);
+			setFormName("both");
 		} else {
 			setFilterNoName(true);
 			setFilterNamed(false);
+			setFormName("anon");
 		}
 	};
 	const clickNamed2 = () => {
 		if (filterNamed === true) {
 			setFilterNamed(false);
+			setFormName("both");
 		} else {
 			setFilterNoName(false);
 			setFilterNamed(true);
+			setFormName("public");
 		}
 	};
+
+	const noop = () => {};
 
 	return (
 		<SwipeableDrawer
@@ -128,7 +160,9 @@ export default function FilterDrawer({
 				<div className={headerStyles.swipeableDrawer}>
 					{/* Top portion */}
 					<div className={headerStyles.drawerTop}>
-						<Button className={headerStyles.topBtn}>Reset</Button>
+						<Button onClick={resetSortFilters} className={headerStyles.topBtn}>
+							Reset
+						</Button>
 						<div className={headerStyles.blob}></div>
 						<Button type="submit" className={headerStyles.topBtn}>
 							Apply
@@ -140,25 +174,28 @@ export default function FilterDrawer({
 						<FormControl className={headerStyles.formControl}>
 							<RadioGroup
 								aria-labelledby="sort-by-oldest-newest-or-prayers"
-								value={sortValue}
+								value={formSort}
 								onChange={handleSort}
 								name="sortAndFilter">
-								<FormControlLabel
-									value="newest"
-									control={
-										<Radio
-											sx={{
-												width: "48px",
-												height: "48px",
-												color: "var(--sys-light-on-surface-variant)",
-												"&.Mui-checked": {
-													color: "var(--sys-light-primary)",
-												},
-											}}
-										/>
-									}
-									label="Newest First"
-								/>
+								<div className={headerStyles.defaultTag}>
+									<FormControlLabel
+										value="newest"
+										control={
+											<Radio
+												sx={{
+													width: "48px",
+													height: "48px",
+													color: "var(--sys-light-on-surface-variant)",
+													"&.Mui-checked": {
+														color: "var(--sys-light-primary)",
+													},
+												}}
+											/>
+										}
+										label="Newest First"
+									/>
+									<p>(Default)</p>
+								</div>
 								<FormControlLabel
 									value="oldest"
 									control={
@@ -225,7 +262,7 @@ export default function FilterDrawer({
 								className={customRadios.radioInput}
 								checked={filterOther}
 								onClick={clickWho1}
-								onChange={() => console.log("Filter: other prayers")}
+								onChange={() => noop()}
 							/>
 							<label htmlFor="otherPrayers" className={customRadios.radioLabel}>
 								{filterOther === true ? (
@@ -243,7 +280,7 @@ export default function FilterDrawer({
 								className={customRadios.radioInput}
 								checked={filterMine}
 								onClick={clickWho2}
-								onChange={() => console.log("Filter: my prayers")}
+								onChange={() => noop()}
 							/>
 							<label htmlFor="myPrayers" className={customRadios.radioLabel}>
 								{filterMine === true ? (
@@ -264,7 +301,7 @@ export default function FilterDrawer({
 								className={customRadios.radioInput}
 								checked={filterNoName}
 								onClick={clickNamed1}
-								onChange={() => console.log("Filter: No name")}
+								onChange={() => noop()}
 							/>
 							<label htmlFor="anonymous" className={customRadios.radioLabel}>
 								{filterNoName === true ? (
@@ -282,7 +319,7 @@ export default function FilterDrawer({
 								className={customRadios.radioInput}
 								checked={filterNamed}
 								onClick={clickNamed2}
-								onChange={() => console.log("Filter: Public")}
+								onChange={() => noop()}
 							/>
 							<label htmlFor="public" className={customRadios.radioLabel}>
 								{filterNamed === true ? (

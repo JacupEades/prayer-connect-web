@@ -2,15 +2,29 @@ import React from "react";
 import styles from "@/styles/Header.module.css";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "@mui/material";
+import OldestFirst from "../buttons/sort/OldestFirst";
+import MostPrayedFor from "@/components/buttons/sort/MostPrayedFor";
+import LeastPrayedFor from "@/components/buttons/sort/LeastPrayedFor";
+import OthersPrayerBtn from "@/components/buttons/filter/OthersPrayerBtn";
+import MyPrayersBtn from "@/components/buttons/filter/MyPrayersBtn";
+import AnonymousBtn from "@/components/buttons/filter/AnonymousBtn";
+import PublicBtn from "@/components/buttons/filter/PublicBtn";
 
 export default function Header({
 	filterMenu,
 	oldFirst,
+	mostPrayed,
 	leastPrayed,
 	selection,
 	sortValue,
+	sortApplied,
+	whoValue,
+	otherChip,
+	mineChip,
+	anonChip,
+	publicChip,
+	namedValue,
 }) {
 	const PrayerHeader = () => {
 		return (
@@ -33,55 +47,23 @@ export default function Header({
 							<FilterAltIcon className={styles.headerFilterIcon} />
 						</Button>
 					</div>
-					{sortValue === "leastPrayers" ? (
-						<></>
-					) : (
-						<div className={styles.btnContainer}>
-							<Button
-								variant="outlined"
-								onClick={() => {
-									oldFirst();
-								}}
-								className={
-									sortValue === "oldest"
-										? styles.headerOptionSelected
-										: styles.headerOptionIconContainer
-								}>
-								<p className={styles.headerOptionText}>Oldest First</p>
-								{sortValue === "oldest" ? (
-									<CloseIcon className={styles.closeIcon} />
-								) : (
-									""
-								)}
-							</Button>
-						</div>
-					)}
-
-					{sortValue === "oldest" ? (
-						<></>
-					) : (
-						<div className={styles.btnContainer}>
-							<Button
-								variant="outlined"
-								onClick={() => {
-									leastPrayed();
-								}}
-								className={
-									sortValue === "leastPrayers"
-										? styles.headerOptionSelected
-										: styles.headerOptionIconContainer
-								}>
-								<p className={styles.headerOptionText}>
-									Least Prayed For (by me)
-								</p>
-								{sortValue === "leastPrayers" ? (
-									<CloseIcon className={styles.closeIcon} />
-								) : (
-									""
-								)}
-							</Button>
-						</div>
-					)}
+					{/* sort chips */}
+					<OldestFirst
+						oldFirst={oldFirst}
+						sortValue={sortValue}
+						sortApplied={sortApplied}
+					/>
+					<MostPrayedFor mostPrayed={mostPrayed} sortValue={sortValue} />
+					<LeastPrayedFor
+						leastPrayed={leastPrayed}
+						sortValue={sortValue}
+						sortApplied={sortApplied}
+					/>
+					{/* filter chips */}
+					<OthersPrayerBtn otherChip={otherChip} whoValue={whoValue} />
+					<MyPrayersBtn mineChip={mineChip} whoValue={whoValue} />
+					<AnonymousBtn anonChip={anonChip} namedValue={namedValue} />
+					<PublicBtn publicChip={publicChip} namedValue={namedValue} />
 				</div>
 			</header>
 		);

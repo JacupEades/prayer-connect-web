@@ -200,3 +200,13 @@
 	padding: 0 1.5rem 2rem 1.5rem;
 	color: var(--sys-light-on-surface);
 }
+.defaultTag {
+	display: flex;
+	align-items: center;
+}
+.defaultTag p {
+	position: relative;
+	left: -0.5rem;
+	font-size: 0.875rem;
+	color: var(--sys-light-on-surface-variant);
+}
