@@ -1,6 +1,7 @@
 import Prayers from "@/model/prayer";
 import Users from "@/model/user";
 
+// USERS CONTROLLERS
 // GET: http://localhost:3000/api/users
 export async function getUsers(req, res) {
 	try {
@@ -41,6 +42,7 @@ export async function getUser(req, res) {
 	}
 }
 
+// PRAYERS CONTROLLERS
 // PUT: http://localhost:3000/api/prayers/prayerId
 export async function putUsers(req, res) {
 	try {
@@ -72,7 +74,7 @@ export async function getPrayers(req, res) {
 	}
 }
 
-// GET single user: http://localhost:3000/api/prayers/prayerId
+// GET single prayer: http://localhost:3000/api/prayers/prayerId
 export async function getPrayer(req, res) {
 	try {
 		const { prayerId } = req.query;
@@ -137,3 +139,4 @@ export async function deletePrayer(req, res) {
 		return res.status(404).json({ error: "Error while updating the data." });
 	}
 }
+// PUSH PRAYERS TO USERS CONTROLLER

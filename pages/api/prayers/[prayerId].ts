@@ -5,7 +5,7 @@ import {
 	deletePrayer,
 } from "../../../database/controller";
 
-export default async function ogPrayerHandler(
+export default async function prayerHandler(
 	req: { method: any },
 	res: {
 		status: (arg0: number) => {

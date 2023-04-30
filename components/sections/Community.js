@@ -10,12 +10,7 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
 
-export default function Community({
-	filterMenu,
-	sortValue,
-	whoValue,
-	namedValue,
-}) {
+export default function Community({ sortValue, whoValue, namedValue }) {
 	const { user } = useSelector((state) => ({
 		...state,
 	}));
