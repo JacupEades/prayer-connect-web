@@ -161,7 +161,6 @@ export default function HomePage({}: Props) {
 			case "Community Prayers":
 				return (
 					<Community
-						filterMenu={filterMenu}
 						sortValue={sortValue}
 						whoValue={whoValue}
 						namedValue={namedValue}
