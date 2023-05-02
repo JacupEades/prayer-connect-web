@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "@/styles/Community.module.css";
-import { getPrayers, getPrayer } from "../../lib/prayerHelper";
+import { getPrayers, getPrayer } from "@/lib/prayerHelper";
+import { getUsers } from "@/lib/userHelper";
 import { useQuery } from "react-query";
 import cardStyles from "@/styles/Components.module.css";
 import { FaPray } from "react-icons/fa";
@@ -9,8 +10,10 @@ import { useRouter } from "next/router";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
+import { updateUserPrayerCount } from "../../lib/userHelper";
 
 export default function Community({ sortValue, whoValue, namedValue }) {
+	const [isPraying, setIsPraying] = useState(false);
 	const { user } = useSelector((state) => ({
 		...state,
 	}));
@@ -20,15 +23,25 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 	const filters = whoValue + "/" + namedValue;
 
 	const { isLoading, isError, data, error } = useQuery("prayers", getPrayers);
+	const {
+		data: userData,
+		isLoading: userLoading,
+		isError: userIsError,
+	} = useQuery("users", getUsers);
 
-	if (isLoading)
+	if (isLoading || userLoading)
 		return <div className={styles.loadingOrError}>Prayers are Loading...</div>;
-	if (isError)
+	if (isError || userIsError)
 		return (
 			<div className={styles.loadingOrError}>
 				Prayers being loaded error {error}
 			</div>
 		);
+
+	const currentUserData = userData.filter((obj) => {
+		if (obj.uid === user.uid) return obj;
+	});
+
 	const handleCardClick = async (_id) => {
 		try {
 			const res = await getPrayer(_id);
@@ -43,11 +56,6 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 		} catch (error) {
 			console.log(error);
 		}
-	};
-
-	const prayerBtnclicked = (e) => {
-		e.stopPropagation();
-		console.log("prayer Btn clicked");
 	};
 
 	return (
@@ -128,7 +136,24 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 							const createdAt = obj.createdAt;
 							const momentCreatedAt = moment(createdAt);
 							const daysAgo = moment().diff(momentCreatedAt, "days");
-							// console.log(obj);
+
+							const userPrayerCount = currentUserData[0].prayerCounts.filter(
+								(userPCObj) => {
+									if (userPCObj.prayerId === obj._id) {
+										return userPCObj.count;
+									}
+								}
+							);
+
+							const prayerBtnclicked = (e) => {
+								e.stopPropagation();
+								const userDBId = `?userId=${currentUserData[0]._id}`;
+								const formData = {
+									prayerCounts: [{ prayerId: obj._id, count: 1 }],
+								};
+
+								updateUserPrayerCount(userDBId, formData);
+							};
 
 							return (
 								<article
@@ -158,9 +183,9 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 									<div className={cardStyles.cardPrayContainer}>
 										<div className={cardStyles.cardPrayedForContainer}>
 											<FaPray className={cardStyles.prayCountIcon} />
-											<p className={cardStyles.prayCountNumber}>
-												{obj.prayedFor}
-											</p>
+											{userPrayerCount.length > 0 && (
+												<span>{userPrayerCount[0].count}</span>
+											)}
 										</div>
 										<Button
 											onClick={prayerBtnclicked}

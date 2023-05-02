@@ -4,6 +4,10 @@ let Users;
 
 const userSchema = new Schema(
 	{
+		uid: {
+			type: String,
+			required: true,
+		},
 		name: {
 			type: String,
 			required: true,
@@ -18,11 +22,8 @@ const userSchema = new Schema(
 			enum: ["user", "admin"],
 			default: "user",
 		},
-		prayers: [
-			{
-				type: Schema.Types.ObjectId,
-				ref: "Prayer",
-			},
+		prayerCounts: [
+			{ prayerId: { type: String }, count: { type: Number, default: 0 } },
 		],
 		language: {
 			type: String,
@@ -34,8 +35,9 @@ const userSchema = new Schema(
 );
 
 try {
-	Users = model("user");
+	Users = model("Users");
 } catch {
-	Users = model("user", userSchema);
+	Users = model("Users", userSchema);
 }
+
 export default Users;

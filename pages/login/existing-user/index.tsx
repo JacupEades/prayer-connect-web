@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { userLoggedIn } from "@/redux/slices/userSlice";
 import Link from "next/link";
+import { addUser } from "@/lib/userHelper";
 
 export default function ExistingUser() {
 	const router = useRouter();
@@ -29,18 +30,25 @@ export default function ExistingUser() {
 					dispatch(
 						userLoggedIn({
 							email: user.email,
-							role: "admin",
+							role: "user",
 							uid: user.uid,
 							token: token,
 						})
 					);
 					return router.push("/login/google-add-username");
 				} else {
+					addUser({
+						uid: user.uid,
+						name: currentUserName,
+						email: user.email,
+						role: "user",
+						language: "English",
+					});
 					dispatch(
 						userLoggedIn({
 							name: currentUserName,
 							email: user.email,
-							role: "admin",
+							role: "user",
 							uid: user.uid,
 							token: token,
 						})

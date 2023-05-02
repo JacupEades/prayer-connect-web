@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { userLoggedIn } from "@/redux/slices/userSlice";
+import { addUser } from "@/lib/userHelper";
 
 export default function SignUpForm() {
 	const [name, setName] = useState("");
@@ -26,13 +27,14 @@ export default function SignUpForm() {
 	// kick out logged in users who are logged in
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
+			// console.log(user);
 			if (user) {
 				// Redux store
 				dispatch(
 					userLoggedIn({
 						name: user.displayName,
 						email: user.email,
-						role: "admin",
+						role: "user",
 						uid: user.uid,
 					})
 				);
@@ -63,6 +65,14 @@ export default function SignUpForm() {
 			.then((userCredential) => {
 				// Get user information
 				const user = userCredential.user;
+				// Create user in database
+				addUser({
+					uid: user.uid,
+					name: name,
+					email: email,
+					role: "user",
+					language: "English",
+				});
 				// Set firebase display name
 				updateProfile(auth.currentUser, {
 					displayName: name,

@@ -1,7 +1,7 @@
 import connectMongo from "@/database/conn";
-import { getUsers, postUser } from "@/database/controller";
+import { getUsers, postUser, putUsers } from "@/database/controller";
 
-export default async function userHandler(req: { method: any }, res: any) {
+export default async function ogUserHandler(req: { method: any }, res: any) {
 	connectMongo().catch(() =>
 		res.status(405).json({ error: "Error in the connection." })
 	);
@@ -17,8 +17,8 @@ export default async function userHandler(req: { method: any }, res: any) {
 			// res.status(200).json({ method, name: "POST Request" });
 			break;
 		case "PUT":
-			// putUsers(req, res);
-			res.status(200).json({ method, name: "PUT Request" });
+			putUsers(req, res);
+			// res.status(200).json({ method, name: "PUT Request" });
 			break;
 		default:
 			res.setHeader("Allow", ["GET", "POST", "PUT"]);

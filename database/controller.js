@@ -42,25 +42,6 @@ export async function getUser(req, res) {
 	}
 }
 
-// PRAYERS CONTROLLERS
-// PUT: http://localhost:3000/api/prayers/prayerId
-export async function putUsers(req, res) {
-	try {
-		const { prayerId } = req.query;
-		const formData = req.body;
-
-		if (prayerId && formData) {
-			let updatedPrayer = await Prayers.findByIdAndUpdate(prayerId, formData);
-			return res.status(200).json(updatedPrayer);
-		}
-		return res
-			.status(404)
-			.json({ error: "Error editing prayer. PUT request." });
-	} catch (error) {
-		return res.status(404).json({ error: "Error while updating the data." });
-	}
-}
-
 // GET: http://localhost:3000/api/prayers
 export async function getPrayers(req, res) {
 	try {
@@ -78,7 +59,7 @@ export async function getPrayers(req, res) {
 export async function getPrayer(req, res) {
 	try {
 		const { prayerId } = req.query;
-		// console.log("prayerId:", prayerId);
+		console.log("prayerId:", prayerId);
 		const prayer = await Prayers.findById(prayerId);
 
 		// console.log("prayer:", prayer);
@@ -139,4 +120,53 @@ export async function deletePrayer(req, res) {
 		return res.status(404).json({ error: "Error while updating the data." });
 	}
 }
-// PUSH PRAYERS TO USERS CONTROLLER
+// PUT: http://localhost:3000/api/users/userId
+export async function putUsers(req, res) {
+	try {
+		const { userId } = req.query;
+		const formData = req.body;
+		// make sure you have the data
+		if (userId && formData) {
+			const checkOldCounts = await Users.findById(userId);
+			const [{ prayerId }] = formData.prayerCounts;
+
+			// console.log("formData in controller: ", formData);
+			const oldCountBObj = checkOldCounts.prayerCounts.find(
+				(obj) => obj.prayerId === prayerId
+			);
+			// const helloOldPrayer = () => {
+			// 	if (oldCountBObj === undefined) {
+			// 		return "no";
+			// 	} else {
+			// 		return "yes";
+			// 	}
+			// };
+			// console.log("Is there an old prayer?", helloOldPrayer());
+
+			if (oldCountBObj === undefined) {
+				const options = { new: true };
+				let updatedPrayerCount = await Users.findByIdAndUpdate(
+					userId,
+					{ $push: formData },
+					options
+				);
+				return res.status(200).json(updatedPrayerCount);
+			} else {
+				// Increment the count of an existing prayerCount object
+				const updatedPrayerCount = await Users.findByIdAndUpdate(
+					userId,
+					{ $inc: { "prayerCounts.$[elem].count": 1 } },
+					{
+						arrayFilters: [{ "elem.prayerId": prayerId }],
+					}
+				);
+				return res.status(200).json(updatedPrayerCount);
+			}
+		}
+		return res
+			.status(404)
+			.json({ error: "Error editing prayer. PUT request." });
+	} catch (error) {
+		return res.status(404).json({ error: "Error while updating the data." });
+	}
+}
