@@ -175,12 +175,32 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 								const userDBId = `?userId=${uData[0]._id}`;
 								const formData = {
 									prayerCounts: [{ prayerId: obj._id, count: 1 }],
+									addUndo: false,
 								};
 
 								await updateUserPrayerCount(userDBId, formData);
 								refetch();
-								console.log(currentCount);
 							};
+							const undoBtnclicked = async (e) => {
+								e.stopPropagation();
+
+								setPrayerCounts({
+									...prayerCounts,
+									[obj._id]: 0,
+								});
+
+								userPrayerCount();
+								const userDBId = `?userId=${uData[0]._id}`;
+								const formData = {
+									prayerCounts: [{ prayerId: obj._id, count: 1 }],
+									addUndo: true,
+								};
+
+								await updateUserPrayerCount(userDBId, formData);
+								refetch();
+							};
+
+							// update the card pray count on render
 							userPrayerCount();
 
 							return (
@@ -217,7 +237,7 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 											<div className={cardStyles.undoContainer}>
 												<p>Prayed!</p>
 												<Button
-													onClick={prayerBtnclicked}
+													onClick={undoBtnclicked}
 													variant="contained"
 													className={cardStyles.undoBtn}>
 													<ReplayIcon className={cardStyles.undoBtnIcon} />

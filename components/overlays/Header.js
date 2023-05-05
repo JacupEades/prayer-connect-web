@@ -34,7 +34,7 @@ export default function Header({
 						{selection === "Private Prayers" ? "My " : ""}
 						{selection}
 					</h1>
-					<SearchIcon className={styles.headerSearchIcon} />
+					{/* <SearchIcon className={styles.headerSearchIcon} /> */}
 				</div>
 				<div className={styles.headerBottomContainer}>
 					<div className={styles.btnContainer}>
