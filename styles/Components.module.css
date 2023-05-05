@@ -8,6 +8,7 @@
 	margin-bottom: 0.75rem;
 	border-radius: 0.75rem;
 	border: 1px solid var(--sys-light-outline-variant);
+	background-color: var(--sys-light-surface);
 	padding: 1rem;
 }
 .prayerCardContainer:hover {
@@ -69,6 +70,7 @@
 	height: 2.5rem;
 	padding: 0;
 	border-radius: 9999px;
+	box-shadow: none;
 	background-color: var(--sys-light-primary);
 }
 .prayBtn.prayBtn:hover {
@@ -78,6 +80,29 @@
 }
 .prayBtnIcon.prayBtnIcon {
 	font-size: 1.5rem;
+}
+.undoContainer {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	color: var(--sys-light-tertiary);
+}
+.undoBtn.undoBtn {
+	min-width: 0;
+	width: 2.5rem;
+	height: 2.5rem;
+	padding: 0;
+	border-radius: 9999px;
+	box-shadow: none;
+	background-color: var(--sys-light-secondary-container);
+}
+.undoBtn.undoBtn:hover {
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	background-color: var(--sl-light-on-secondary);
+}
+.undoBtnIcon.undoBtnIcon {
+	color: var(--sys-light-on-secondary-container);
 }
 /* deleteOverlay */
 .overlayBG {

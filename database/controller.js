@@ -158,7 +158,8 @@ export async function putUsers(req, res) {
 					{ $inc: { "prayerCounts.$[elem].count": 1 } },
 					{
 						arrayFilters: [{ "elem.prayerId": prayerId }],
-					}
+					},
+					{ new: true, returnOriginal: false }
 				);
 				return res.status(200).json(updatedPrayerCount);
 			}

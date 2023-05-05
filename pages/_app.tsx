@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { Analytics } from "@vercel/analytics/react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 // Toast dep
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,6 +22,8 @@ export default function App({ Component, pageProps }: AppProps) {
 					<ToastContainer />
 					<Component {...pageProps} />
 					<Analytics />
+					{/* comment out to remove the RQ icon */}
+					<ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
 				</QueryClientProvider>
 			</PersistGate>
 		</Provider>

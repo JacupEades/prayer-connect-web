@@ -5,6 +5,7 @@ import { getUsers } from "@/lib/userHelper";
 import { useQuery } from "react-query";
 import cardStyles from "@/styles/Components.module.css";
 import { FaPray } from "react-icons/fa";
+import ReplayIcon from "@mui/icons-material/Replay";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import moment from "moment";
@@ -13,7 +14,8 @@ import { prayerById } from "@/redux/slices/prayerSlice";
 import { updateUserPrayerCount } from "../../lib/userHelper";
 
 export default function Community({ sortValue, whoValue, namedValue }) {
-	const [isPraying, setIsPraying] = useState(false);
+	const [prayerCounts, setPrayerCounts] = useState({});
+
 	const { user } = useSelector((state) => ({
 		...state,
 	}));
@@ -27,6 +29,7 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 		data: userData,
 		isLoading: userLoading,
 		isError: userIsError,
+		refetch,
 	} = useQuery("users", getUsers);
 
 	if (isLoading || userLoading)
@@ -37,10 +40,18 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 				Prayers being loaded error {error}
 			</div>
 		);
+	if (user.uid === "")
+		return (
+			<div className={styles.loadingOrError}>
+				Please log in to view players. {error}
+			</div>
+		);
 
-	const currentUserData = userData.filter((obj) => {
-		if (obj.uid === user.uid) return obj;
-	});
+	const currentUserData = () =>
+		userData.filter((obj) => {
+			// console.log(obj.uid, user.uid);
+			if (obj.uid === user.uid) return obj;
+		});
 
 	const handleCardClick = async (_id) => {
 		try {
@@ -136,24 +147,41 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 							const createdAt = obj.createdAt;
 							const momentCreatedAt = moment(createdAt);
 							const daysAgo = moment().diff(momentCreatedAt, "days");
+							const uData = currentUserData();
+							const currentCount = prayerCounts[obj._id] || 0;
+							let displayNum = 0;
 
-							const userPrayerCount = currentUserData[0].prayerCounts.filter(
-								(userPCObj) => {
+							const userPrayerCount = () => {
+								// console.log(uData[0].prayerCounts[0].count);
+								uData[0].prayerCounts.filter((userPCObj) => {
 									if (userPCObj.prayerId === obj._id) {
-										return userPCObj.count;
+										displayNum = userPCObj.count;
 									}
-								}
-							);
+								});
+							};
 
-							const prayerBtnclicked = (e) => {
+							const prayerBtnclicked = async (e) => {
 								e.stopPropagation();
-								const userDBId = `?userId=${currentUserData[0]._id}`;
+								if (currentCount > 0) {
+									console.log("You already prayed for this once.");
+									return;
+								}
+								setPrayerCounts({
+									...prayerCounts,
+									[obj._id]: currentCount + 1,
+								});
+
+								userPrayerCount();
+								const userDBId = `?userId=${uData[0]._id}`;
 								const formData = {
 									prayerCounts: [{ prayerId: obj._id, count: 1 }],
 								};
 
-								updateUserPrayerCount(userDBId, formData);
+								await updateUserPrayerCount(userDBId, formData);
+								refetch();
+								console.log(currentCount);
 							};
+							userPrayerCount();
 
 							return (
 								<article
@@ -183,16 +211,26 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 									<div className={cardStyles.cardPrayContainer}>
 										<div className={cardStyles.cardPrayedForContainer}>
 											<FaPray className={cardStyles.prayCountIcon} />
-											{userPrayerCount.length > 0 && (
-												<span>{userPrayerCount[0].count}</span>
-											)}
+											<div>{displayNum}</div>
 										</div>
-										<Button
-											onClick={prayerBtnclicked}
-											variant="contained"
-											className={cardStyles.prayBtn}>
-											<FaPray className={cardStyles.prayBtnIcon} />
-										</Button>
+										{currentCount > 0 ? (
+											<div className={cardStyles.undoContainer}>
+												<p>Prayed!</p>
+												<Button
+													onClick={prayerBtnclicked}
+													variant="contained"
+													className={cardStyles.undoBtn}>
+													<ReplayIcon className={cardStyles.undoBtnIcon} />
+												</Button>
+											</div>
+										) : (
+											<Button
+												onClick={prayerBtnclicked}
+												variant="contained"
+												className={cardStyles.prayBtn}>
+												<FaPray className={cardStyles.prayBtnIcon} />
+											</Button>
+										)}
 									</div>
 								</article>
 							);
