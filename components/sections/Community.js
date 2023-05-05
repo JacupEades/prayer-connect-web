@@ -46,7 +46,6 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 				Please log in to view players. {error}
 			</div>
 		);
-
 	const currentUserData = () =>
 		userData.filter((obj) => {
 			// console.log(obj.uid, user.uid);

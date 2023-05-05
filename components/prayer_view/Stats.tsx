@@ -10,7 +10,7 @@ type Props = {
 	answered: boolean;
 	personal: boolean;
 	createdAt: string;
-	prayedFor: number;
+	displayNum: number;
 	name: string;
 };
 
@@ -18,7 +18,7 @@ export default function Stats({
 	answered,
 	personal,
 	createdAt,
-	prayedFor,
+	displayNum,
 	name,
 }: Props) {
 	const dateString = createdAt;
@@ -60,7 +60,11 @@ export default function Stats({
 			</div>
 			<div className={styles.blockFlex}>
 				<FaPray className={styles.statIcon} />
-				<p className={styles.statText}>Times you prayed: {prayedFor}</p>
+				<div
+					className={styles.statText}
+					style={{ display: "flex", gap: "4px" }}>
+					<p>Times you prayed:</p> <span>{displayNum}</span>
+				</div>
 			</div>
 			<div className={styles.blockFlex}>
 				<EventAvailableIcon className={styles.statIcon} />

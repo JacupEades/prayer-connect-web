@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/PrayerPage.module.css";
+import cardStyles from "@/styles/Components.module.css";
 import { Button } from "@mui/material";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
@@ -12,6 +13,9 @@ import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
 import { toast } from "react-toastify";
+import { updateUserPrayerCount } from "@/lib/userHelper";
+import { getUsers } from "@/lib/userHelper";
+import ReplayIcon from "@mui/icons-material/Replay";
 
 type Props = {
 	objectWithId: {
@@ -27,6 +31,7 @@ type Props = {
 
 export default function MyPrayerView({}: Props) {
 	const [selection, setSelection] = useState("Details");
+	const [prayerCounts, setPrayerCounts] = useState(0);
 	const { prayer, user } = useSelector((state: any) => ({
 		...state,
 	}));
@@ -36,51 +41,45 @@ export default function MyPrayerView({}: Props) {
 		"prayer",
 		getPrayers
 	);
+	const {
+		data: userData,
+		isLoading: userLoading,
+		isError: userIsError,
+		refetch,
+	}: any = useQuery("users", getUsers);
+
 	const userId = user.uid;
 	const prayerId = prayer.prayerId;
-	// Temporary fix
-	// If the prayer ID didn't load
+	let displayNum = 0;
+
 	useEffect(() => {
-		if (prayerId === "") {
-			toast.error("Prayer Id missing, sending you back to the home page.");
+		if (prayerId === "" || userId === "") {
+			toast.error(
+				"Prayer Id or user Id missing, sending you back to the home page."
+			);
 			router.push("/home");
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [router]);
 
-	if (isLoading)
+	if (isLoading || userLoading)
 		return <div className={styles.loadingOrError}>Prayers are Loading...</div>;
-	if (isError)
+	if (isError || userIsError)
 		return (
 			<div className={styles.loadingOrError}>
 				Prayers being loaded error {error}
+			</div>
+		);
+	if (user.uid === "")
+		return (
+			<div className={styles.loadingOrError}>
+				Please log in to view players. {error}
 			</div>
 		);
 
 	const objectWithId = data.find(
 		(obj: { _id: string }) => obj._id === prayerId
 	);
-
-	const componentSelector = (selection: String) => {
-		switch (selection) {
-			case "Details":
-				return <Details detail={objectWithId?.message || ""} />;
-			case "Edit":
-				return "";
-			case "Stats":
-				return (
-					<Stats
-						answered={objectWithId?.answered || null}
-						personal={objectWithId?.personal || null}
-						createdAt={objectWithId?.createdAt || ""}
-						prayedFor={objectWithId?.prayedFor || 0}
-						name={objectWithId?.name || ""}
-					/>
-				);
-			default:
-				console.log("You broke my app, C'mon!");
-		}
-	};
 
 	const handleBack = async () => {
 		// Redux store
@@ -114,6 +113,78 @@ export default function MyPrayerView({}: Props) {
 			</div>
 		);
 	};
+
+	const currentUserData = () =>
+		userData.filter((obj: { uid: string }) => {
+			// console.log(obj.uid, user.uid);
+			if (obj.uid === user.uid) return obj;
+		});
+
+	const uData = currentUserData();
+
+	const userPrayerCount = () => {
+		uData[0].prayerCounts.filter(
+			(userPCObj: { prayerId: string; count: number }) => {
+				if (userPCObj.prayerId === prayerId) {
+					displayNum = userPCObj.count;
+				}
+			}
+		);
+	};
+
+	const prayerBtnclicked = async () => {
+		if (prayerCounts > 0) {
+			console.log("You already prayed for this once.");
+			return;
+		}
+		setPrayerCounts(1);
+		console.log("displayNum", displayNum);
+		const userDBId = `?userId=${uData[0]._id}`;
+		const formData = {
+			prayerCounts: [{ prayerId: prayerId, count: 1 }],
+			addUndo: false,
+		};
+		await updateUserPrayerCount(userDBId, formData);
+		refetch();
+		userPrayerCount();
+	};
+
+	const undoBtnclicked = async () => {
+		setPrayerCounts(0);
+
+		const userDBId = `?userId=${uData[0]._id}`;
+		const formData = {
+			prayerCounts: [{ prayerId: prayerId, count: 1 }],
+			addUndo: true,
+		};
+
+		await updateUserPrayerCount(userDBId, formData);
+		refetch();
+		userPrayerCount();
+	};
+
+	const componentSelector = (selection: String) => {
+		switch (selection) {
+			case "Details":
+				return <Details detail={objectWithId?.message || ""} />;
+			case "Edit":
+				return "";
+			case "Stats":
+				userPrayerCount();
+				return (
+					<Stats
+						answered={objectWithId?.answered || null}
+						personal={objectWithId?.personal || null}
+						createdAt={objectWithId?.createdAt || ""}
+						displayNum={displayNum}
+						name={objectWithId?.name || ""}
+					/>
+				);
+			default:
+				console.log("You broke my app, C'mon!");
+		}
+	};
+
 	return (
 		<main className={styles.prayerMain}>
 			{/* Back arrow and pray button */}
@@ -121,9 +192,26 @@ export default function MyPrayerView({}: Props) {
 				<Button onClick={() => handleBack()} className={styles.backArrowBtn}>
 					<ArrowBackOutlinedIcon />
 				</Button>
-				<Button variant="contained" className={styles.prayBtn}>
-					<FaPray className={styles.prayBtnIcon} />
-				</Button>
+				{objectWithId?.answered ? (
+					<></>
+				) : prayerCounts > 0 ? (
+					<div className={cardStyles.undoContainer}>
+						<p>Prayed!</p>
+						<Button
+							onClick={undoBtnclicked}
+							variant="contained"
+							className={cardStyles.undoBtn}>
+							<ReplayIcon className={cardStyles.undoBtnIcon} />
+						</Button>
+					</div>
+				) : (
+					<Button
+						onClick={prayerBtnclicked}
+						variant="contained"
+						className={cardStyles.prayBtn}>
+						<FaPray className={cardStyles.prayBtnIcon} />
+					</Button>
+				)}
 			</div>
 			{/* Title */}
 			<h1 className={styles.title}>{objectWithId?.title || ""}</h1>
