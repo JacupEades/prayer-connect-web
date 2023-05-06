@@ -7,16 +7,18 @@ type Props = {
 	leastPrayed: any;
 	sortValue: string;
 	sortApplied: boolean;
+	selection: string;
 };
 
 export default function LeastPrayedFor({
 	leastPrayed,
 	sortValue,
 	sortApplied,
+	selection,
 }: Props) {
 	return (
 		<>
-			{sortApplied === false ||
+			{(sortApplied === false && selection !== "Private Prayers") ||
 			(sortApplied === true && sortValue === "leastPrayers") ? (
 				<>
 					{sortValue === "leastPrayers" ? (

@@ -12,21 +12,25 @@ import CheckIcon from "@mui/icons-material/Check";
 import customRadios from "@/styles/PrayerPage.module.css";
 
 type Props = {
+	selection: string;
 	fMenuOpen: boolean;
 	filterMenu: any;
 	setSortValue: any;
 	setWhoValue: any;
 	setNamedValue: any;
+	setAnsweredValue: any;
 	setSortApplied: any;
 	sortApplied: boolean;
 };
 
 export default function FilterDrawer({
+	selection,
 	fMenuOpen,
 	filterMenu,
 	setSortValue,
 	setWhoValue,
 	setNamedValue,
+	setAnsweredValue,
 	setSortApplied,
 	sortApplied,
 }: Props) {
@@ -36,14 +40,19 @@ export default function FilterDrawer({
 	// (Name given)
 	const [filterNoName, setFilterNoName] = useState(false);
 	const [filterNamed, setFilterNamed] = useState(false);
+	// (Answered on not given)
+	const [filterUnanswered, setFilterUnanswered] = useState(false);
+	const [filterAnswer, setFilterAnswer] = useState(false);
 	// Form Values
 	const [formSort, setFormSort] = useState("newest");
 	const [formWho, setFormWho] = useState("all");
 	const [formName, setFormName] = useState("both");
+	const [formAnsw, setFormAnsw] = useState("no filter");
 	const [formData, setFormData] = useState({
 		sort: "newest",
 		who: "all",
 		loctaion: "both",
+		answered: "no filter",
 	});
 
 	// Drawer utiliies
@@ -52,8 +61,9 @@ export default function FilterDrawer({
 			sort: formSort,
 			who: formWho,
 			loctaion: formName,
+			answered: formAnsw,
 		});
-	}, [formName, formWho, formSort]);
+	}, [formName, formWho, formSort, formAnsw]);
 
 	// Drawer Utilies
 	const handleSubmit = (e: any) => {
@@ -72,6 +82,7 @@ export default function FilterDrawer({
 		setSortValue(formData.sort);
 		setWhoValue(formData.who);
 		setNamedValue(formData.loctaion);
+		setAnsweredValue(formData.answered);
 		// Close drawer
 		filterMenu();
 		// console.log("formData: ", formData);
@@ -87,12 +98,15 @@ export default function FilterDrawer({
 		setFilterMine(false);
 		setFilterNamed(false);
 		setFilterNoName(false);
+		setFilterUnanswered(false);
+		setFilterAnswer(false);
 		// Default chips
 		setSortApplied(false);
 		// Parent state
 		setSortValue("newest");
 		setWhoValue("all");
 		setNamedValue("both");
+		setAnsweredValue("no filter");
 	};
 	const handleSort = (e: any) => {
 		e.preventDefault();
@@ -142,197 +156,384 @@ export default function FilterDrawer({
 		}
 	};
 
-	const noop = () => {};
+	const clickAns1 = () => {
+		if (filterUnanswered === true) {
+			setFilterUnanswered(false);
+			setFormAnsw("no filter");
+		} else {
+			setFilterUnanswered(true);
+			setFilterAnswer(false);
+			setFormAnsw("unanswered");
+		}
+	};
+	const clickAns2 = () => {
+		if (filterAnswer === true) {
+			setFilterAnswer(false);
+			setFormAnsw("no filter");
+		} else {
+			setFilterUnanswered(false);
+			setFilterAnswer(true);
+			setFormAnsw("answered");
+		}
+	};
 
+	const noop = () => {};
 	return (
-		<SwipeableDrawer
-			sx={{
-				"& .MuiDrawer-paper": {
-					boxShadow: "none",
-					bgcolor: "transparent",
-				},
-			}}
-			anchor="bottom"
-			open={fMenuOpen}
-			onOpen={() => filterMenu()}
-			onClose={() => filterMenu()}>
-			<form onSubmit={handleSubmit}>
-				<div className={headerStyles.swipeableDrawer}>
-					{/* Top portion */}
-					<div className={headerStyles.drawerTop}>
-						<Button onClick={resetSortFilters} className={headerStyles.topBtn}>
-							Reset
-						</Button>
-						<div className={headerStyles.blob}></div>
-						<Button type="submit" className={headerStyles.topBtn}>
-							Apply
-						</Button>
-					</div>
-					<div className={headerStyles.sortList}>
-						<h3>Sort</h3>
-						{/* New or Old */}
-						<FormControl className={headerStyles.formControl}>
-							<RadioGroup
-								aria-labelledby="sort-by-oldest-newest-or-prayers"
-								value={formSort}
-								onChange={handleSort}
-								name="sortAndFilter">
-								<div className={headerStyles.defaultTag}>
-									<FormControlLabel
-										value="newest"
-										control={
-											<Radio
-												sx={{
-													width: "48px",
-													height: "48px",
-													color: "var(--sys-light-on-surface-variant)",
-													"&.Mui-checked": {
-														color: "var(--sys-light-primary)",
-													},
-												}}
+		<>
+			{selection !== "Private Prayers" ? (
+				<SwipeableDrawer
+					sx={{
+						"& .MuiDrawer-paper": {
+							boxShadow: "none",
+							bgcolor: "transparent",
+						},
+					}}
+					anchor="bottom"
+					open={fMenuOpen}
+					onOpen={() => filterMenu()}
+					onClose={() => filterMenu()}>
+					<form onSubmit={handleSubmit}>
+						<div className={headerStyles.swipeableDrawer}>
+							{/* Top portion */}
+							<div className={headerStyles.drawerTop}>
+								<Button
+									onClick={resetSortFilters}
+									className={headerStyles.topBtn}>
+									Reset
+								</Button>
+								<div className={headerStyles.blob}></div>
+								<Button type="submit" className={headerStyles.topBtn}>
+									Apply
+								</Button>
+							</div>
+							<div className={headerStyles.sortList}>
+								<h3>Sort</h3>
+								{/* New or Old */}
+								<FormControl className={headerStyles.formControl}>
+									<RadioGroup
+										aria-labelledby="sort-by-oldest-newest-or-prayers"
+										value={formSort}
+										onChange={handleSort}
+										name="sortAndFilter">
+										<div className={headerStyles.defaultTag}>
+											<FormControlLabel
+												value="newest"
+												control={
+													<Radio
+														sx={{
+															width: "48px",
+															height: "48px",
+															color: "var(--sys-light-on-surface-variant)",
+															"&.Mui-checked": {
+																color: "var(--sys-light-primary)",
+															},
+														}}
+													/>
+												}
+												label="Newest First"
 											/>
-										}
-										label="Newest First"
+											<p>(Default)</p>
+										</div>
+										<FormControlLabel
+											value="oldest"
+											control={
+												<Radio
+													sx={{
+														width: "48px",
+														height: "48px",
+														color: "var(--sys-light-on-surface-variant)",
+														"&.Mui-checked": {
+															color: "var(--sys-light-primary)",
+														},
+													}}
+												/>
+											}
+											label="Oldest First"
+										/>
+										<FormControlLabel
+											value="mostPrayers"
+											control={
+												<Radio
+													// disabled
+													sx={{
+														width: "48px",
+														height: "48px",
+														color: "var(--sys-light-on-surface-variant)",
+														"&.Mui-checked": {
+															color: "var(--sys-light-primary)",
+														},
+													}}
+												/>
+											}
+											label="Most Prayed For (by me)"
+										/>
+										<FormControlLabel
+											value="leastPrayers"
+											control={
+												<Radio
+													// disabled
+													sx={{
+														width: "48px",
+														height: "48px",
+														color: "var(--sys-light-on-surface-variant)",
+														"&.Mui-checked": {
+															color: "var(--sys-light-primary)",
+														},
+													}}
+												/>
+											}
+											label="Least Prayed For (by me)"
+										/>
+									</RadioGroup>
+								</FormControl>
+							</div>
+							{/* Filter section */}
+							<div className={headerStyles.filterList}>
+								<h3>Filter</h3>
+								{/* whos */}
+								<div className={customRadios.radio}>
+									<input
+										type="radio"
+										name="who"
+										id="otherPrayers"
+										value="Others Prayers"
+										className={customRadios.radioInput}
+										checked={filterOther}
+										onClick={clickWho1}
+										onChange={() => noop()}
 									/>
-									<p>(Default)</p>
+									<label
+										htmlFor="otherPrayers"
+										className={customRadios.radioLabel}>
+										{filterOther === true ? (
+											<CheckIcon className={customRadios.toggleIcon} />
+										) : (
+											""
+										)}
+										Others&#39; Prayers
+									</label>
+									<input
+										type="radio"
+										name="who"
+										id="myPrayers"
+										value="My Prayers"
+										className={customRadios.radioInput}
+										checked={filterMine}
+										onClick={clickWho2}
+										onChange={() => noop()}
+									/>
+									<label
+										htmlFor="myPrayers"
+										className={customRadios.radioLabel}>
+										{filterMine === true ? (
+											<CheckIcon className={customRadios.toggleIcon} />
+										) : (
+											""
+										)}
+										My Prayers
+									</label>
 								</div>
-								<FormControlLabel
-									value="oldest"
-									control={
-										<Radio
-											sx={{
-												width: "48px",
-												height: "48px",
-												color: "var(--sys-light-on-surface-variant)",
-												"&.Mui-checked": {
-													color: "var(--sys-light-primary)",
-												},
-											}}
-										/>
-									}
-									label="Oldest First"
-								/>
-								<FormControlLabel
-									value="mostPrayers"
-									control={
-										<Radio
-											// disabled
-											sx={{
-												width: "48px",
-												height: "48px",
-												color: "var(--sys-light-on-surface-variant)",
-												"&.Mui-checked": {
-													color: "var(--sys-light-primary)",
-												},
-											}}
-										/>
-									}
-									label="Most Prayed For (by me)"
-								/>
-								<FormControlLabel
-									value="leastPrayers"
-									control={
-										<Radio
-											// disabled
-											sx={{
-												width: "48px",
-												height: "48px",
-												color: "var(--sys-light-on-surface-variant)",
-												"&.Mui-checked": {
-													color: "var(--sys-light-primary)",
-												},
-											}}
-										/>
-									}
-									label="Least Prayed For (by me)"
-								/>
-							</RadioGroup>
-						</FormControl>
-					</div>
-					{/* Filter section */}
-					<div className={headerStyles.filterList}>
-						<h3>Filter</h3>
-						{/* whos */}
-						<div className={customRadios.radio}>
-							<input
-								type="radio"
-								name="who"
-								id="otherPrayers"
-								value="Others Prayers"
-								className={customRadios.radioInput}
-								checked={filterOther}
-								onClick={clickWho1}
-								onChange={() => noop()}
-							/>
-							<label htmlFor="otherPrayers" className={customRadios.radioLabel}>
-								{filterOther === true ? (
-									<CheckIcon className={customRadios.toggleIcon} />
-								) : (
-									""
-								)}
-								Others&#39; Prayers
-							</label>
-							<input
-								type="radio"
-								name="who"
-								id="myPrayers"
-								value="My Prayers"
-								className={customRadios.radioInput}
-								checked={filterMine}
-								onClick={clickWho2}
-								onChange={() => noop()}
-							/>
-							<label htmlFor="myPrayers" className={customRadios.radioLabel}>
-								{filterMine === true ? (
-									<CheckIcon className={customRadios.toggleIcon} />
-								) : (
-									""
-								)}
-								My Prayers
-							</label>
+								{/* With name */}
+								<div className={customRadios.radio}>
+									<input
+										type="radio"
+										name="named"
+										id="anonymous"
+										value="noName"
+										className={customRadios.radioInput}
+										checked={filterNoName}
+										onClick={clickNamed1}
+										onChange={() => noop()}
+									/>
+									<label
+										htmlFor="anonymous"
+										className={customRadios.radioLabel}>
+										{filterNoName === true ? (
+											<CheckIcon className={customRadios.toggleIcon} />
+										) : (
+											""
+										)}
+										Anonymous
+									</label>
+									<input
+										type="radio"
+										name="named"
+										id="public"
+										value="public"
+										className={customRadios.radioInput}
+										checked={filterNamed}
+										onClick={clickNamed2}
+										onChange={() => noop()}
+									/>
+									<label htmlFor="public" className={customRadios.radioLabel}>
+										{filterNamed === true ? (
+											<CheckIcon className={customRadios.toggleIcon} />
+										) : (
+											""
+										)}
+										Public
+									</label>
+								</div>
+							</div>
 						</div>
-						{/* With name */}
-						<div className={customRadios.radio}>
-							<input
-								type="radio"
-								name="named"
-								id="anonymous"
-								value="noName"
-								className={customRadios.radioInput}
-								checked={filterNoName}
-								onClick={clickNamed1}
-								onChange={() => noop()}
-							/>
-							<label htmlFor="anonymous" className={customRadios.radioLabel}>
-								{filterNoName === true ? (
-									<CheckIcon className={customRadios.toggleIcon} />
-								) : (
-									""
-								)}
-								Anonymous
-							</label>
-							<input
-								type="radio"
-								name="named"
-								id="public"
-								value="public"
-								className={customRadios.radioInput}
-								checked={filterNamed}
-								onClick={clickNamed2}
-								onChange={() => noop()}
-							/>
-							<label htmlFor="public" className={customRadios.radioLabel}>
-								{filterNamed === true ? (
-									<CheckIcon className={customRadios.toggleIcon} />
-								) : (
-									""
-								)}
-								Public
-							</label>
+					</form>
+				</SwipeableDrawer>
+			) : (
+				<SwipeableDrawer
+					sx={{
+						"& .MuiDrawer-paper": {
+							boxShadow: "none",
+							bgcolor: "transparent",
+						},
+					}}
+					anchor="bottom"
+					open={fMenuOpen}
+					onOpen={() => filterMenu()}
+					onClose={() => filterMenu()}>
+					<form onSubmit={handleSubmit}>
+						<div className={headerStyles.swipeableDrawer}>
+							{/* Top portion */}
+							<div className={headerStyles.drawerTop}>
+								<Button
+									onClick={resetSortFilters}
+									className={headerStyles.topBtn}>
+									Reset
+								</Button>
+								<div className={headerStyles.blob}></div>
+								<Button type="submit" className={headerStyles.topBtn}>
+									Apply
+								</Button>
+							</div>
+							<div className={headerStyles.sortList}>
+								<h3>Sort</h3>
+								{/* New or Old */}
+								<FormControl className={headerStyles.formControl}>
+									<RadioGroup
+										aria-labelledby="sort-by-oldest-newest-or-prayers"
+										value={formSort}
+										onChange={handleSort}
+										name="sortAndFilter">
+										<div className={headerStyles.defaultTag}>
+											<FormControlLabel
+												value="newest"
+												control={
+													<Radio
+														sx={{
+															width: "48px",
+															height: "48px",
+															color: "var(--sys-light-on-surface-variant)",
+															"&.Mui-checked": {
+																color: "var(--sys-light-primary)",
+															},
+														}}
+													/>
+												}
+												label="Newest First"
+											/>
+											<p>(Default)</p>
+										</div>
+										<FormControlLabel
+											value="oldest"
+											control={
+												<Radio
+													sx={{
+														width: "48px",
+														height: "48px",
+														color: "var(--sys-light-on-surface-variant)",
+														"&.Mui-checked": {
+															color: "var(--sys-light-primary)",
+														},
+													}}
+												/>
+											}
+											label="Oldest First"
+										/>
+										<FormControlLabel
+											value="mostPrayers"
+											control={
+												<Radio
+													// disabled
+													sx={{
+														width: "48px",
+														height: "48px",
+														color: "var(--sys-light-on-surface-variant)",
+														"&.Mui-checked": {
+															color: "var(--sys-light-primary)",
+														},
+													}}
+												/>
+											}
+											label="Most Prayed For (by me)"
+										/>
+										<FormControlLabel
+											value="leastPrayers"
+											control={
+												<Radio
+													// disabled
+													sx={{
+														width: "48px",
+														height: "48px",
+														color: "var(--sys-light-on-surface-variant)",
+														"&.Mui-checked": {
+															color: "var(--sys-light-primary)",
+														},
+													}}
+												/>
+											}
+											label="Least Prayed For (by me)"
+										/>
+									</RadioGroup>
+								</FormControl>
+							</div>
+							{/* Filter section */}
+							<div className={headerStyles.filterList}>
+								<h3>Filter</h3>
+								{/* answered */}
+								<div className={customRadios.radio}>
+									<input
+										type="radio"
+										name="answer"
+										id="unanswered"
+										value="Unanswered"
+										className={customRadios.radioInput}
+										checked={filterUnanswered}
+										onClick={clickAns1}
+										onChange={() => noop()}
+									/>
+									<label
+										htmlFor="unanswered"
+										className={customRadios.radioLabel}>
+										{filterUnanswered === true ? (
+											<CheckIcon className={customRadios.toggleIcon} />
+										) : (
+											""
+										)}
+										Unaswered
+									</label>
+									<input
+										type="radio"
+										name="answer"
+										id="answered"
+										value="Answered"
+										className={customRadios.radioInput}
+										checked={filterAnswer}
+										onClick={clickAns2}
+										onChange={() => noop()}
+									/>
+									<label htmlFor="answered" className={customRadios.radioLabel}>
+										{filterAnswer === true ? (
+											<CheckIcon className={customRadios.toggleIcon} />
+										) : (
+											""
+										)}
+										Answered
+									</label>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-			</form>
-		</SwipeableDrawer>
+					</form>
+				</SwipeableDrawer>
+			)}
+		</>
 	);
 }

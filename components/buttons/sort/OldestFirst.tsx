@@ -7,16 +7,18 @@ type Props = {
 	oldFirst: any;
 	sortValue: string;
 	sortApplied: boolean;
+	selection: string;
 };
 
 export default function OldestFirst({
 	oldFirst,
 	sortValue,
 	sortApplied,
+	selection,
 }: Props) {
 	return (
 		<>
-			{sortApplied === false ||
+			{(sortApplied === false && selection !== "Private Prayers") ||
 			(sortApplied === true && sortValue === "oldest") ? (
 				<>
 					{sortValue === "oldest" ? (

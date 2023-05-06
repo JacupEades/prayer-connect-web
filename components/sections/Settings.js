@@ -40,6 +40,7 @@ export default function Settings() {
 
 	return (
 		<main className={styles.main}>
+			<div className={styles.helloText}>Hello, {user.name}</div>
 			<SettingsNavCard
 				icon={<NotificationsOutlinedIcon />}
 				text={"Prayer Reminder"}
@@ -56,7 +57,7 @@ export default function Settings() {
 
 			<SettingsNavCard
 				icon={<EmailOutlinedIcon />}
-				text={"Prayer Reminder"}
+				text={"Help & Info"}
 				route={"/home/settings/support"}
 			/>
 			<div className={stylesLogin.loginBtnContainer}>

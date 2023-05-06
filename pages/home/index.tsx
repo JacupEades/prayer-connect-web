@@ -20,20 +20,23 @@ export default function HomePage({}: Props) {
 	// Filter Values
 	const [whoValue, setWhoValue] = useState("all");
 	const [namedValue, setNamedValue] = useState("both");
+	const [answeredValue, setAnsweredValue] = useState("no filter");
 
 	// Usefull for checking the filter states
-	// useEffect(() => {
-	// 	console.log(
-	// 		"sortApplied:",
-	// 		sortApplied,
-	// 		"sortValue:",
-	// 		sortValue,
-	// 		"whoValue:",
-	// 		whoValue,
-	// 		"namedValue:",
-	// 		namedValue
-	// 	);
-	// }, [namedValue, sortApplied, sortValue, whoValue]);
+	useEffect(() => {
+		console.log(
+			"sortApplied:",
+			sortApplied,
+			"sortValue:",
+			sortValue,
+			"whoValue:",
+			whoValue,
+			"namedValue:",
+			namedValue,
+			"answeredValue:",
+			answeredValue
+		);
+	}, [namedValue, sortApplied, sortValue, whoValue, answeredValue]);
 
 	// functions for the Header
 	const filterMenu = () => {
@@ -155,6 +158,28 @@ export default function HomePage({}: Props) {
 			setSortApplied(true);
 		}
 	};
+	const unansweredChip = () => {
+		if (answeredValue === "unanswered") {
+			setAnsweredValue("no filter");
+			setSortApplied(false);
+		} else if (answeredValue === "unanswered") {
+			setAnsweredValue("unanswered");
+		} else {
+			setAnsweredValue("unanswered");
+			setSortApplied(true);
+		}
+	};
+	const answeredChip = () => {
+		if (answeredValue === "answered") {
+			setAnsweredValue("no filter");
+			setSortApplied(false);
+		} else if (answeredValue === "answered") {
+			setAnsweredValue("answered");
+		} else {
+			setAnsweredValue("answered");
+			setSortApplied(true);
+		}
+	};
 
 	const componentSelector = () => {
 		switch (selection) {
@@ -167,9 +192,17 @@ export default function HomePage({}: Props) {
 					/>
 				);
 			case "Private Prayers":
-				return <PrivatePrayers />;
+				return (
+					<PrivatePrayers sortValue={sortValue} answeredValue={answeredValue} />
+				);
 			case "Answered Prayers":
-				return <Answered />;
+				return (
+					<Answered
+						sortValue={sortValue}
+						whoValue={whoValue}
+						namedValue={namedValue}
+					/>
+				);
 			case "Settings":
 				return <Settings />;
 			default:
@@ -195,22 +228,27 @@ export default function HomePage({}: Props) {
 				mineChip={mineChip}
 				anonChip={anonChip}
 				publicChip={publicChip}
+				answeredChip={answeredChip}
+				unansweredChip={unansweredChip}
 				// other
 				selection={selection}
 				sortValue={sortValue}
 				whoValue={whoValue}
 				namedValue={namedValue}
+				answeredValue={answeredValue}
 				sortApplied={sortApplied}
 			/>
 			{componentSelector()}
 			<Navigation selectString={selectCall} selection={selection} />
 			{/* Sort/Filter Drawer */}
 			<FilterDrawer
+				selection={selection}
 				fMenuOpen={fMenuOpen}
 				filterMenu={filterMenu}
 				setSortValue={setSortValue}
 				setWhoValue={setWhoValue}
 				setNamedValue={setNamedValue}
+				setAnsweredValue={setAnsweredValue}
 				setSortApplied={setSortApplied}
 				sortApplied={sortApplied}
 			/>

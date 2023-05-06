@@ -4,8 +4,12 @@
 	width: 100%;
 	min-height: 100vh;
 
-	margin: 5.5rem auto 0 auto;
+	margin: 4.75rem auto 0 auto;
 	padding: 0 0.825rem 10rem 0.75rem;
+}
+.helloText {
+	color: var(--sys-light-on-surface);
+	margin-bottom: 1.25rem;
 }
 .settingsBtnContainer {
 	display: flex;

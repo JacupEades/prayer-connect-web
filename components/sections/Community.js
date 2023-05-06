@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/Community.module.css";
 import { getPrayers, getPrayer } from "@/lib/prayerHelper";
 import { getUsers } from "@/lib/userHelper";
@@ -46,11 +46,6 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 				Please log in to view players. {error}
 			</div>
 		);
-	const currentUserData = () =>
-		userData.filter((obj) => {
-			// console.log(obj.uid, user.uid);
-			if (obj.uid === user.uid) return obj;
-		});
 
 	const handleCardClick = async (_id) => {
 		try {
@@ -68,6 +63,27 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 		}
 	};
 
+	const currentUserData = () =>
+		userData.filter((obj) => {
+			// console.log(obj.uid, user.uid);
+			if (obj.uid === user.uid) return obj;
+		});
+	const uData = currentUserData();
+
+	// Create a new array with objects that have both _id and count properties
+	const sortedData = data.map((pObj) => {
+		const countObj = uData[0].prayerCounts.find(
+			(uObj) => uObj.prayerId === pObj._id
+		);
+		return {
+			_id: pObj._id,
+			count: countObj ? countObj.count : 0, // Set count to 0 if not found in uData
+		};
+	});
+
+	// Sort the sortedData array by count
+	sortedData.sort((a, b) => b.count - a.count);
+
 	return (
 		<>
 			<section className={styles.masterContainer}>
@@ -77,11 +93,24 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 				{/* Card Section */}
 				<div className={styles.cardSection}>
 					{data
-						.sort((a, b) =>
-							sortValue !== "oldest"
-								? new Date(b.createdAt) - new Date(a.createdAt)
-								: new Date(a.createdAt) - new Date(b.createdAt)
-						)
+						.sort((a, b) => {
+							let indexA = 0;
+							let indexB = 0;
+							switch (sortValue) {
+								case "oldest":
+									return new Date(a.createdAt) - new Date(b.createdAt);
+								case "mostPrayers":
+									indexA = sortedData.findIndex((obj) => obj._id === a._id);
+									indexB = sortedData.findIndex((obj) => obj._id === b._id);
+									return indexA - indexB;
+								case "leastPrayers":
+									indexA = sortedData.findIndex((obj) => obj._id === a._id);
+									indexB = sortedData.findIndex((obj) => obj._id === b._id);
+									return indexB - indexA;
+								default:
+									return new Date(b.createdAt) - new Date(a.createdAt);
+							}
+						})
 						.filter((obj) => {
 							const tabDefault =
 								obj.answered === false && obj.personal === false;
@@ -136,11 +165,6 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 										return obj;
 									}
 							}
-
-							// Backup no filters
-							// if (obj.answered === false && obj.personal === false) {
-							// 	return obj;
-							// }
 						})
 						.map((obj, i) => {
 							const createdAt = obj.createdAt;
@@ -151,7 +175,6 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 							let displayNum = 0;
 
 							const userPrayerCount = () => {
-								// console.log(uData[0].prayerCounts[0].count);
 								uData[0].prayerCounts.filter((userPCObj) => {
 									if (userPCObj.prayerId === obj._id) {
 										displayNum = userPCObj.count;
