@@ -62,11 +62,11 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 			console.log(error);
 		}
 	};
-
+	console.log("useQuery userData:", userData);
 	const currentUserData = userData.filter((obj) => {
 		if (obj.uid === user.uid) return obj;
 	});
-	console.log(currentUserData);
+	console.log("currentUserData", currentUserData);
 
 	const sortedData = data.map((pObj) => {
 		const countObj =
