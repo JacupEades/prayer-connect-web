@@ -63,17 +63,17 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 		}
 	};
 
-	const currentUserData = () =>
-		userData.filter((obj) => {
-			if (obj.uid === user.uid) return obj;
-		});
-	const uData = currentUserData();
+	const currentUserData = userData.filter((obj) => {
+		if (obj.uid === user.uid) return obj;
+	});
+	console.log(currentUserData);
 
 	const sortedData = data.map((pObj) => {
-		console.log("uData:", uData);
 		const countObj =
-			uData.length > 0
-				? uData[0].prayerCounts.find((uObj) => uObj.prayerId === pObj._id)
+			currentUserData.length > 0
+				? currentUserData[0].prayerCounts.find(
+						(uObj) => uObj.prayerId === pObj._id
+				  )
 				: 0;
 		return {
 			_id: pObj._id,
@@ -171,13 +171,12 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 							const createdAt = obj.createdAt;
 							const momentCreatedAt = moment(createdAt);
 							const daysAgo = moment().diff(momentCreatedAt, "days");
-							const uData = currentUserData();
 							const currentCount = prayerCounts[obj._id] || 0;
 							let displayNum = 0;
 
 							const userPrayerCount = () => {
-								uData.length > 0
-									? uData[0].prayerCounts.filter((userPCObj) => {
+								currentUserData.length > 0
+									? currentUserData[0].prayerCounts.filter((userPCObj) => {
 											if (userPCObj.prayerId === obj._id) {
 												displayNum = userPCObj.count;
 											}
@@ -197,7 +196,7 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 								});
 
 								userPrayerCount();
-								const userDBId = `?userId=${uData[0]._id}`;
+								const userDBId = `?userId=${currentUserData[0]._id}`;
 								const formData = {
 									prayerCounts: [{ prayerId: obj._id, count: 1 }],
 									addUndo: false,
@@ -215,7 +214,7 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 								});
 
 								userPrayerCount();
-								const userDBId = `?userId=${uData[0]._id}`;
+								const userDBId = `?userId=${currentUserData[0]._id}`;
 								const formData = {
 									prayerCounts: [{ prayerId: obj._id, count: 1 }],
 									addUndo: true,
