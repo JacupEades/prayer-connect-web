@@ -65,19 +65,19 @@ export default function Answered({ sortValue, whoValue, namedValue }) {
 
 	const currentUserData = () =>
 		userData.filter((obj) => {
-			// console.log(obj.uid, user.uid);
 			if (obj.uid === user.uid) return obj;
 		});
 	const uData = currentUserData();
 
-	// Create a new array with objects that have both _id and count properties
 	const sortedData = data.map((pObj) => {
-		const countObj = uData[0].prayerCounts.find(
-			(uObj) => uObj.prayerId === pObj._id
-		);
+		console.log("uData:", uData);
+		const countObj =
+			uData.length > 0
+				? uData[0].prayerCounts.find((uObj) => uObj.prayerId === pObj._id)
+				: 0;
 		return {
 			_id: pObj._id,
-			count: countObj ? countObj.count : 0, // Set count to 0 if not found in uData
+			count: countObj ? countObj.count : 0,
 		};
 	});
 
@@ -174,54 +174,14 @@ export default function Answered({ sortValue, whoValue, namedValue }) {
 							let displayNum = 0;
 
 							const userPrayerCount = () => {
-								// console.log(uData[0].prayerCounts[0].count);
-								uData[0].prayerCounts.filter((userPCObj) => {
-									if (userPCObj.prayerId === obj._id) {
-										displayNum = userPCObj.count;
-									}
-								});
+								uData.length > 0
+									? uData[0].prayerCounts.filter((userPCObj) => {
+											if (userPCObj.prayerId === obj._id) {
+												displayNum = userPCObj.count;
+											}
+									  })
+									: (displayNum = 0);
 							};
-
-							const prayerBtnclicked = async (e) => {
-								e.stopPropagation();
-								if (currentCount > 0) {
-									console.log("You already prayed for this once.");
-									return;
-								}
-								setPrayerCounts({
-									...prayerCounts,
-									[obj._id]: currentCount + 1,
-								});
-
-								userPrayerCount();
-								const userDBId = `?userId=${uData[0]._id}`;
-								const formData = {
-									prayerCounts: [{ prayerId: obj._id, count: 1 }],
-									addUndo: false,
-								};
-
-								await updateUserPrayerCount(userDBId, formData);
-								refetch();
-							};
-							const undoBtnclicked = async (e) => {
-								e.stopPropagation();
-
-								setPrayerCounts({
-									...prayerCounts,
-									[obj._id]: 0,
-								});
-
-								userPrayerCount();
-								const userDBId = `?userId=${uData[0]._id}`;
-								const formData = {
-									prayerCounts: [{ prayerId: obj._id, count: 1 }],
-									addUndo: true,
-								};
-
-								await updateUserPrayerCount(userDBId, formData);
-								refetch();
-							};
-
 							// update the card pray count on render
 							userPrayerCount();
 

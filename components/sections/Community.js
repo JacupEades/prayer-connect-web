@@ -65,12 +65,10 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 
 	const currentUserData = () =>
 		userData.filter((obj) => {
-			// console.log(obj.uid, user.uid);
 			if (obj.uid === user.uid) return obj;
 		});
 	const uData = currentUserData();
 
-	// Create a new array with objects that have both _id and count properties
 	const sortedData = data.map((pObj) => {
 		console.log("uData:", uData);
 		const countObj =
@@ -79,7 +77,7 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 				: 0;
 		return {
 			_id: pObj._id,
-			count: countObj ? countObj.count : 0, // Set count to 0 if not found in uData
+			count: countObj ? countObj.count : 0,
 		};
 	});
 	console.log("sortedData:", sortedData);

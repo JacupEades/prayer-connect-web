@@ -70,9 +70,10 @@ export default function PrivatePrayers({ sortValue, answeredValue }) {
 
 	// Create a new array with objects that have both _id and count properties
 	const sortedData = data.map((pObj) => {
-		const countObj = uData[0].prayerCounts.find(
-			(uObj) => uObj.prayerId === pObj._id
-		);
+		const countObj =
+			uData.length > 0
+				? uData[0].prayerCounts.find((uObj) => uObj.prayerId === pObj._id)
+				: 0;
 		return {
 			_id: pObj._id,
 			count: countObj ? countObj.count : 0, // Set count to 0 if not found in uData
@@ -135,12 +136,13 @@ export default function PrivatePrayers({ sortValue, answeredValue }) {
 							let displayNum = 0;
 
 							const userPrayerCount = () => {
-								// console.log(uData[0].prayerCounts[0].count);
-								uData[0].prayerCounts.filter((userPCObj) => {
-									if (userPCObj.prayerId === obj._id) {
-										displayNum = userPCObj.count;
-									}
-								});
+								uData.length > 0
+									? uData[0].prayerCounts.filter((userPCObj) => {
+											if (userPCObj.prayerId === obj._id) {
+												displayNum = userPCObj.count;
+											}
+									  })
+									: (displayNum = 0);
 							};
 
 							const prayerBtnclicked = async (e) => {
