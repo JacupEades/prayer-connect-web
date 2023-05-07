@@ -12,6 +12,7 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
 import { updateUserPrayerCount } from "../../lib/userHelper";
+import { toast } from "react-toastify";
 
 export default function Community({ sortValue, whoValue, namedValue }) {
 	const [prayerCounts, setPrayerCounts] = useState({});
@@ -62,11 +63,19 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 			console.log(error);
 		}
 	};
-	console.log("useQuery userData:", userData);
+
 	const currentUserData = userData.filter((obj) => {
-		if (obj.uid === user.uid) return obj;
+		if (obj.uid === user.uid) {
+			return obj;
+		} else {
+			console.log(
+				"Email was used in development and DB does not match the current user ID."
+			);
+			toast.error(
+				"Email was used in development and DB does not match the current user ID."
+			);
+		}
 	});
-	console.log("currentUserData", currentUserData);
 
 	const sortedData = data.map((pObj) => {
 		const countObj =
@@ -80,7 +89,6 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 			count: countObj ? countObj.count : 0,
 		};
 	});
-	console.log("sortedData:", sortedData);
 
 	// Sort the sortedData array by count
 	sortedData.sort((a, b) => b.count - a.count);
