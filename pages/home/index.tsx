@@ -23,20 +23,20 @@ export default function HomePage({}: Props) {
 	const [answeredValue, setAnsweredValue] = useState("no filter");
 
 	// Usefull for checking the filter states
-	useEffect(() => {
-		console.log(
-			"sortApplied:",
-			sortApplied,
-			"sortValue:",
-			sortValue,
-			"whoValue:",
-			whoValue,
-			"namedValue:",
-			namedValue,
-			"answeredValue:",
-			answeredValue
-		);
-	}, [namedValue, sortApplied, sortValue, whoValue, answeredValue]);
+	// useEffect(() => {
+	// 	console.log(
+	// 		"sortApplied:",
+	// 		sortApplied,
+	// 		"sortValue:",
+	// 		sortValue,
+	// 		"whoValue:",
+	// 		whoValue,
+	// 		"namedValue:",
+	// 		namedValue,
+	// 		"answeredValue:",
+	// 		answeredValue
+	// 	);
+	// }, [namedValue, sortApplied, sortValue, whoValue, answeredValue]);
 
 	// functions for the Header
 	const filterMenu = () => {
