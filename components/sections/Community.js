@@ -204,6 +204,7 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 									prayerCounts: [{ prayerId: obj._id, count: 1 }],
 									addUndo: false,
 									updated: currentDate,
+									putType: "prayerCount",
 								};
 
 								await updateUserPrayerCount(userDBId, formData);
@@ -223,6 +224,7 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 									prayerCounts: [{ prayerId: obj._id, count: 1 }],
 									addUndo: true,
 									updated: currentDate,
+									putType: "prayerCount",
 								};
 
 								await updateUserPrayerCount(userDBId, formData);

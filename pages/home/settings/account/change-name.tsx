@@ -8,6 +8,8 @@ import { updateProfile } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { userLoggedIn } from "@/redux/slices/userSlice";
+import { getUsers, updateUserPrayerCount } from "@/lib/userHelper";
+import { useQuery } from "react-query";
 
 type Props = {};
 
@@ -22,7 +24,6 @@ export default function ChangeName({}: Props) {
 
 	useEffect(() => {
 		setNameLoaded(true);
-		console.log(nameLoaded);
 	}, [name, nameLoaded]);
 
 	useEffect(() => {
@@ -35,6 +36,40 @@ export default function ChangeName({}: Props) {
 			backgroundColor: "var(--disable-light-primary)",
 		},
 	}));
+
+	const {
+		error,
+		data: userData,
+		isLoading: userLoading,
+		isError: userIsError,
+	} = useQuery("users", getUsers);
+
+	if (userLoading)
+		return <div className={styles.loadingOrError}>Prayers are Loading...</div>;
+	if (userIsError)
+		return <div className={styles.loadingOrError}>User being loaded error</div>;
+	if (user.uid === "")
+		return (
+			<div className={styles.loadingOrError}>Please log in again. {error}</div>
+		);
+
+	const currentUserData = userData.filter((obj: { uid: String }) => {
+		if (obj.uid === user.uid) {
+			console.log("obj.uid === user.uid", obj);
+			return obj;
+		} else {
+			return obj;
+		}
+	});
+
+	const prayerBtnclicked = async () => {
+		const userDBId = `?userId=${currentUserData[0]._id}`;
+		const formData = {
+			putType: "displayName",
+		};
+
+		await updateUserPrayerCount(userDBId, formData);
+	};
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
@@ -52,6 +87,16 @@ export default function ChangeName({}: Props) {
 						})
 					);
 					// update Database
+					const userDBId = `?userId=${currentUserData[0]._id}`;
+					const formData = {
+						prayerCounts: [{ prayerId: "", count: 0 }],
+						addUndo: false,
+						updated: "",
+						putType: "displayName",
+						newDisplayName: name,
+					};
+
+					updateUserPrayerCount(userDBId, formData);
 				})
 				.then(() => {
 					toast.success("Name changed");

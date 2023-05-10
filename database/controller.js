@@ -124,6 +124,7 @@ export async function deletePrayer(req, res) {
 export async function putUsers(req, res) {
 	try {
 		const { userId } = req.query;
+		console.log("req.query", req.query);
 		const formData = req.body;
 		// Validation
 		if (!userId || !formData) {
@@ -135,51 +136,65 @@ export async function putUsers(req, res) {
 		const checkOldCounts = await Users.findById(userId);
 		const [{ prayerId }] = formData.prayerCounts;
 		const updatedDate = formData.updated;
+		const putType = formData.putType;
+		const newDisplayName = formData.newDisplayName;
 
-		console.log("formData.updated:", formData);
+		console.log("formData.putType:", formData.putType);
 
-		const oldCountBObj = checkOldCounts.prayerCounts.find(
-			(obj) => obj.prayerId === prayerId
-		);
+		switch (putType) {
+			case "prayerCount":
+				const oldCountBObj = checkOldCounts.prayerCounts.find(
+					(obj) => obj.prayerId === prayerId
+				);
 
-		let updatedPrayerCount;
-		if (oldCountBObj === undefined && formData.addUndo === false) {
-			console.log("updatedPrayerCount 1 update user");
-			updatedPrayerCount = await Users.findByIdAndUpdate(
-				userId,
-				{ $push: formData },
-				{ new: true }
-			);
-		} else if (formData.addUndo === true) {
-			console.log("updatedPrayerCount 2 undo 1");
-			updatedPrayerCount = await Users.findByIdAndUpdate(
-				userId,
-				{
-					$inc: { "prayerCounts.$[elem].count": -1 },
-					$set: { "prayerCounts.$[elem].updated": updatedDate },
-				},
-				{
-					arrayFilters: [{ "elem.prayerId": prayerId }],
-					new: true,
-					returnOriginal: false,
+				let updatedPrayerCount;
+				if (oldCountBObj === undefined && formData.addUndo === false) {
+					console.log("updatedPrayerCount 1 update user");
+					updatedPrayerCount = await Users.findByIdAndUpdate(
+						userId,
+						{ $push: formData },
+						{ new: true }
+					);
+				} else if (formData.addUndo === true) {
+					console.log("updatedPrayerCount 2 undo 1");
+					updatedPrayerCount = await Users.findByIdAndUpdate(
+						userId,
+						{
+							$inc: { "prayerCounts.$[elem].count": -1 },
+							$set: { "prayerCounts.$[elem].updated": updatedDate },
+						},
+						{
+							arrayFilters: [{ "elem.prayerId": prayerId }],
+							new: true,
+							returnOriginal: false,
+						}
+					);
+				} else {
+					console.log("updatedPrayerCount 3 add 1");
+					updatedPrayerCount = await Users.findByIdAndUpdate(
+						userId,
+						{
+							$inc: { "prayerCounts.$[elem].count": 1 },
+							$set: { "prayerCounts.$[elem].updated": updatedDate },
+						},
+						{
+							arrayFilters: [{ "elem.prayerId": prayerId }],
+							new: true,
+							returnOriginal: false,
+						}
+					);
 				}
-			);
-		} else {
-			console.log("updatedPrayerCount 3 add 1");
-			updatedPrayerCount = await Users.findByIdAndUpdate(
-				userId,
-				{
-					$inc: { "prayerCounts.$[elem].count": 1 },
-					$set: { "prayerCounts.$[elem].updated": updatedDate },
-				},
-				{
-					arrayFilters: [{ "elem.prayerId": prayerId }],
-					new: true,
-					returnOriginal: false,
-				}
-			);
+				return res.status(200).json(updatedPrayerCount);
+			case "displayName":
+				console.log("updatedUserName 1 to:", newDisplayName);
+				updatedUserName = await Users.findByIdAndUpdate(userId, {
+					$set: { name: newDisplayName },
+				});
+				return res.status(200).json(updatedUserName);
+			default:
+				console.log("Error In putType selection: ", putType);
+				console.log("formData.putType:", formData.putType);
 		}
-		return res.status(200).json(updatedPrayerCount);
 	} catch (error) {
 		return res.status(404).json({ error: "Error while updating the data." });
 	}

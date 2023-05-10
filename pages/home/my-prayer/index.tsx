@@ -157,6 +157,7 @@ export default function MyPrayerView({}: Props) {
 			prayerCounts: [{ prayerId: prayerId, count: 1 }],
 			addUndo: false,
 			updated: currentDate,
+			putType: "prayerCount",
 		};
 		await updateUserPrayerCount(userDBId, formData);
 		refetch();
@@ -172,6 +173,7 @@ export default function MyPrayerView({}: Props) {
 			prayerCounts: [{ prayerId: prayerId, count: 1 }],
 			addUndo: true,
 			updated: currentDate,
+			putType: "prayerCount",
 		};
 
 		await updateUserPrayerCount(userDBId, formData);

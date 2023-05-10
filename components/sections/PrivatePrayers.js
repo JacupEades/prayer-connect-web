@@ -21,6 +21,7 @@ export default function PrivatePrayers({ sortValue, answeredValue }) {
 	}));
 	const dispatch = useDispatch();
 	const router = useRouter();
+	const currentDate = new Date().toISOString();
 
 	const { isLoading, isError, data, error } = useQuery("prayers", getPrayers);
 	const {
@@ -159,6 +160,8 @@ export default function PrivatePrayers({ sortValue, answeredValue }) {
 					const formData = {
 						prayerCounts: [{ prayerId: obj._id, count: 1 }],
 						addUndo: false,
+						updated: currentDate,
+						putType: "prayerCount",
 					};
 
 					await updateUserPrayerCount(userDBId, formData);
@@ -177,6 +180,8 @@ export default function PrivatePrayers({ sortValue, answeredValue }) {
 					const formData = {
 						prayerCounts: [{ prayerId: obj._id, count: 1 }],
 						addUndo: true,
+						updated: currentDate,
+						putType: "prayerCount",
 					};
 
 					await updateUserPrayerCount(userDBId, formData);
