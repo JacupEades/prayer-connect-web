@@ -247,15 +247,15 @@ export default function Answered({ sortValue, whoValue, namedValue }) {
 	return (
 		<>
 			<section className={styles.masterContainer}>
+				{dataNull() ? (
+					<NoPrayersYet />
+				) : (
+					<p className={styles.masterContainerP}>
+						Praise report for all God&apos;s answered prayers and blessings
+					</p>
+				)}
 				{/* Card Section */}
 				<div className={styles.cardSection}>
-					{dataNull() ? (
-						<NoPrayersYet />
-					) : (
-						<p className={styles.masterContainerP}>
-							Praise report for all God&apos;s answered prayers and blessings
-						</p>
-					)}
 					<CardsData />
 				</div>
 			</section>

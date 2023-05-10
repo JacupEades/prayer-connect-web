@@ -272,19 +272,19 @@ export default function PrivatePrayers({ sortValue, answeredValue }) {
 	return (
 		<>
 			<section className={styles.masterContainer}>
+				{data
+					.filter((obj) => {
+						if (obj.personal === true && obj.userId === user.uid) {
+							return obj;
+						}
+					})
+					.map((x) => x).length === 0 ? (
+					<NoPrayersYet />
+				) : (
+					<p className={styles.masterContainerP}>Prayers only you can see.</p>
+				)}
 				{/* Card Section */}
 				<div className={styles.cardSection}>
-					{data
-						.filter((obj) => {
-							if (obj.personal === true && obj.userId === user.uid) {
-								return obj;
-							}
-						})
-						.map((x) => x).length === 0 ? (
-						<NoPrayersYet />
-					) : (
-						<p className={styles.masterContainerP}>Prayers only you can see.</p>
-					)}
 					<CardsData />
 				</div>
 			</section>

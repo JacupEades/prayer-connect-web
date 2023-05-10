@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styles from "@/styles/Login.module.css";
-import { Button, OutlinedInput } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -91,20 +91,24 @@ export default function LoginForm() {
 
 	return (
 		<form onSubmit={handleSubmit} className={styles.formInputContainer}>
-			<OutlinedInput
+			<TextField
+				label={email !== "" ? "Email" : ""}
 				id="emailInput"
 				placeholder="Email"
 				className={styles.formInputField}
 				type="email"
 				value={email}
 				onChange={(text) => setEmail(text.target.value)}
-				startAdornment={
-					<InputAdornment position="start">
-						<EmailOutlinedIcon className={styles.formInputIcon} />
-					</InputAdornment>
-				}
+				InputProps={{
+					startAdornment: (
+						<InputAdornment position="start">
+							<EmailOutlinedIcon className={styles.formInputIcon} />
+						</InputAdornment>
+					),
+				}}
 			/>
-			<OutlinedInput
+			<TextField
+				label={password !== "" ? "Password" : ""}
 				id="passwordInput"
 				placeholder="Password"
 				className={styles.formInputField}
@@ -112,11 +116,13 @@ export default function LoginForm() {
 				value={password}
 				onChange={(text) => setPassword(text.target.value)}
 				autoComplete="newPassword"
-				startAdornment={
-					<InputAdornment position="start">
-						<LockOutlinedIcon className={styles.formInputIcon} />
-					</InputAdornment>
-				}
+				InputProps={{
+					startAdornment: (
+						<InputAdornment position="start">
+							<LockOutlinedIcon className={styles.formInputIcon} />
+						</InputAdornment>
+					),
+				}}
 			/>
 			<Button type="submit" className={styles.startBtn}>
 				Log in
