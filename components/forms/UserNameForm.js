@@ -2,15 +2,9 @@ import React, { useState, useEffect } from "react";
 import styles from "@/styles/Login.module.css";
 import { Button, OutlinedInput } from "@mui/material";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import InputAdornment from "@mui/material/InputAdornment";
 import { auth } from "../../firebase/firebaseApp";
-import {
-	createUserWithEmailAndPassword,
-	updateProfile,
-	onAuthStateChanged,
-} from "firebase/auth";
+import { updateProfile, onAuthStateChanged } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";

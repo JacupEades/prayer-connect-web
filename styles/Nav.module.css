@@ -39,6 +39,31 @@
 .addBtnIcon.addBtnIcon {
 	font-size: 1.5rem;
 }
+.addBtnAlt.addBtnAlt {
+	position: absolute;
+	top: -2.25rem;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	border-radius: 12px;
+	padding: 0.5rem;
+	min-width: 0;
+	width: 2.5rem;
+	height: 2.5rem;
+
+	background-color: var(--sys-light-primary);
+	color: var(--sys-light-on-primary);
+	box-shadow: 0px 4px 8px 3px rgba(0, 0, 0, 0.15),
+		0px 1px 3px rgba(0, 0, 0, 0.3);
+}
+.addBtnAlt.addBtnAlt:hover {
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	background-color: var(--sl-light-on-primary);
+}
+.addBtnIconAlt.addBtnIconAlt {
+	font-size: 1.5rem;
+}
 .navMainMasterContainer.navMainMasterContainer {
 	display: flex;
 	justify-content: space-between;

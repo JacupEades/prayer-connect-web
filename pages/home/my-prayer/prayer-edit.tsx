@@ -167,8 +167,10 @@ export default function NewPrayer({}: Props) {
 		<main className={styles.prayerMain}>
 			{deletePopup ? (
 				<DeleteConfirm
+					deletePopup={deletePopup}
 					deleteConfirmed={deleteConfirmed}
 					setDeletePopup={setDeletePopup}
+					deleteWhat="Prayer"
 				/>
 			) : (
 				""
@@ -179,7 +181,7 @@ export default function NewPrayer({}: Props) {
 					<Button onClick={() => router.back()} className={styles.optionBtn}>
 						Cancel
 					</Button>
-					<Button type="submit" className={styles.optionBtn}>
+					<Button type="submit" className={styles.saveBtn}>
 						Save
 					</Button>
 				</div>

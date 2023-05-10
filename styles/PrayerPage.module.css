@@ -134,19 +134,50 @@
 	width: fit-content;
 	padding: 0.625rem 1.5rem;
 	border-radius: 999px;
-	color: var(--sys-light-primary);
-}
-.optionBtn.optionBtn:nth-child(2) {
 	color: var(--sys-light-on-secondary-container);
 	background-color: var(--sys-light-secondary-container);
 }
 .optionBtn.optionBtn:hover {
 	transition: all 0.25s;
-	background-color: var(--sys-light-secondary-container);
-}
-.optionBtn.optionBtn:nth-child(2):hover {
-	transition: all 0.25s;
 	background-color: var(--sl-light-on-secondary);
+}
+.saveBtn.saveBtn {
+	font-family: "Source Sans Pro", sans-serif;
+	font-size: 0.875rem;
+	font-weight: 600;
+	text-transform: none;
+	height: 2.5rem;
+	min-width: none;
+	width: fit-content;
+	padding: 0.625rem 1.5rem;
+	border-radius: 999px;
+	color: var(--sys-light-on-primary);
+	background-color: var(--sys-light-primary);
+}
+.saveBtn.saveBtn:hover {
+	transition: all 0.25s;
+	background-color: var(--sl-light-on-primary);
+}
+.optionBtnPublish.optionBtnPublish {
+	font-family: "Source Sans Pro", sans-serif;
+	font-size: 0.875rem;
+	font-weight: 600;
+	text-transform: none;
+	height: 2.5rem;
+	min-width: none;
+	width: fit-content;
+	padding: 0.625rem 1.5rem;
+	border-radius: 999px;
+	color: var(--sys-light-on-primary);
+	background-color: var(--sys-light-primary);
+}
+.optionBtnPublish.optionBtnPublish.disabled {
+	color: var(--sys-light-primary);
+	background-color: var(--sys-light-on-surface);
+}
+.optionBtnPublish.optionBtnPublish:hover {
+	transition: all 0.25s;
+	background-color: var(--sl-light-on-primary);
 }
 
 /* Form */

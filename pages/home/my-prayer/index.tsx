@@ -50,7 +50,9 @@ export default function MyPrayerView({}: Props) {
 
 	const userId = user.uid;
 	const prayerId = prayer.prayerId;
+	const currentDate = new Date().toISOString();
 	let displayNum = 0;
+	let prayedDate = "";
 
 	useEffect(() => {
 		if (prayerId === "" || userId === "") {
@@ -131,6 +133,16 @@ export default function MyPrayerView({}: Props) {
 			}
 		);
 	};
+	const userPrayedDate = () => {
+		uData[0].prayerCounts.filter(
+			(userPCObj: { prayerId: string; updated: string }) => {
+				if (userPCObj.prayerId === prayerId) {
+					console.log("userPCObj.updated", userPCObj.updated);
+					prayedDate = userPCObj.updated;
+				}
+			}
+		);
+	};
 
 	const prayerBtnclicked = async () => {
 		if (prayerCounts > 0) {
@@ -139,14 +151,17 @@ export default function MyPrayerView({}: Props) {
 		}
 		setPrayerCounts(1);
 		console.log("displayNum", displayNum);
+		console.log("prayedDate", prayedDate);
 		const userDBId = `?userId=${uData[0]._id}`;
 		const formData = {
 			prayerCounts: [{ prayerId: prayerId, count: 1 }],
 			addUndo: false,
+			updated: currentDate,
 		};
 		await updateUserPrayerCount(userDBId, formData);
 		refetch();
 		userPrayerCount();
+		userPrayedDate();
 	};
 
 	const undoBtnclicked = async () => {
@@ -156,11 +171,13 @@ export default function MyPrayerView({}: Props) {
 		const formData = {
 			prayerCounts: [{ prayerId: prayerId, count: 1 }],
 			addUndo: true,
+			updated: currentDate,
 		};
 
 		await updateUserPrayerCount(userDBId, formData);
 		refetch();
 		userPrayerCount();
+		userPrayedDate();
 	};
 
 	const componentSelector = (selection: String) => {
@@ -171,11 +188,13 @@ export default function MyPrayerView({}: Props) {
 				return "";
 			case "Stats":
 				userPrayerCount();
+				userPrayedDate();
 				return (
 					<Stats
 						answered={objectWithId?.answered || null}
 						personal={objectWithId?.personal || null}
 						createdAt={objectWithId?.createdAt || ""}
+						prayedDate={prayedDate}
 						displayNum={displayNum}
 						name={objectWithId?.name || ""}
 					/>

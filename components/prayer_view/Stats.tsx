@@ -10,6 +10,7 @@ type Props = {
 	answered: boolean;
 	personal: boolean;
 	createdAt: string;
+	prayedDate: string;
 	displayNum: number;
 	name: string;
 };
@@ -18,17 +19,17 @@ export default function Stats({
 	answered,
 	personal,
 	createdAt,
+	prayedDate,
 	displayNum,
 	name,
 }: Props) {
-	const dateString = createdAt;
-	const HRDate = () => {
+	const PostedDate = () => {
 		// Date Loaded Check
-		if (dateString === "") {
+		if (createdAt === "") {
 			return null;
 		}
-		if (dateString !== "") {
-			const date = new Date(dateString);
+		if (createdAt !== "") {
+			const date = new Date(createdAt);
 			const options: Intl.DateTimeFormatOptions = {
 				year: "numeric",
 				month: "long",
@@ -44,6 +45,38 @@ export default function Stats({
 		}
 		return null;
 	};
+	const UpdatedDate = () => {
+		// Date Loaded Check
+		if (prayedDate === "" || displayNum === 0) {
+			return <></>;
+		}
+		if (prayedDate !== "") {
+			const date = new Date(prayedDate);
+			const options: Intl.DateTimeFormatOptions = {
+				year: "numeric",
+				month: "long",
+				day: "numeric",
+				hour: "numeric",
+				minute: "numeric",
+				hour12: true,
+			};
+
+			const formatter = new Intl.DateTimeFormat("en-US", options);
+			const formattedDate = formatter.format(date);
+			return (
+				<>
+					<div className={styles.blockFlex}>
+						<EventAvailableIcon className={styles.statIcon} />
+						<div>
+							<p className={styles.statText}>Last time you prayed:</p>
+							<div className={styles.secondText}>{formattedDate}</div>
+						</div>
+					</div>
+				</>
+			);
+		}
+		return null;
+	};
 
 	return (
 		<div className={styles.statsContainer}>
@@ -55,7 +88,7 @@ export default function Stats({
 					<PersonIcon className={styles.statIcon} />
 				)}
 				<p className={styles.statText}>
-					{personal ? "Posted Anonymously" : `Posted by ${name}`}
+					{personal ? "Private" : `Posted by ${name}`}
 				</p>
 			</div>
 			<div className={styles.blockFlex}>
@@ -66,18 +99,12 @@ export default function Stats({
 					<p>Times you prayed:</p> <span>{displayNum}</span>
 				</div>
 			</div>
-			<div className={styles.blockFlex}>
-				<EventAvailableIcon className={styles.statIcon} />
-				<div>
-					<p className={styles.statText}>Last time you prayed:</p>
-					<p className={styles.secondText}>Currently unavailable</p>
-				</div>
-			</div>
+			<UpdatedDate />
 			<div className={styles.blockFlex}>
 				<TodayIcon className={styles.statIcon} />
 				<div>
 					<p className={styles.statText}>Date posted:</p>
-					<HRDate />
+					<PostedDate />
 				</div>
 			</div>
 		</div>

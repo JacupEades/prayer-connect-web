@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/Community.module.css";
 import { getPrayers, getPrayer } from "@/lib/prayerHelper";
 import { getUsers } from "@/lib/userHelper";
@@ -29,7 +29,6 @@ export default function Answered({ sortValue, whoValue, namedValue }) {
 		data: userData,
 		isLoading: userLoading,
 		isError: userIsError,
-		refetch,
 	} = useQuery("users", getUsers);
 
 	if (isLoading || userLoading)
@@ -65,12 +64,15 @@ export default function Answered({ sortValue, whoValue, namedValue }) {
 
 	const currentUserData = () =>
 		userData.filter((obj) => {
-			if (obj.uid === user.uid) return obj;
+			if (obj.uid === user.uid) {
+				return obj;
+			} else {
+				return obj;
+			}
 		});
 	const uData = currentUserData();
 
 	const sortedData = data.map((pObj) => {
-		console.log("uData:", uData);
 		const countObj =
 			uData.length > 0
 				? uData[0].prayerCounts.find((uObj) => uObj.prayerId === pObj._id)
@@ -84,141 +86,177 @@ export default function Answered({ sortValue, whoValue, namedValue }) {
 	// Sort the sortedData array by count
 	sortedData.sort((a, b) => b.count - a.count);
 
+	const CardsData = () => {
+		return data
+			.sort((a, b) => {
+				let indexA = 0;
+				let indexB = 0;
+				switch (sortValue) {
+					case "oldest":
+						return new Date(a.createdAt) - new Date(b.createdAt);
+					case "mostPrayers":
+						indexA = sortedData.findIndex((obj) => obj._id === a._id);
+						indexB = sortedData.findIndex((obj) => obj._id === b._id);
+						return indexA - indexB;
+					case "leastPrayers":
+						indexA = sortedData.findIndex((obj) => obj._id === a._id);
+						indexB = sortedData.findIndex((obj) => obj._id === b._id);
+						return indexB - indexA;
+					default:
+						return new Date(b.createdAt) - new Date(a.createdAt);
+				}
+			})
+			.filter((obj) => {
+				const tabDefault = obj.answered === true && obj.personal === false;
+				const other = obj.userId !== user.uid;
+				const mine = obj.userId === user.uid;
+				const anon = obj.name === "Anonymous";
+				const publicName = obj.name !== "Anonymous";
+
+				switch (filters) {
+					case "other/both":
+						if (other && tabDefault) {
+							return obj;
+						}
+						break;
+					case "mine/both":
+						if (mine && tabDefault) {
+							return obj;
+						}
+						break;
+					case "all/anon":
+						if (anon && tabDefault) {
+							return obj;
+						}
+						break;
+					case "all/public":
+						if (publicName && tabDefault) {
+							return obj;
+						}
+						break;
+					case "other/anon":
+						if (other && anon && tabDefault) {
+							return obj;
+						}
+						break;
+					case "other/public":
+						if (other && publicName && tabDefault) {
+							return obj;
+						}
+						break;
+					case "mine/anon":
+						if (mine && anon && tabDefault) {
+							return obj;
+						}
+						break;
+					case "mine/public":
+						if (mine && publicName && tabDefault) {
+							return obj;
+						}
+						break;
+					default:
+						if (tabDefault) {
+							return obj;
+						}
+				}
+			})
+			.map((obj, i) => {
+				const createdAt = obj.createdAt;
+				const momentCreatedAt = moment(createdAt);
+				const daysAgo = moment().diff(momentCreatedAt, "days");
+				const currentCount = prayerCounts[obj._id] || 0;
+				let displayNum = 0;
+
+				const userPrayerCount = () => {
+					uData.length > 0
+						? uData[0].prayerCounts.filter((userPCObj) => {
+								if (userPCObj.prayerId === obj._id) {
+									displayNum = userPCObj.count;
+								}
+						  })
+						: (displayNum = 0);
+				};
+				// update the card pray count on render
+				userPrayerCount();
+
+				return (
+					<article
+						onClick={() => handleCardClick(obj._id)}
+						className={cardStyles.prayerCardContainer}
+						key={i}>
+						<div className={cardStyles.prayerCardClickContainer}>
+							{/* Name & Date */}
+							<div className={cardStyles.cardNameContainer}>
+								<div className={cardStyles.cardName}>{obj.name}</div>
+								<div className={cardStyles.cardName}>
+									{daysAgo === 0
+										? "Today"
+										: daysAgo === 1
+										? "Yesterday"
+										: `${daysAgo} days ago`}
+								</div>
+							</div>
+
+							{/* Title and Message */}
+							<div className={cardStyles.cardTextContainer}>
+								<h2>{obj.title}</h2>
+								<p>{obj.message}</p>
+							</div>
+						</div>
+						{/* Count and pray Btn */}
+						<div className={cardStyles.cardPrayContainer}>
+							<div className={cardStyles.cardPrayedForContainer}>
+								<FaPray className={cardStyles.prayCountIcon} />
+								<div>{displayNum}</div>
+							</div>
+						</div>
+					</article>
+				);
+			});
+	};
+
+	const NoPrayersYet = () => {
+		return (
+			<article className={cardStyles.emptyStateCard}>
+				<div className={cardStyles.cardTextContainer}>
+					<p className={cardStyles.emptyStateH3}>
+						Praise report for all God&apos;s answered prayers and blessings.
+					</p>
+					<p>Once a prayer is marked as “answered,” it will be shown here. </p>
+					<p>Or you can add an answered prayer directly. </p>
+				</div>
+			</article>
+		);
+	};
+
+	const dataNull = () => {
+		const checking = data
+			.filter((obj) => {
+				if (obj.answered === true && obj.personal === false) {
+					return obj;
+				}
+			})
+			.map((x) => x).length;
+		if (checking === 0) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
 	return (
 		<>
 			<section className={styles.masterContainer}>
-				<p className={styles.masterContainerP}>
-					Praise report for all God’s answered prayers and blessings
-				</p>
 				{/* Card Section */}
 				<div className={styles.cardSection}>
-					{data
-						.sort((a, b) => {
-							let indexA = 0;
-							let indexB = 0;
-							switch (sortValue) {
-								case "oldest":
-									return new Date(a.createdAt) - new Date(b.createdAt);
-								case "mostPrayers":
-									indexA = sortedData.findIndex((obj) => obj._id === a._id);
-									indexB = sortedData.findIndex((obj) => obj._id === b._id);
-									return indexA - indexB;
-								case "leastPrayers":
-									indexA = sortedData.findIndex((obj) => obj._id === a._id);
-									indexB = sortedData.findIndex((obj) => obj._id === b._id);
-									return indexB - indexA;
-								default:
-									return new Date(b.createdAt) - new Date(a.createdAt);
-							}
-						})
-						.filter((obj) => {
-							const tabDefault =
-								obj.answered === true && obj.personal === false;
-							const other = obj.userId !== user.uid;
-							const mine = obj.userId === user.uid;
-							const anon = obj.name === "Anonymous";
-							const publicName = obj.name !== "Anonymous";
-
-							switch (filters) {
-								case "other/both":
-									if (other && tabDefault) {
-										return obj;
-									}
-									break;
-								case "mine/both":
-									if (mine && tabDefault) {
-										return obj;
-									}
-									break;
-								case "all/anon":
-									if (anon && tabDefault) {
-										return obj;
-									}
-									break;
-								case "all/public":
-									if (publicName && tabDefault) {
-										return obj;
-									}
-									break;
-								case "other/anon":
-									if (other && anon && tabDefault) {
-										return obj;
-									}
-									break;
-								case "other/public":
-									if (other && publicName && tabDefault) {
-										return obj;
-									}
-									break;
-								case "mine/anon":
-									if (mine && anon && tabDefault) {
-										return obj;
-									}
-									break;
-								case "mine/public":
-									if (mine && publicName && tabDefault) {
-										return obj;
-									}
-									break;
-								default:
-									if (tabDefault) {
-										return obj;
-									}
-							}
-						})
-						.map((obj, i) => {
-							const createdAt = obj.createdAt;
-							const momentCreatedAt = moment(createdAt);
-							const daysAgo = moment().diff(momentCreatedAt, "days");
-							const currentCount = prayerCounts[obj._id] || 0;
-							let displayNum = 0;
-
-							const userPrayerCount = () => {
-								uData.length > 0
-									? uData[0].prayerCounts.filter((userPCObj) => {
-											if (userPCObj.prayerId === obj._id) {
-												displayNum = userPCObj.count;
-											}
-									  })
-									: (displayNum = 0);
-							};
-							// update the card pray count on render
-							userPrayerCount();
-
-							return (
-								<article
-									onClick={() => handleCardClick(obj._id)}
-									className={cardStyles.prayerCardContainer}
-									key={i}>
-									<div className={cardStyles.prayerCardClickContainer}>
-										{/* Name & Date */}
-										<div className={cardStyles.cardNameContainer}>
-											<div className={cardStyles.cardName}>{obj.name}</div>
-											<div className={cardStyles.cardName}>
-												{daysAgo === 0
-													? "Today"
-													: daysAgo === 1
-													? "Yesterday"
-													: `${daysAgo} days ago`}
-											</div>
-										</div>
-
-										{/* Title and Message */}
-										<div className={cardStyles.cardTextContainer}>
-											<h2>{obj.title}</h2>
-											<p>{obj.message}</p>
-										</div>
-									</div>
-									{/* Count and pray Btn */}
-									<div className={cardStyles.cardPrayContainer}>
-										<div className={cardStyles.cardPrayedForContainer}>
-											<FaPray className={cardStyles.prayCountIcon} />
-											<div>{displayNum}</div>
-										</div>
-									</div>
-								</article>
-							);
-						})}
+					{dataNull() ? (
+						<NoPrayersYet />
+					) : (
+						<p className={styles.masterContainerP}>
+							Praise report for all God&apos;s answered prayers and blessings
+						</p>
+					)}
+					<CardsData />
 				</div>
 			</section>
 		</>

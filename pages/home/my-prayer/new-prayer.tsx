@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/styles/PrayerPage.module.css";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, styled } from "@mui/material";
 import { useRouter } from "next/router";
 import GroupsIcon from "@mui/icons-material/Groups";
 import LockIcon from "@mui/icons-material/Lock";
@@ -52,6 +52,13 @@ export default function NewPrayer({}: Props) {
 			approved: false,
 		});
 	}, [title, detail, postIn, postAs, prayerStatus, user.uid, user.name]);
+
+	const MyButton = styled(Button)(({ theme }) => ({
+		"&.Mui-disabled": {
+			color: "var(--sys-light-on-surface-variant)",
+			backgroundColor: "var(--disable-light-primary)",
+		},
+	}));
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
@@ -107,9 +114,12 @@ export default function NewPrayer({}: Props) {
 					<Button onClick={() => router.back()} className={styles.optionBtn}>
 						Cancel
 					</Button>
-					<Button type="submit" className={styles.optionBtn}>
+					<MyButton
+						disabled={!title || !detail}
+						type="submit"
+						className={styles.optionBtnPublish}>
 						Publish
-					</Button>
+					</MyButton>
 				</div>
 
 				{/* Title */}
@@ -170,45 +180,50 @@ export default function NewPrayer({}: Props) {
 					</div>
 				</div>
 				{/* Post as */}
-				<div className={styles.optionToggleContainer}>
-					<p>Post as</p>
-					<div className={styles.radio}>
-						<input
-							type="radio"
-							name="postAs"
-							id="postAs1"
-							value="false"
-							className={styles.radioInput}
-							checked={asSelected(false)}
-							onChange={handleCheckedAs}
-						/>
-						<label htmlFor="postAs1" className={styles.radioLabel}>
-							{postAs === false ? (
-								<CheckIcon className={styles.toggleIcon} />
-							) : (
-								<BsIncognito className={styles.toggleIcon} />
-							)}
-							Anonymous
-						</label>
-						<input
-							type="radio"
-							name="postAs"
-							id="postAs2"
-							value="true"
-							className={styles.radioInput}
-							checked={asSelected(true)}
-							onChange={handleCheckedAs}
-						/>
-						<label htmlFor="postAs2" className={styles.radioLabel}>
-							{postAs === true ? (
-								<CheckIcon className={styles.toggleIcon} />
-							) : (
-								<PersonIcon className={styles.toggleIcon} />
-							)}
-							{!user.name ? "Add name in settings" : user.name}
-						</label>
+				{postIn === true ? (
+					<></>
+				) : (
+					<div className={styles.optionToggleContainer}>
+						<p>Post as</p>
+						<div className={styles.radio}>
+							<input
+								type="radio"
+								name="postAs"
+								id="postAs1"
+								value="false"
+								className={styles.radioInput}
+								checked={asSelected(false)}
+								onChange={handleCheckedAs}
+							/>
+							<label htmlFor="postAs1" className={styles.radioLabel}>
+								{postAs === false ? (
+									<CheckIcon className={styles.toggleIcon} />
+								) : (
+									<BsIncognito className={styles.toggleIcon} />
+								)}
+								Anonymous
+							</label>
+							<input
+								type="radio"
+								name="postAs"
+								id="postAs2"
+								value="true"
+								className={styles.radioInput}
+								checked={asSelected(true)}
+								onChange={handleCheckedAs}
+							/>
+							<label htmlFor="postAs2" className={styles.radioLabel}>
+								{postAs === true ? (
+									<CheckIcon className={styles.toggleIcon} />
+								) : (
+									<PersonIcon className={styles.toggleIcon} />
+								)}
+								{!user.name ? "Add name in settings" : user.name}
+							</label>
+						</div>
 					</div>
-				</div>
+				)}
+
 				{/* Prayer Status */}
 				<div className={styles.optionToggleContainer}>
 					<p>Prayer status</p>

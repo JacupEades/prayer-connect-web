@@ -23,7 +23,11 @@ const userSchema = new Schema(
 			default: "user",
 		},
 		prayerCounts: [
-			{ prayerId: { type: String }, count: { type: Number, default: 0 } },
+			{
+				prayerId: { type: String },
+				count: { type: Number, default: 0 },
+				updated: { type: Date, default: Date.now },
+			},
 		],
 		language: {
 			type: String,

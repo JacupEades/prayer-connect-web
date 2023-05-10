@@ -49,3 +49,131 @@
 .settingsBtnText {
 	line-height: normal;
 }
+/* Setting Sub-menu Headers */
+.settingsHeaderMain {
+	position: fixed;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, 0);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 4rem;
+	padding: 0 0.5rem;
+	z-index: 10;
+	width: 100%;
+	max-width: 425px;
+	background-color: var(--sys-light-surface);
+}
+.headerBackBtn.headerBackBtn {
+	padding: 0.5rem;
+	min-width: 2.5rem;
+	border-radius: 999px;
+	color: var(--sys-light-on-surface-variant);
+}
+.headerBackBtn.headerBackBtn:hover {
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	background-color: var(--sl-light-on-surface);
+}
+.headerBackIcon {
+	font-size: 1.5rem;
+}
+.headerTitle {
+	width: min-content;
+	font-family: "Lora", serif;
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.25rem;
+	color: var(--sys-light-on-surface);
+}
+.block {
+	width: 2.5rem;
+}
+/* Account page */
+.accountMain {
+	display: flex;
+	flex-direction: column;
+	margin: 5.5rem 0.75rem 0 0.75rem;
+	height: 100vh;
+}
+
+.deleteBtn.deleteBtn {
+	font-family: "Source Sans Pro", sans-serif;
+	font-size: 0.875rem;
+	font-weight: 600;
+	text-transform: none;
+	height: 2.5rem;
+	min-width: none;
+	width: fit-content;
+	padding: 0.625rem 1.5rem;
+	border-radius: 999px;
+	color: var(--sys-light-primary);
+}
+.deleteBtn.deleteBtn:hover {
+	transition: all 0.25s;
+	background-color: var(--sys-light-secondary-container);
+}
+.accountCardMain {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1.5rem;
+}
+.accountCardTop.accountCardTop {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1rem 0.75rem;
+	background-color: var(--sys-light-surface);
+	border: 1px solid var(--sys-light-outline-variant);
+	border-radius: 0.75rem 0.75rem 0 0;
+}
+.accountCardTop.accountCardTop:hover {
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	background-color: var(--sl-light-on-surface);
+}
+.accountCardMid.accountCardMid {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1rem 0.75rem;
+	background-color: var(--sys-light-on-primary);
+	border-left: 1px solid var(--sys-light-outline-variant);
+	border-right: 1px solid var(--sys-light-outline-variant);
+	border-radius: 0;
+}
+.accountCardMid.accountCardMid:hover {
+	transition: all 0.25s;
+	cursor: default;
+	background-color: var(--sys-light-on-primary);
+}
+.accountCardBot.accountCardBot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1rem 0.75rem;
+	background-color: var(--sys-light-surface);
+	border: 1px solid var(--sys-light-outline-variant);
+	border-radius: 0 0 0.75rem 0.75rem;
+}
+.accountCardBot.accountCardBot:hover {
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	background-color: var(--sl-light-on-surface);
+}
+.accountCardRight {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+.accountCardP {
+	text-transform: none;
+	font-size: 1rem;
+	font-weight: 400;
+	color: var(--sys-light-on-surface);
+}
+.accountCardIcon.accountCardIcon {
+	font-size: 1rem;
+	color: var(--sys-light-on-surface-variant);
+}

@@ -14,42 +14,26 @@ import { userLoggedIn } from "@/redux/slices/userSlice";
 export default function ForgotPassword() {
 	const [email, setEmail] = useState("");
 	const router = useRouter();
-	const dispatch = useDispatch();
-
-	// kick out logged in users who are logged in
-	useEffect(() => {
-		onAuthStateChanged(auth, (user) => {
-			if (user) {
-				// Redux store
-				dispatch(
-					userLoggedIn({
-						name: user.displayName,
-						email: user.email,
-						role: "admin",
-						uid: user.uid,
-					})
-				);
-			}
-			if (user && user.uid) {
-				router.push("/home");
-			} else {
-				console.log("User is null");
-			}
-		});
-		console.log("logged in check pushed you home");
-	}, [dispatch, router]);
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
 		if (!email) {
 			return toast.error("Email must be provided.");
 		}
+
 		sendPasswordResetEmail(auth, email, {
 			url: "https://prayer-connect-web.vercel.app/login/existing-user",
 			handleCodeInApp: true,
-		});
-		toast.success(`Password reset email has been sent to ${email}.`);
-		router.push("/login/existing-user");
+		})
+			.then(() => {
+				toast.success(`Password reset email has been sent to ${email}.`);
+				router.push("/login/existing-user");
+			})
+			.catch((error) => {
+				const errorCode = error.code;
+				const errorMessage = error.message;
+				console.log(errorCode, errorMessage);
+			});
 	};
 
 	return (

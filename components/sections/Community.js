@@ -21,6 +21,7 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 	}));
 	const dispatch = useDispatch();
 	const router = useRouter();
+	const currentDate = new Date().toISOString();
 	// default filters state should be allboth
 	const filters = whoValue + "/" + namedValue;
 
@@ -65,8 +66,8 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 
 	const currentUserData = userData.filter((obj) => {
 		if (obj.uid === user.uid) {
-			console.log("currentUserData", obj.uid);
-			console.log("Redux user", user.uid);
+			return obj;
+		} else {
 			return obj;
 		}
 	});
@@ -202,6 +203,7 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 								const formData = {
 									prayerCounts: [{ prayerId: obj._id, count: 1 }],
 									addUndo: false,
+									updated: currentDate,
 								};
 
 								await updateUserPrayerCount(userDBId, formData);
@@ -220,6 +222,7 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 								const formData = {
 									prayerCounts: [{ prayerId: obj._id, count: 1 }],
 									addUndo: true,
+									updated: currentDate,
 								};
 
 								await updateUserPrayerCount(userDBId, formData);

@@ -107,7 +107,7 @@
 /* deleteOverlay */
 .overlayBG {
 	position: absolute;
-	z-index: 10;
+	z-index: 11;
 	left: 0;
 	right: 0;
 	top: 0;
@@ -178,4 +178,22 @@
 }
 .noBtn.noBtn {
 	color: var(--sys-light-primary);
+}
+/* Card Empty state */
+.emptyStateCard {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+
+	width: 100%;
+	margin-bottom: 0.75rem;
+	border-radius: 0.75rem;
+	border: 1px solid var(--sys-light-outline-variant);
+	background-color: var(--sys-light-surface);
+	padding: 1rem;
+}
+.emptyStateH3.emptyStateH3 {
+	font-weight: 400;
+	font-size: 1rem;
+	line-height: 1.5rem;
 }

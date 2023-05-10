@@ -134,6 +134,9 @@ export async function putUsers(req, res) {
 
 		const checkOldCounts = await Users.findById(userId);
 		const [{ prayerId }] = formData.prayerCounts;
+		const updatedDate = formData.updated;
+
+		console.log("formData.updated:", formData);
 
 		const oldCountBObj = checkOldCounts.prayerCounts.find(
 			(obj) => obj.prayerId === prayerId
@@ -151,7 +154,10 @@ export async function putUsers(req, res) {
 			console.log("updatedPrayerCount 2 undo 1");
 			updatedPrayerCount = await Users.findByIdAndUpdate(
 				userId,
-				{ $inc: { "prayerCounts.$[elem].count": -1 } },
+				{
+					$inc: { "prayerCounts.$[elem].count": -1 },
+					$set: { "prayerCounts.$[elem].updated": updatedDate },
+				},
 				{
 					arrayFilters: [{ "elem.prayerId": prayerId }],
 					new: true,
@@ -162,7 +168,10 @@ export async function putUsers(req, res) {
 			console.log("updatedPrayerCount 3 add 1");
 			updatedPrayerCount = await Users.findByIdAndUpdate(
 				userId,
-				{ $inc: { "prayerCounts.$[elem].count": 1 } },
+				{
+					$inc: { "prayerCounts.$[elem].count": 1 },
+					$set: { "prayerCounts.$[elem].updated": updatedDate },
+				},
 				{
 					arrayFilters: [{ "elem.prayerId": prayerId }],
 					new: true,
