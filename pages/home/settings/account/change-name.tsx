@@ -62,15 +62,6 @@ export default function ChangeName({}: Props) {
 		}
 	});
 
-	const prayerBtnclicked = async () => {
-		const userDBId = `?userId=${currentUserData[0]._id}`;
-		const formData = {
-			putType: "displayName",
-		};
-
-		await updateUserPrayerCount(userDBId, formData);
-	};
-
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
 		// Add UserName to firebase displayName
@@ -100,7 +91,7 @@ export default function ChangeName({}: Props) {
 				})
 				.then(() => {
 					toast.success("Name changed");
-					// router.back();
+					router.push("/login/existing-user");
 				})
 				.catch((error) => {
 					toast.error("Update profile error");

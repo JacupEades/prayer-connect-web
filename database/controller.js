@@ -124,7 +124,6 @@ export async function deletePrayer(req, res) {
 export async function putUsers(req, res) {
 	try {
 		const { userId } = req.query;
-		console.log("req.query", req.query);
 		const formData = req.body;
 		// Validation
 		if (!userId || !formData) {
@@ -138,8 +137,6 @@ export async function putUsers(req, res) {
 		const updatedDate = formData.updated;
 		const putType = formData.putType;
 		const newDisplayName = formData.newDisplayName;
-
-		console.log("formData.putType:", formData.putType);
 
 		switch (putType) {
 			case "prayerCount":
@@ -195,6 +192,22 @@ export async function putUsers(req, res) {
 				console.log("Error In putType selection: ", putType);
 				console.log("formData.putType:", formData.putType);
 		}
+	} catch (error) {
+		return res.status(404).json({ error: "Error while updating the data." });
+	}
+}
+// DELETE: http://localhost:3000/api/users/userId
+export async function deleteUserInDB(req, res) {
+	try {
+		const { userId } = req.query;
+
+		if (userId) {
+			let deletedUser = await Users.findByIdAndDelete(userId);
+			return res.status(200).json({ deleted: userId });
+		}
+		return res
+			.status(404)
+			.json({ error: "Error deleting prayer. DELETE request." });
 	} catch (error) {
 		return res.status(404).json({ error: "Error while updating the data." });
 	}

@@ -1,5 +1,10 @@
 import connectMongo from "@/database/conn";
-import { getUsers, postUser, putUsers } from "@/database/controller";
+import {
+	getUsers,
+	postUser,
+	putUsers,
+	deleteUserInDB,
+} from "@/database/controller";
 
 export default async function ogUserHandler(req: { method: any }, res: any) {
 	connectMongo().catch(() =>
@@ -20,8 +25,12 @@ export default async function ogUserHandler(req: { method: any }, res: any) {
 			putUsers(req, res);
 			// res.status(200).json({ method, name: "PUT Request" });
 			break;
+		case "DELETE":
+			deleteUserInDB(req, res);
+			// res.status(200).json({ method, name: "DELETE Request" });
+			break;
 		default:
-			res.setHeader("Allow", ["GET", "POST", "PUT"]);
+			res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
 			res.status(405).end(`Method ${method} Not Allowed`);
 	}
 }
