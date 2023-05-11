@@ -107,19 +107,21 @@ export default function NewPrayer({}: Props) {
 	};
 
 	return (
-		<main className={styles.prayerMain}>
+		<main className={styles.prayerMainForm}>
 			<form onSubmit={handleSubmit} className={styles.editFormContainer}>
 				{/* Cancel and Save button */}
-				<div className={styles.topBtns}>
-					<Button onClick={() => router.back()} className={styles.optionBtn}>
-						Cancel
-					</Button>
-					<MyButton
-						disabled={!title || !detail}
-						type="submit"
-						className={styles.optionBtnPublish}>
-						Publish
-					</MyButton>
+				<div className={styles.topBtnsMain}>
+					<div className={styles.topBtns}>
+						<Button onClick={() => router.back()} className={styles.optionBtn}>
+							Cancel
+						</Button>
+						<MyButton
+							disabled={!title || !detail}
+							type="submit"
+							className={styles.optionBtnPublish}>
+							Publish
+						</MyButton>
+					</div>
 				</div>
 
 				{/* Title */}

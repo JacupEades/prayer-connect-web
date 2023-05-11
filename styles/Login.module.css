@@ -184,6 +184,33 @@
 	box-shadow: var(--box-shadow-1);
 	background-color: var(--sl-light-on-surface);
 }
+.logoutBtnContainer {
+	display: flex;
+	flex-direction: column;
+	width: max-content;
+	margin: 0.75rem auto 0 auto;
+	color: var(--sys-light-on-surface-variant);
+}
+.logoutBtnContainer p {
+	font-size: 0.75rem;
+	margin-bottom: 0.5rem;
+}
+.logoutBtn.logoutBtn {
+	font-size: 0.875rem;
+	font-family: "Source Sans Pro", sans-serif;
+	font-weight: 600;
+	text-transform: none;
+
+	color: var(--sys-light-primary);
+	/* background-color: var(--sys-light-on-primary); */
+	padding: 10px 24px;
+	border-radius: 9999px;
+}
+.logoutBtn.logoutBtn:hover {
+	transition: all 0.25s;
+	box-shadow: var(--box-shadow-1);
+	background-color: var(--sl-light-on-surface);
+}
 .emailWarning {
 	font-size: 0.75rem;
 	margin: 0.25rem auto 0 auto;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/styles/PrayerPage.module.css";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, styled } from "@mui/material";
 import { useRouter } from "next/router";
 import GroupsIcon from "@mui/icons-material/Groups";
 import LockIcon from "@mui/icons-material/Lock";
@@ -162,9 +162,15 @@ export default function NewPrayer({}: Props) {
 			toast.error("Prayer was not deleted");
 		}
 	};
+	const MyButton = styled(Button)(({ theme }) => ({
+		"&.Mui-disabled": {
+			color: "var(--sys-light-on-surface-variant)",
+			backgroundColor: "var(--disable-light-primary)",
+		},
+	}));
 
 	return (
-		<main className={styles.prayerMain}>
+		<main className={styles.prayerMainForm}>
 			{deletePopup ? (
 				<DeleteConfirm
 					deletePopup={deletePopup}
@@ -177,13 +183,18 @@ export default function NewPrayer({}: Props) {
 			)}
 			<form onSubmit={handleSubmit} className={styles.editFormContainer}>
 				{/* Cancel and Save button */}
-				<div className={styles.topBtns}>
-					<Button onClick={() => router.back()} className={styles.optionBtn}>
-						Cancel
-					</Button>
-					<Button type="submit" className={styles.saveBtn}>
-						Save
-					</Button>
+				<div className={styles.topBtnsMain}>
+					<div className={styles.topBtns}>
+						<Button onClick={() => router.back()} className={styles.optionBtn}>
+							Cancel
+						</Button>
+						<MyButton
+							disabled={!title || !detail}
+							type="submit"
+							className={styles.optionBtnPublish}>
+							Save
+						</MyButton>
+					</div>
 				</div>
 
 				{/* Title */}

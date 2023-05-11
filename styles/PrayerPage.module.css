@@ -9,9 +9,32 @@
 	background-color: var(--sys-light-surface);
 	color: var(--sys-light-on-surface);
 }
+.prayerMainForm {
+	display: flex;
+
+	min-height: 100vh;
+	max-width: 425px;
+	gap: 0.5rem;
+	padding: 4.5rem 1rem 10rem 1rem;
+	flex-direction: column;
+	background-color: var(--sys-light-surface);
+	color: var(--sys-light-on-surface);
+}
+.topBtnsMain {
+	position: fixed;
+	z-index: 10;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%);
+	background-color: var(--sys-light-surface);
+	max-width: 425px;
+	width: 100%;
+	padding: 0.5rem 1rem;
+}
 .topBtns {
 	display: flex;
 	justify-content: space-between;
+	width: 100%;
 }
 .backArrowBtn.backArrowBtn {
 	padding: 0.5rem;
@@ -62,6 +85,7 @@
 	font-family: "Roboto", sans-serif;
 	font-weight: 500;
 	font-size: 0.875rem;
+	text-transform: none;
 	color: var(--sys-light-on-surface-variant);
 	border-radius: 0;
 }

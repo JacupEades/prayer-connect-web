@@ -10,10 +10,14 @@ import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { userLoggedIn } from "@/redux/slices/userSlice";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 export default function LoginForm() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [showPassword, setShowPassword] = useState(false);
 	const router = useRouter();
 	const dispatch = useDispatch();
 
@@ -39,6 +43,10 @@ export default function LoginForm() {
 		});
 		console.log("logged in check pushed you home");
 	}, [dispatch, router]);
+
+	const handleTogglePasswordVisibility = () => {
+		setShowPassword(!showPassword);
+	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -112,14 +120,24 @@ export default function LoginForm() {
 				id="passwordInput"
 				placeholder="Password"
 				className={styles.formInputField}
-				type="password"
+				type={showPassword ? "text" : "password"}
 				value={password}
-				onChange={(text) => setPassword(text.target.value)}
+				onChange={(e) => setPassword(e.target.value)}
 				autoComplete="newPassword"
 				InputProps={{
 					startAdornment: (
 						<InputAdornment position="start">
 							<LockOutlinedIcon className={styles.formInputIcon} />
+						</InputAdornment>
+					),
+					endAdornment: (
+						<InputAdornment position="end">
+							<IconButton
+								aria-label="toggle password visibility"
+								onClick={handleTogglePasswordVisibility}
+								edge="end">
+								{showPassword ? <VisibilityOff /> : <Visibility />}
+							</IconButton>
 						</InputAdornment>
 					),
 				}}

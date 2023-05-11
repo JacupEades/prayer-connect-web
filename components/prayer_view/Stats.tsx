@@ -4,7 +4,7 @@ import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import TodayIcon from "@mui/icons-material/Today";
 import { FaPray } from "react-icons/fa";
 import { BsIncognito } from "react-icons/bs";
-import PersonIcon from "@mui/icons-material/Person";
+import PublicIcon from "@mui/icons-material/Public";
 
 type Props = {
 	answered: boolean;
@@ -85,7 +85,7 @@ export default function Stats({
 				{personal ? (
 					<BsIncognito className={styles.statIcon} />
 				) : (
-					<PersonIcon className={styles.statIcon} />
+					<PublicIcon className={styles.statIcon} />
 				)}
 				<p className={styles.statText}>
 					{personal ? "Private" : `Posted by ${name}`}

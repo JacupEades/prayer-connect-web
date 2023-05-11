@@ -51,17 +51,17 @@ export default function Settings() {
 				text={"Account"}
 				route={"/home/settings/account"}
 			/>
-			<div className={stylesLogin.orSeperator}>
+			{/* <div className={stylesLogin.orSeperator}>
 				<div></div>
-			</div>
+			</div> */}
 
 			<SettingsNavCard
 				icon={<EmailOutlinedIcon />}
 				text={"Help & Info"}
 				route={"/home/settings/support"}
 			/>
-			<div className={stylesLogin.loginBtnContainer}>
-				<Button onClick={logout} className={stylesLogin.loginBtn}>
+			<div className={stylesLogin.logoutBtnContainer}>
+				<Button onClick={logout} className={stylesLogin.logoutBtn}>
 					{userId === "" ? "Log in" : "Log out"}
 				</Button>
 			</div>

@@ -217,13 +217,17 @@ export default function Answered({ sortValue, whoValue, namedValue }) {
 
 	const NoPrayersYet = () => {
 		return (
-			<article className={cardStyles.emptyStateCard}>
-				<div className={cardStyles.cardTextContainer}>
-					<p className={cardStyles.emptyStateH3}>
-						Praise report for all God&apos;s answered prayers and blessings.
-					</p>
-					<p>Once a prayer is marked as “answered,” it will be shown here. </p>
-					<p>Or you can add an answered prayer directly. </p>
+			<article className={cardStyles.emptyStateCardMain}>
+				<div className={cardStyles.emptyStateCard}>
+					<div className={cardStyles.cardTextContainer}>
+						<p className={cardStyles.emptyStateH3}>
+							Praise report for all God&apos;s answered prayers and blessings.
+						</p>
+						<p>
+							Once a prayer is marked as “answered,” it will be shown here.{" "}
+						</p>
+						<p>Or you can add an answered prayer directly. </p>
+					</div>
 				</div>
 			</article>
 		);

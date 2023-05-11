@@ -224,18 +224,6 @@ export default function PrivatePrayers({ sortValue, answeredValue }) {
 						className={cardStyles.prayerCardContainer}
 						key={i}>
 						<div className={cardStyles.prayerCardClickContainer}>
-							{/* Name & Date */}
-							<div className={cardStyles.cardNameContainer}>
-								<div className={cardStyles.cardName}>{obj.name}</div>
-								<div className={cardStyles.cardName}>
-									{daysAgo === 0
-										? "Today"
-										: daysAgo === 1
-										? "Yesterday"
-										: `${daysAgo} days ago`}
-								</div>
-							</div>
-
 							{/* Title and Message */}
 							<div className={cardStyles.cardTextContainer}>
 								<h2>{obj.title}</h2>
@@ -257,13 +245,15 @@ export default function PrivatePrayers({ sortValue, answeredValue }) {
 
 	const NoPrayersYet = () => {
 		return (
-			<article className={cardStyles.emptyStateCard}>
-				<div className={cardStyles.cardTextContainer}>
-					<p className={cardStyles.emptyStateH3}>Prayers only you can see</p>
-					<p>
-						Start by adding a prayer on this page or changing the privacy
-						setting of a prayer you posted in other pages.
-					</p>
+			<article className={cardStyles.emptyStateCardMain}>
+				<div className={cardStyles.emptyStateCard}>
+					<div className={cardStyles.cardTextContainer}>
+						<p className={cardStyles.emptyStateH3}>Prayers only you can see</p>
+						<p>
+							Start by adding a prayer on this page or changing the privacy
+							setting of a prayer you posted in other pages.
+						</p>
+					</div>
 				</div>
 			</article>
 		);
