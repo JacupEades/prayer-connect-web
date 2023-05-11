@@ -45,11 +45,13 @@ export default function Settings() {
 				icon={<NotificationsOutlinedIcon />}
 				text={"Prayer Reminder"}
 				route={"/home/settings/prayer-reminder"}
+				isDisabled={true}
 			/>
 			<SettingsNavCard
 				icon={<PersonOutlinedIcon />}
 				text={"Account"}
 				route={"/home/settings/account"}
+				isDisabled={false}
 			/>
 			{/* <div className={stylesLogin.orSeperator}>
 				<div></div>
@@ -59,6 +61,7 @@ export default function Settings() {
 				icon={<EmailOutlinedIcon />}
 				text={"Help & Info"}
 				route={"/home/settings/support"}
+				isDisabled={false}
 			/>
 			<div className={stylesLogin.logoutBtnContainer}>
 				<Button onClick={logout} className={stylesLogin.logoutBtn}>

@@ -80,7 +80,7 @@
 	font-size: 1.5rem;
 }
 .headerTitle {
-	width: min-content;
+	width: max-content;
 	font-family: "Lora", serif;
 	font-size: 1rem;
 	font-weight: 600;
@@ -176,4 +176,79 @@
 .accountCardIcon.accountCardIcon {
 	font-size: 1rem;
 	color: var(--sys-light-on-surface-variant);
+}
+/* Account page */
+.supportMain {
+	margin: 5.5rem 1rem 0 1rem;
+	height: 100vh;
+	color: var(--sys-light-on-surface);
+}
+.support {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+.topSection {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+.topSection h3 {
+	font-family: "Lora", serif;
+	font-size: 1rem;
+	font-weight: 600;
+}
+.topSection p {
+	font-size: 0.875rem;
+	font-weight: 400;
+}
+.topSection a {
+	text-decoration: none;
+	color: var(--sys-light-on-secondary-container);
+}
+.midSection {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+.midSection h3 {
+	font-family: "Lora", serif;
+	font-size: 1rem;
+	font-weight: 600;
+}
+.midSection p {
+	font-size: 0.875rem;
+	font-weight: 400;
+}
+.supportBtn.supportBtn {
+	font-family: "Source Sans Pro", sans-serif;
+	font-size: 0.875rem;
+	font-weight: 600;
+	text-transform: none;
+	height: 2.5rem;
+	min-width: none;
+	width: fit-content;
+	padding: 0.625rem 1.5rem;
+	border-radius: 999px;
+	color: var(--sys-light-on-secondary-container);
+	background-color: var(--sys-light-secondary-container);
+}
+.supportBtn.supportBtn:hover {
+	transition: all 0.25s;
+	background-color: var(--sl-light-on-secondary);
+}
+.greyBlock {
+	height: 1px;
+	width: 100%;
+	background-color: var(--sys-light-outline-variant);
+}
+.botSection p {
+	margin-bottom: 0.5rem;
+}
+.botSection a {
+	text-decoration: none;
+	color: var(--sys-light-primary);
+}
+.botSection a:hover {
+	text-decoration: underline;
 }

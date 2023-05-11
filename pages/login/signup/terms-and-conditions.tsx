@@ -15,7 +15,7 @@ export default function TermsAndConditions({}: Props) {
 				<Button
 					className={styles.tacBack}
 					onClick={() => {
-						router.push("/login/signup");
+						router.back();
 					}}>
 					<CloseIcon />
 				</Button>
