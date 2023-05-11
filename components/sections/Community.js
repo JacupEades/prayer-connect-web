@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "@/styles/Community.module.css";
+import skeleton from "@/styles/Skeletons.module.css";
 import { getPrayers, getPrayer } from "@/lib/prayerHelper";
 import { getUsers } from "@/lib/userHelper";
 import { useQuery } from "react-query";
@@ -25,7 +26,9 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 	// default filters state should be allboth
 	const filters = whoValue + "/" + namedValue;
 
-	const { isLoading, isError, data, error } = useQuery("prayers", getPrayers);
+	const { isLoading, isError, data, error } = useQuery("prayers", getPrayers, {
+		refetchOnmount: true,
+	});
 	const {
 		data: userData,
 		isLoading: userLoading,
@@ -34,17 +37,53 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 	} = useQuery("users", getUsers);
 
 	if (isLoading || userLoading)
-		return <div className={styles.loadingOrError}>Prayers are Loading...</div>;
+		return (
+			<>
+				<div className={skeleton.homeContainer}>
+					<div className={skeleton.homeTop} />
+					<div className={skeleton.card} />
+					<div className={skeleton.card} />
+					<div className={skeleton.card} />
+					<div className={skeleton.card} />
+					<div className={skeleton.card} />
+					<div className={skeleton.card} />
+					<div className={skeleton.card} />
+					<div className={skeleton.card} />
+					<div className={skeleton.card} />
+				</div>
+			</>
+		);
 	if (isError || userIsError)
 		return (
-			<div className={styles.loadingOrError}>
-				Prayers being loaded error {error}
-			</div>
+			<>
+				<div className={skeleton.homeContainer}>
+					<div className={skeleton.homeTop} />
+					<div className={skeleton.card} />
+					<div className={skeleton.card} />
+					<div className={skeleton.card} />
+					<div className={skeleton.card} />
+					<div className={skeleton.card} />
+					<div className={skeleton.card} />
+					<div className={skeleton.card} />
+					<div className={skeleton.card} />
+					<div className={skeleton.card} />
+				</div>
+			</>
 		);
 	if (user.uid === "")
 		return (
-			<div className={styles.loadingOrError}>
-				Please log in to view players. {error}
+			<div className={skeleton.homeError}>
+				<p className={skeleton.loginP}>
+					Oops! The connection is lost. Please login to continue your prayer
+					session.
+				</p>
+				<Button
+					onClick={() => {
+						router.push("/login/existing-user");
+					}}
+					className={skeleton.loginBtn}>
+					Login
+				</Button>
 			</div>
 		);
 
@@ -172,8 +211,8 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 						})
 						.map((obj, i) => {
 							const createdAt = obj.createdAt;
-							const momentCreatedAt = moment(createdAt);
-							const daysAgo = moment().diff(momentCreatedAt, "days");
+							const date = new Date(createdAt);
+							const momentCreatedAt = moment(date);
 							const currentCount = prayerCounts[obj._id] || 0;
 							let displayNum = 0;
 
@@ -231,6 +270,24 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 								refetch();
 							};
 
+							function getTimeStamp(date) {
+								const now = moment();
+								const diff = Math.abs(now.diff(date));
+								const diffMinutes = Math.round(diff / (1000 * 60));
+								const diffHours = Math.round(diff / (1000 * 60 * 60));
+								const diffDays = Math.round(diff / (1000 * 60 * 60 * 24));
+
+								if (diffMinutes < 60) {
+									return `${diffMinutes} minutes ago`;
+								} else if (diffHours < 24) {
+									return `${diffHours} hours ago`;
+								} else if (diffDays <= 5) {
+									return `${diffDays} days ago`;
+								} else {
+									return date.format("LL");
+								}
+							}
+
 							// update the card pray count on render
 							userPrayerCount();
 
@@ -244,11 +301,7 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 										<div className={cardStyles.cardNameContainer}>
 											<div className={cardStyles.cardName}>{obj.name}</div>
 											<div className={cardStyles.cardName}>
-												{daysAgo === 0
-													? "Today"
-													: daysAgo === 1
-													? "Yesterday"
-													: `${daysAgo} days ago`}
+												{getTimeStamp(momentCreatedAt)}
 											</div>
 										</div>
 

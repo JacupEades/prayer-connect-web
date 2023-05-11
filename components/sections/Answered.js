@@ -162,8 +162,8 @@ export default function Answered({ sortValue, whoValue, namedValue }) {
 			})
 			.map((obj, i) => {
 				const createdAt = obj.createdAt;
-				const momentCreatedAt = moment(createdAt);
-				const daysAgo = moment().diff(momentCreatedAt, "days");
+				const date = new Date(createdAt);
+				const momentCreatedAt = moment(date);
 				const currentCount = prayerCounts[obj._id] || 0;
 				let displayNum = 0;
 
@@ -179,6 +179,24 @@ export default function Answered({ sortValue, whoValue, namedValue }) {
 				// update the card pray count on render
 				userPrayerCount();
 
+				function getTimeStamp(date) {
+					const now = moment();
+					const diff = Math.abs(now.diff(date));
+					const diffMinutes = Math.round(diff / (1000 * 60));
+					const diffHours = Math.round(diff / (1000 * 60 * 60));
+					const diffDays = Math.round(diff / (1000 * 60 * 60 * 24));
+
+					if (diffMinutes < 60) {
+						return `${diffMinutes} minutes ago`;
+					} else if (diffHours < 24) {
+						return `${diffHours} hours ago`;
+					} else if (diffDays <= 5) {
+						return `${diffDays} days ago`;
+					} else {
+						return date.format("LL");
+					}
+				}
+
 				return (
 					<article
 						onClick={() => handleCardClick(obj._id)}
@@ -189,11 +207,7 @@ export default function Answered({ sortValue, whoValue, namedValue }) {
 							<div className={cardStyles.cardNameContainer}>
 								<div className={cardStyles.cardName}>{obj.name}</div>
 								<div className={cardStyles.cardName}>
-									{daysAgo === 0
-										? "Today"
-										: daysAgo === 1
-										? "Yesterday"
-										: `${daysAgo} days ago`}
+									{getTimeStamp(momentCreatedAt)}
 								</div>
 							</div>
 

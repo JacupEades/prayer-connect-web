@@ -24,6 +24,7 @@ font-family: 'Source Sans Pro', sans-serif;*/
 	--sys-light-warning: #ba1a1a;
 	--sys-light-tertiary: #006b5d;
 	/* State Layer */
+	--lazy-load: #afafaf;
 	--sl-light-on-surface: #d8d5d8;
 	--sl-light-on-secondary: #d1c8e2;
 	--sl-light-on-primary: #806abd;
