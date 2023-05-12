@@ -12,6 +12,9 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
 import { updateUserPrayerCount } from "../../lib/userHelper";
+import HomeSectionLoading from "../loading/home/HomeSectionLoading";
+import HomeSectionError from "../loading/home/HomeSectionError";
+import HomeSectionUidError from "../loading/home/HomeSectionUidError";
 
 export default function PrivatePrayers({ sortValue, answeredValue }) {
 	const [prayerCounts, setPrayerCounts] = useState({});
@@ -23,28 +26,24 @@ export default function PrivatePrayers({ sortValue, answeredValue }) {
 	const router = useRouter();
 	const currentDate = new Date().toISOString();
 
-	const { isLoading, isError, data, error } = useQuery("prayers", getPrayers);
 	const {
-		data: userData,
+		isLoading: prayerLoading,
+		isError: prayerIsError,
+		data: prayerData,
+	} = useQuery("prayers", getPrayers, {
+		refetchOnmount: true,
+	});
+	const {
 		isLoading: userLoading,
 		isError: userIsError,
+		data: userData,
 		refetch,
 	} = useQuery("users", getUsers);
 
-	if (isLoading || userLoading)
-		return <div className={styles.loadingOrError}>Prayers are Loading...</div>;
-	if (isError || userIsError)
-		return (
-			<div className={styles.loadingOrError}>
-				Prayers being loaded error {error}
-			</div>
-		);
-	if (user.uid === "")
-		return (
-			<div className={styles.loadingOrError}>
-				Please log in to view players. {error}
-			</div>
-		);
+	// Data validation loading, error, and redux store uid
+	if (prayerLoading || userLoading) return <HomeSectionLoading />;
+	if (prayerIsError || userIsError) return <HomeSectionError />;
+	if (user.uid === "") return <HomeSectionUidError />;
 
 	const handleCardClick = async (_id) => {
 		try {
@@ -73,15 +72,14 @@ export default function PrivatePrayers({ sortValue, answeredValue }) {
 		});
 	const uData = currentUserData();
 
-	// Create a new array with objects that have both _id and count properties
-	const sortedData = data.map((pObj) => {
+	const sortedData = prayerData.map((pObj) => {
 		const countObj =
 			uData.length > 0
 				? uData[0].prayerCounts.find((uObj) => uObj.prayerId === pObj._id)
 				: 0;
 		return {
 			_id: pObj._id,
-			count: countObj ? countObj.count : 0, // Set count to 0 if not found in uData
+			count: countObj ? countObj.count : 0,
 		};
 	});
 
@@ -89,7 +87,7 @@ export default function PrivatePrayers({ sortValue, answeredValue }) {
 	sortedData.sort((a, b) => b.count - a.count);
 
 	const CardsData = () => {
-		return data
+		return prayerData
 			.sort((a, b) => {
 				let indexA = 0;
 				let indexB = 0;
@@ -262,7 +260,7 @@ export default function PrivatePrayers({ sortValue, answeredValue }) {
 	return (
 		<>
 			<section className={styles.masterContainer}>
-				{data
+				{prayerData
 					.filter((obj) => {
 						if (obj.personal === true && obj.userId === user.uid) {
 							return obj;

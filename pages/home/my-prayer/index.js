@@ -16,37 +16,30 @@ import { toast } from "react-toastify";
 import { updateUserPrayerCount } from "@/lib/userHelper";
 import { getUsers } from "@/lib/userHelper";
 import ReplayIcon from "@mui/icons-material/Replay";
+import MyPrayerLoading from "@/components/loading/prayer/MyPrayerLoading";
+import HomeSectionError from "@/components/loading/home/HomeSectionError";
+import HomeSectionUidError from "@/components/loading/home/HomeSectionUidError";
 
-type Props = {
-	objectWithId: {
-		name: string;
-		title: string;
-		message: string;
-		prayerNumber: number;
-		answered: boolean;
-		personal: boolean;
-		createdAt: string;
-	};
-};
-
-export default function MyPrayerView({}: Props) {
+export default function MyPrayerView() {
 	const [selection, setSelection] = useState("Details");
 	const [prayerCounts, setPrayerCounts] = useState(0);
-	const { prayer, user } = useSelector((state: any) => ({
+	const { prayer, user } = useSelector((state) => ({
 		...state,
 	}));
 	const router = useRouter();
 	const dispatch = useDispatch();
-	const { isLoading, isError, data, error }: any = useQuery(
-		"prayer",
-		getPrayers
-	);
+
 	const {
-		data: userData,
+		isLoading: prayerLoading,
+		isError: prayerIsError,
+		data: prayerData,
+	} = useQuery("prayers", getPrayers);
+	const {
 		isLoading: userLoading,
 		isError: userIsError,
+		data: userData,
 		refetch,
-	}: any = useQuery("users", getUsers);
+	} = useQuery("users", getUsers);
 
 	const userId = user.uid;
 	const prayerId = prayer.prayerId;
@@ -64,24 +57,13 @@ export default function MyPrayerView({}: Props) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [router]);
 
-	if (isLoading || userLoading)
-		return <div className={styles.loadingOrError}>Prayers are Loading...</div>;
-	if (isError || userIsError)
-		return (
-			<div className={styles.loadingOrError}>
-				Prayers being loaded error {error}
-			</div>
-		);
-	if (user.uid === "")
-		return (
-			<div className={styles.loadingOrError}>
-				Please log in to view players. {error}
-			</div>
-		);
+	// Data validation loading, error, and redux store uid
+	if (prayerLoading || userLoading) return <MyPrayerLoading />;
+	if (prayerIsError || userIsError) return <HomeSectionError />;
+	if (user.uid === "") return <HomeSectionUidError />;
+	if (prayerId === "") return <MyPrayerLoading />;
 
-	const objectWithId = data.find(
-		(obj: { _id: string }) => obj._id === prayerId
-	);
+	const objectWithId = prayerData.find((obj) => obj._id === prayerId);
 
 	const handleBack = async () => {
 		// Redux store
@@ -116,32 +98,33 @@ export default function MyPrayerView({}: Props) {
 		);
 	};
 
-	const currentUserData = () =>
-		userData.filter((obj: { uid: string }) => {
-			// console.log(obj.uid, user.uid);
-			if (obj.uid === user.uid) return obj;
-		});
+	const currentUserData = userData.filter((obj) => {
+		if (obj.uid === user.uid) {
+			return obj;
+		} else {
+			return obj;
+		}
+	});
 
-	const uData = currentUserData();
+	const uData = currentUserData;
 
 	const userPrayerCount = () => {
-		uData[0].prayerCounts.filter(
-			(userPCObj: { prayerId: string; count: number }) => {
-				if (userPCObj.prayerId === prayerId) {
-					displayNum = userPCObj.count;
-				}
-			}
-		);
+		currentUserData.length > 0
+			? currentUserData[0].prayerCounts.filter((userPCObj) => {
+					if (userPCObj.prayerId === prayerId) {
+						displayNum = userPCObj.count;
+					}
+			  })
+			: (displayNum = 0);
 	};
+
 	const userPrayedDate = () => {
-		uData[0].prayerCounts.filter(
-			(userPCObj: { prayerId: string; updated: string }) => {
-				if (userPCObj.prayerId === prayerId) {
-					console.log("userPCObj.updated", userPCObj.updated);
-					prayedDate = userPCObj.updated;
-				}
+		uData[0].prayerCounts.filter((userPCObj) => {
+			if (userPCObj.prayerId === prayerId) {
+				console.log("userPCObj.updated", userPCObj.updated);
+				prayedDate = userPCObj.updated;
 			}
-		);
+		});
 	};
 
 	const prayerBtnclicked = async () => {
@@ -182,7 +165,7 @@ export default function MyPrayerView({}: Props) {
 		userPrayedDate();
 	};
 
-	const componentSelector = (selection: String) => {
+	const componentSelector = (selection) => {
 		switch (selection) {
 			case "Details":
 				return <Details detail={objectWithId?.message || ""} />;

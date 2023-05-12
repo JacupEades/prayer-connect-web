@@ -173,11 +173,16 @@
 	padding: 0.625rem 0.75rem;
 	min-width: none;
 	text-transform: none;
+	border-radius: 1rem;
 	color: var(--sys-light-primary);
+}
+.topBtn.topBtn:hover {
+	background-color: var(--sl-light-on-surface);
 }
 .blob {
 	width: 2rem;
 	height: 0.25rem;
+	border-radius: 999px;
 	background-color: var(--sys-light-outline);
 }
 .sortList {

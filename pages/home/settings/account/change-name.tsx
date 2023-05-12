@@ -10,6 +10,9 @@ import { useDispatch } from "react-redux";
 import { userLoggedIn } from "@/redux/slices/userSlice";
 import { getUsers, updateUserPrayerCount } from "@/lib/userHelper";
 import { useQuery } from "react-query";
+import MyPrayerLoading from "@/components/loading/prayer/MyPrayerLoading";
+import HomeSectionError from "@/components/loading/home/HomeSectionError";
+import HomeSectionUidError from "@/components/loading/home/HomeSectionUidError";
 
 type Props = {};
 
@@ -38,20 +41,14 @@ export default function ChangeName({}: Props) {
 	}));
 
 	const {
-		error,
 		data: userData,
 		isLoading: userLoading,
 		isError: userIsError,
 	} = useQuery("users", getUsers);
 
-	if (userLoading)
-		return <div className={styles.loadingOrError}>Prayers are Loading...</div>;
-	if (userIsError)
-		return <div className={styles.loadingOrError}>User being loaded error</div>;
-	if (user.uid === "")
-		return (
-			<div className={styles.loadingOrError}>Please log in again. {error}</div>
-		);
+	if (userLoading) return <MyPrayerLoading />;
+	if (userIsError) return <HomeSectionError />;
+	if (user.uid === "") return <HomeSectionUidError />;
 
 	const currentUserData = userData.filter((obj: { uid: String }) => {
 		if (obj.uid === user.uid) {
@@ -120,9 +117,18 @@ export default function ChangeName({}: Props) {
 				{/* makes the textfield load when the name is fetched */}
 				{nameLoaded === true ? (
 					<TextField
-						className={styles.detailText}
 						id="detail"
 						label="Name"
+						className={styles.detailText}
+						sx={{
+							"& .MuiInputLabel-root.Mui-focused": {
+								color: "var(--sys-light-primary)",
+							},
+							"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+								{
+									borderColor: "var(--sys-light-primary)",
+								},
+						}}
 						onChange={(n) => setName(n.target.value)}
 						defaultValue={name}
 					/>

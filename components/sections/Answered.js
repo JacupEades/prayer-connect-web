@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "@/styles/Community.module.css";
 import { getPrayers, getPrayer } from "@/lib/prayerHelper";
 import { getUsers } from "@/lib/userHelper";
 import { useQuery } from "react-query";
 import cardStyles from "@/styles/Components.module.css";
 import { FaPray } from "react-icons/fa";
-import ReplayIcon from "@mui/icons-material/Replay";
-import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
-import { updateUserPrayerCount } from "../../lib/userHelper";
+import HomeSectionLoading from "../loading/home/HomeSectionLoading";
+import HomeSectionError from "../loading/home/HomeSectionError";
+import HomeSectionUidError from "../loading/home/HomeSectionUidError";
 
 export default function Answered({ sortValue, whoValue, namedValue }) {
 	const [prayerCounts, setPrayerCounts] = useState({});
@@ -24,27 +24,24 @@ export default function Answered({ sortValue, whoValue, namedValue }) {
 	// default filters state should be allboth
 	const filters = whoValue + "/" + namedValue;
 
-	const { isLoading, isError, data, error } = useQuery("prayers", getPrayers);
 	const {
-		data: userData,
+		isLoading: prayerLoading,
+		isError: prayerIsError,
+		data: prayerData,
+	} = useQuery("prayers", getPrayers, {
+		refetchOnmount: true,
+	});
+	const {
 		isLoading: userLoading,
 		isError: userIsError,
+		data: userData,
+		refetch,
 	} = useQuery("users", getUsers);
 
-	if (isLoading || userLoading)
-		return <div className={styles.loadingOrError}>Prayers are Loading...</div>;
-	if (isError || userIsError)
-		return (
-			<div className={styles.loadingOrError}>
-				Prayers being loaded error {error}
-			</div>
-		);
-	if (user.uid === "")
-		return (
-			<div className={styles.loadingOrError}>
-				Please log in to view players. {error}
-			</div>
-		);
+	// Data validation loading, error, and redux store uid
+	if (prayerLoading || userLoading) return <HomeSectionLoading />;
+	if (prayerIsError || userIsError) return <HomeSectionError />;
+	if (user.uid === "") return <HomeSectionUidError />;
 
 	const handleCardClick = async (_id) => {
 		try {
@@ -72,7 +69,7 @@ export default function Answered({ sortValue, whoValue, namedValue }) {
 		});
 	const uData = currentUserData();
 
-	const sortedData = data.map((pObj) => {
+	const sortedData = prayerData.map((pObj) => {
 		const countObj =
 			uData.length > 0
 				? uData[0].prayerCounts.find((uObj) => uObj.prayerId === pObj._id)
@@ -87,7 +84,7 @@ export default function Answered({ sortValue, whoValue, namedValue }) {
 	sortedData.sort((a, b) => b.count - a.count);
 
 	const CardsData = () => {
-		return data
+		return prayerData
 			.sort((a, b) => {
 				let indexA = 0;
 				let indexB = 0;
@@ -248,7 +245,7 @@ export default function Answered({ sortValue, whoValue, namedValue }) {
 	};
 
 	const dataNull = () => {
-		const checking = data
+		const checking = prayerData
 			.filter((obj) => {
 				if (obj.answered === true && obj.personal === false) {
 					return obj;

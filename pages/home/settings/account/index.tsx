@@ -12,6 +12,9 @@ import { toast } from "react-toastify";
 import { deleteUser } from "firebase/auth";
 import { auth } from "@/firebase/firebaseApp";
 import { userLoggedOut } from "@/redux/slices/userSlice";
+import MyPrayerLoading from "@/components/loading/prayer/MyPrayerLoading";
+import HomeSectionError from "@/components/loading/home/HomeSectionError";
+import HomeSectionUidError from "@/components/loading/home/HomeSectionUidError";
 
 type Props = {};
 
@@ -25,20 +28,14 @@ export default function Account({}: Props) {
 		...state,
 	}));
 	const {
-		error,
 		data: userData,
 		isLoading: userLoading,
 		isError: userIsError,
 	} = useQuery("users", getUsers);
 
-	if (userLoading)
-		return <div className={styles.loadingOrError}>Prayers are Loading...</div>;
-	if (userIsError)
-		return <div className={styles.loadingOrError}>User loading error</div>;
-	if (user.uid === "")
-		return (
-			<div className={styles.loadingOrError}>Please log in again. {error}</div>
-		);
+	if (userLoading) return <MyPrayerLoading />;
+	if (userIsError) return <HomeSectionError />;
+	if (user.uid === "") return <HomeSectionUidError />;
 
 	const currentUserId = user.uid;
 	const firebaseUser = auth.currentUser;

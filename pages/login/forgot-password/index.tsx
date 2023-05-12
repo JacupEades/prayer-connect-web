@@ -1,15 +1,12 @@
 import styles from "@/styles/Login.module.css";
-import { Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { onAuthStateChanged, sendPasswordResetEmail } from "firebase/auth";
+import { Button, TextField } from "@mui/material";
+import React, { useState } from "react";
+import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "@/firebase/firebaseApp";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { OutlinedInput } from "@mui/material";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import InputAdornment from "@mui/material/InputAdornment";
-import { userLoggedIn } from "@/redux/slices/userSlice";
 
 export default function ForgotPassword() {
 	const [email, setEmail] = useState("");
@@ -40,18 +37,30 @@ export default function ForgotPassword() {
 		<main className={styles.main}>
 			<h1 className={styles.h1}>Forgot Password</h1>
 			<form onSubmit={handleSubmit} className={styles.formInputContainer}>
-				<OutlinedInput
-					id="passwordInput"
+				<TextField
+					label={email !== "" ? "Email" : ""}
+					id="emailInput"
 					placeholder="Email"
 					className={styles.formInputField}
+					sx={{
+						"& .MuiInputLabel-root.Mui-focused": {
+							color: "var(--sys-light-primary)",
+						},
+						"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+							{
+								borderColor: "var(--sys-light-primary)",
+							},
+					}}
 					type="email"
 					value={email}
 					onChange={(text) => setEmail(text.target.value)}
-					startAdornment={
-						<InputAdornment position="start">
-							<EmailOutlinedIcon className={styles.formInputIcon} />
-						</InputAdornment>
-					}
+					InputProps={{
+						startAdornment: (
+							<InputAdornment position="start">
+								<EmailOutlinedIcon className={styles.formInputIcon} />
+							</InputAdornment>
+						),
+					}}
 				/>
 				<Button type="submit" className={styles.startBtn}>
 					Send password recovery email

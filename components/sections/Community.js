@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styles from "@/styles/Community.module.css";
-import skeleton from "@/styles/Skeletons.module.css";
 import { getPrayers, getPrayer } from "@/lib/prayerHelper";
 import { getUsers } from "@/lib/userHelper";
 import { useQuery } from "react-query";
@@ -13,6 +12,9 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
 import { updateUserPrayerCount } from "../../lib/userHelper";
+import HomeSectionLoading from "../loading/home/HomeSectionLoading";
+import HomeSectionError from "../loading/home/HomeSectionError";
+import HomeSectionUidError from "../loading/home/HomeSectionUidError";
 
 export default function Community({ sortValue, whoValue, namedValue }) {
 	const [prayerCounts, setPrayerCounts] = useState({});
@@ -26,66 +28,24 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 	// default filters state should be allboth
 	const filters = whoValue + "/" + namedValue;
 
-	const { isLoading, isError, data, error } = useQuery("prayers", getPrayers, {
+	const {
+		isLoading: prayerLoading,
+		isError: prayerIsError,
+		data: prayerData,
+	} = useQuery("prayers", getPrayers, {
 		refetchOnmount: true,
 	});
 	const {
-		data: userData,
 		isLoading: userLoading,
 		isError: userIsError,
+		data: userData,
 		refetch,
 	} = useQuery("users", getUsers);
 
-	if (isLoading || userLoading)
-		return (
-			<>
-				<div className={skeleton.homeContainer}>
-					<div className={skeleton.homeTop} />
-					<div className={skeleton.card} />
-					<div className={skeleton.card} />
-					<div className={skeleton.card} />
-					<div className={skeleton.card} />
-					<div className={skeleton.card} />
-					<div className={skeleton.card} />
-					<div className={skeleton.card} />
-					<div className={skeleton.card} />
-					<div className={skeleton.card} />
-				</div>
-			</>
-		);
-	if (isError || userIsError)
-		return (
-			<>
-				<div className={skeleton.homeContainer}>
-					<div className={skeleton.homeTop} />
-					<div className={skeleton.card} />
-					<div className={skeleton.card} />
-					<div className={skeleton.card} />
-					<div className={skeleton.card} />
-					<div className={skeleton.card} />
-					<div className={skeleton.card} />
-					<div className={skeleton.card} />
-					<div className={skeleton.card} />
-					<div className={skeleton.card} />
-				</div>
-			</>
-		);
-	if (user.uid === "")
-		return (
-			<div className={skeleton.homeError}>
-				<p className={skeleton.loginP}>
-					Oops! The connection is lost. Please login to continue your prayer
-					session.
-				</p>
-				<Button
-					onClick={() => {
-						router.push("/login/existing-user");
-					}}
-					className={skeleton.loginBtn}>
-					Login
-				</Button>
-			</div>
-		);
+	// Data validation loading, error, and redux store uid
+	if (prayerLoading || userLoading) return <HomeSectionLoading />;
+	if (prayerIsError || userIsError) return <HomeSectionError />;
+	if (user.uid === "") return <HomeSectionUidError />;
 
 	const handleCardClick = async (_id) => {
 		try {
@@ -111,7 +71,7 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 		}
 	});
 
-	const sortedData = data.map((pObj) => {
+	const sortedData = prayerData.map((pObj) => {
 		const countObj =
 			currentUserData.length > 0
 				? currentUserData[0].prayerCounts.find(
@@ -135,7 +95,7 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 				</p>
 				{/* Card Section */}
 				<div className={styles.cardSection}>
-					{data
+					{prayerData
 						.sort((a, b) => {
 							let indexA = 0;
 							let indexB = 0;

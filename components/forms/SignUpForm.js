@@ -120,6 +120,15 @@ export default function SignUpForm() {
 				id="nameInput"
 				placeholder="Name"
 				className={styles.formInputField}
+				sx={{
+					"& .MuiInputLabel-root.Mui-focused": {
+						color: "var(--sys-light-primary)",
+					},
+					"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+						{
+							borderColor: "var(--sys-light-primary)",
+						},
+				}}
 				type="name"
 				value={name}
 				onChange={(text) => setName(text.target.value)}
@@ -137,6 +146,15 @@ export default function SignUpForm() {
 					id="emailInput"
 					placeholder="Email"
 					className={styles.formInputField}
+					sx={{
+						"& .MuiInputLabel-root.Mui-focused": {
+							color: "var(--sys-light-primary)",
+						},
+						"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+							{
+								borderColor: "var(--sys-light-primary)",
+							},
+					}}
 					type="email"
 					value={email}
 					onChange={(text) => setEmail(text.target.value)}
@@ -161,6 +179,15 @@ export default function SignUpForm() {
 				id="passwordInput"
 				placeholder="Password"
 				className={styles.formInputField}
+				sx={{
+					"& .MuiInputLabel-root.Mui-focused": {
+						color: "var(--sys-light-primary)",
+					},
+					"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+						{
+							borderColor: "var(--sys-light-primary)",
+						},
+				}}
 				type="password"
 				value={password}
 				onChange={(text) => setPassword(text.target.value)}

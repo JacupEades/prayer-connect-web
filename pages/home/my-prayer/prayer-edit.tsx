@@ -201,6 +201,15 @@ export default function NewPrayer({}: Props) {
 				<TextField
 					multiline
 					className={styles.title}
+					sx={{
+						"& .MuiInputLabel-root.Mui-focused": {
+							color: "var(--sys-light-primary)",
+						},
+						"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+							{
+								borderColor: "var(--sys-light-primary)",
+							},
+					}}
 					id="title"
 					label="Title"
 					onChange={(T) => setTitleState(T.target.value)}
@@ -210,6 +219,15 @@ export default function NewPrayer({}: Props) {
 				<TextField
 					multiline
 					className={styles.detailText}
+					sx={{
+						"& .MuiInputLabel-root.Mui-focused": {
+							color: "var(--sys-light-primary)",
+						},
+						"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+							{
+								borderColor: "var(--sys-light-primary)",
+							},
+					}}
 					id="detail"
 					label="Detail"
 					onChange={(d) => setDetail(d.target.value)}

@@ -29,7 +29,8 @@
 		"redux/reducers/userReducer.js",
 		"components/pages/Community.js",
 		"components/cards/PrayerCard.js",
-		"pages/login/forgot-password/index.tsx"
+		"pages/login/forgot-password/index.tsx",
+		"pages/home/my-prayer/index.js"
 	],
 	"exclude": ["node_modules"]
 }
