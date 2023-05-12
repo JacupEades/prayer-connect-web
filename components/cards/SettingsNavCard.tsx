@@ -9,15 +9,9 @@ type Props = {
 	icon: any;
 	text: String;
 	route: URL;
-	isDisabled: boolean;
 };
 
-export default function SettingsNavCard({
-	icon,
-	text,
-	route,
-	isDisabled,
-}: Props) {
+export default function SettingsNavCard({ icon, text, route }: Props) {
 	const router = useRouter();
 
 	const hanldelClick = () => {
@@ -26,13 +20,9 @@ export default function SettingsNavCard({
 
 	return (
 		<div className={styles.settingsBtnContainer}>
-			<Button
-				disabled={isDisabled}
-				className={styles.settingsBtn}
-				onClick={hanldelClick}>
+			<Button className={styles.settingsBtn} onClick={hanldelClick}>
 				<div className={styles.settingsBtnLeft}>
 					{icon}
-
 					<div className={styles.settingsBtnText}>{text}</div>
 				</div>
 				<NavigateNextIcon />

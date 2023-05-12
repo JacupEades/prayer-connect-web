@@ -101,8 +101,10 @@ export default function MyPrayerView() {
 	const currentUserData = userData.filter((obj) => {
 		if (obj.uid === user.uid) {
 			return obj;
-		} else {
+		} else if (obj.email === user.email) {
 			return obj;
+		} else {
+			return;
 		}
 	});
 
@@ -121,7 +123,6 @@ export default function MyPrayerView() {
 	const userPrayedDate = () => {
 		uData[0].prayerCounts.filter((userPCObj) => {
 			if (userPCObj.prayerId === prayerId) {
-				console.log("userPCObj.updated", userPCObj.updated);
 				prayedDate = userPCObj.updated;
 			}
 		});
@@ -133,8 +134,6 @@ export default function MyPrayerView() {
 			return;
 		}
 		setPrayerCounts(1);
-		console.log("displayNum", displayNum);
-		console.log("prayedDate", prayedDate);
 		const userDBId = `?userId=${uData[0]._id}`;
 		const formData = {
 			prayerCounts: [{ prayerId: prayerId, count: 1 }],

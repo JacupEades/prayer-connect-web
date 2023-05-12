@@ -61,21 +61,22 @@ export default function PrivatePrayers({ sortValue, answeredValue }) {
 		}
 	};
 
-	const currentUserData = () =>
-		userData.filter((obj) => {
-			// console.log(obj.uid, user.uid);
-			if (obj.uid === user.uid) {
-				return obj;
-			} else {
-				return obj;
-			}
-		});
-	const uData = currentUserData();
+	const currentUserData = userData.filter((obj) => {
+		if (obj.uid === user.uid) {
+			return obj;
+		} else if (obj.email === user.email) {
+			return obj;
+		} else {
+			return;
+		}
+	});
 
 	const sortedData = prayerData.map((pObj) => {
 		const countObj =
-			uData.length > 0
-				? uData[0].prayerCounts.find((uObj) => uObj.prayerId === pObj._id)
+			currentUserData.length > 0
+				? currentUserData[0].prayerCounts.find(
+						(uObj) => uObj.prayerId === pObj._id
+				  )
 				: 0;
 		return {
 			_id: pObj._id,
@@ -133,8 +134,8 @@ export default function PrivatePrayers({ sortValue, answeredValue }) {
 				let displayNum = 0;
 
 				const userPrayerCount = () => {
-					uData.length > 0
-						? uData[0].prayerCounts.filter((userPCObj) => {
+					currentUserData.length > 0
+						? currentUserData[0].prayerCounts.filter((userPCObj) => {
 								if (userPCObj.prayerId === obj._id) {
 									displayNum = userPCObj.count;
 								}
@@ -154,7 +155,7 @@ export default function PrivatePrayers({ sortValue, answeredValue }) {
 					});
 
 					userPrayerCount();
-					const userDBId = `?userId=${uData[0]._id}`;
+					const userDBId = `?userId=${currentUserData[0]._id}`;
 					const formData = {
 						prayerCounts: [{ prayerId: obj._id, count: 1 }],
 						addUndo: false,
@@ -174,7 +175,7 @@ export default function PrivatePrayers({ sortValue, answeredValue }) {
 					});
 
 					userPrayerCount();
-					const userDBId = `?userId=${uData[0]._id}`;
+					const userDBId = `?userId=${currentUserData[0]._id}`;
 					const formData = {
 						prayerCounts: [{ prayerId: obj._id, count: 1 }],
 						addUndo: true,

@@ -66,8 +66,10 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 	const currentUserData = userData.filter((obj) => {
 		if (obj.uid === user.uid) {
 			return obj;
-		} else {
+		} else if (obj.email === user.email) {
 			return obj;
+		} else {
+			return;
 		}
 	});
 
@@ -173,6 +175,7 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 							const createdAt = obj.createdAt;
 							const date = new Date(createdAt);
 							const momentCreatedAt = moment(date);
+							// This is checking if user has clicke the btn this render
 							const currentCount = prayerCounts[obj._id] || 0;
 							let displayNum = 0;
 
@@ -197,7 +200,6 @@ export default function Community({ sortValue, whoValue, namedValue }) {
 									[obj._id]: currentCount + 1,
 								});
 
-								userPrayerCount();
 								const userDBId = `?userId=${currentUserData[0]._id}`;
 								const formData = {
 									prayerCounts: [{ prayerId: obj._id, count: 1 }],

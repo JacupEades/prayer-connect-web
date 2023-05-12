@@ -59,20 +59,22 @@ export default function Answered({ sortValue, whoValue, namedValue }) {
 		}
 	};
 
-	const currentUserData = () =>
-		userData.filter((obj) => {
-			if (obj.uid === user.uid) {
-				return obj;
-			} else {
-				return obj;
-			}
-		});
-	const uData = currentUserData();
+	const currentUserData = userData.filter((obj) => {
+		if (obj.uid === user.uid) {
+			return obj;
+		} else if (obj.email === user.email) {
+			return obj;
+		} else {
+			return;
+		}
+	});
 
 	const sortedData = prayerData.map((pObj) => {
 		const countObj =
-			uData.length > 0
-				? uData[0].prayerCounts.find((uObj) => uObj.prayerId === pObj._id)
+			currentUserData.length > 0
+				? currentUserData[0].prayerCounts.find(
+						(uObj) => uObj.prayerId === pObj._id
+				  )
 				: 0;
 		return {
 			_id: pObj._id,
@@ -165,8 +167,8 @@ export default function Answered({ sortValue, whoValue, namedValue }) {
 				let displayNum = 0;
 
 				const userPrayerCount = () => {
-					uData.length > 0
-						? uData[0].prayerCounts.filter((userPCObj) => {
+					currentUserData.length > 0
+						? currentUserData[0].prayerCounts.filter((userPCObj) => {
 								if (userPCObj.prayerId === obj._id) {
 									displayNum = userPCObj.count;
 								}
