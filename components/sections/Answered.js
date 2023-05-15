@@ -251,7 +251,7 @@ export default function Answered({
 					<NoPrayersYet />
 				) : (
 					<p className={styles.masterContainerP}>
-						Praise report for all God&apos;s answered prayers and blessings
+						Praise God for all the answered prayers and blessings for your community.
 					</p>
 				)}
 				{/* Card Section */}

@@ -253,7 +253,9 @@ export default function PrivatePrayers({
 					.map((x) => x).length === 0 ? (
 					<NoPrayersYet />
 				) : (
-					<p className={styles.masterContainerP}>Prayers only you can see.</p>
+					<p className={styles.masterContainerP}>
+						Record your personal prayers and praises here (visible only to you).
+					</p>
 				)}
 				{/* Card Section */}
 				<div className={styles.cardSection}>
