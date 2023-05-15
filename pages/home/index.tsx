@@ -3,12 +3,14 @@ import Navigation from "@/components/overlays/Navigation";
 import Header from "@/components/overlays/Header";
 import FilterDrawer from "@/components/forms/FilterDrawer";
 import HomeContent from "@/components/sections/HomeContent";
+import { useDispatch, useSelector } from "react-redux";
+import { tabSelect } from "@/redux/slices/tabSlice";
 
 type Props = {};
 
 export default function HomePage({}: Props) {
 	// Navigation tab selection
-	const [selection, setSelection] = useState("Community Prayers");
+	const [selection, setSelection] = useState("");
 	// Drawer open
 	const [fMenuOpen, setFMenuOpen] = useState(false);
 	// Sort right now can only take one value
@@ -18,6 +20,15 @@ export default function HomePage({}: Props) {
 	const [whoValue, setWhoValue] = useState("all");
 	const [namedValue, setNamedValue] = useState("both");
 	const [answeredValue, setAnsweredValue] = useState("no filter");
+	const dispatch = useDispatch();
+
+	const { tab } = useSelector((state: any) => ({
+		...state,
+	}));
+
+	useEffect(() => {
+		setSelection(tab.tab);
+	}, [tab]);
 
 	// Usefull for checking the filter states
 	// useEffect(() => {
@@ -180,7 +191,11 @@ export default function HomePage({}: Props) {
 
 	// functions for the navigation
 	const selectCall = (data: string) => {
-		setSelection(data);
+		dispatch(
+			tabSelect({
+				tab: data,
+			})
+		);
 	};
 
 	return (
