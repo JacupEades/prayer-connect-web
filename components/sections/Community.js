@@ -16,6 +16,7 @@ export default function Community({
 	prayer,
 	userData,
 	prayerData,
+	refetch,
 	sortValue,
 	whoValue,
 	namedValue,

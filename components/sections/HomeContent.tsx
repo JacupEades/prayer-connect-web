@@ -66,6 +66,7 @@ export default function HomeContent({
 						prayer={prayer}
 						userData={userData}
 						prayerData={prayerData}
+						refetch={refetch}
 						sortValue={sortValue}
 						whoValue={whoValue}
 						namedValue={namedValue}
@@ -78,6 +79,7 @@ export default function HomeContent({
 						prayer={prayer}
 						userData={userData}
 						prayerData={prayerData}
+						refetch={refetch}
 						sortValue={sortValue}
 						answeredValue={answeredValue}
 					/>

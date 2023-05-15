@@ -18,6 +18,7 @@ export default function PrivatePrayers({
 	prayer,
 	userData,
 	prayerData,
+	refetch,
 	sortValue,
 	answeredValue,
 }) {
