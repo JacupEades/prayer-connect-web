@@ -1,51 +1,32 @@
 import React, { useState } from "react";
 import styles from "@/styles/Community.module.css";
-import { getPrayers, getPrayer } from "@/lib/prayerHelper";
-import { getUsers } from "@/lib/userHelper";
-import { useQuery } from "react-query";
+import { getPrayer } from "@/lib/prayerHelper";
 import cardStyles from "@/styles/Components.module.css";
 import { FaPray } from "react-icons/fa";
 import ReplayIcon from "@mui/icons-material/Replay";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
 import { updateUserPrayerCount } from "../../lib/userHelper";
-import HomeSectionLoading from "../loading/home/HomeSectionLoading";
-import HomeSectionError from "../loading/home/HomeSectionError";
-import HomeSectionUidError from "../loading/home/HomeSectionUidError";
 
-export default function Community({ sortValue, whoValue, namedValue }) {
+export default function Community({
+	user,
+	prayer,
+	userData,
+	prayerData,
+	sortValue,
+	whoValue,
+	namedValue,
+}) {
 	const [prayerCounts, setPrayerCounts] = useState({});
 
-	const { user } = useSelector((state) => ({
-		...state,
-	}));
 	const dispatch = useDispatch();
 	const router = useRouter();
 	const currentDate = new Date().toISOString();
 	// default filters state should be allboth
 	const filters = whoValue + "/" + namedValue;
-
-	const {
-		isLoading: prayerLoading,
-		isError: prayerIsError,
-		data: prayerData,
-	} = useQuery("prayers", getPrayers, {
-		refetchOnmount: true,
-	});
-	const {
-		isLoading: userLoading,
-		isError: userIsError,
-		data: userData,
-		refetch,
-	} = useQuery("users", getUsers);
-
-	// Data validation loading, error, and redux store uid
-	if (prayerLoading || userLoading) return <HomeSectionLoading />;
-	if (prayerIsError || userIsError) return <HomeSectionError />;
-	if (user.uid === "") return <HomeSectionUidError />;
 
 	const handleCardClick = async (_id) => {
 		try {
