@@ -9,39 +9,22 @@ import { useRouter } from "next/router";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
-import HomeSectionLoading from "../loading/home/HomeSectionLoading";
-import HomeSectionError from "../loading/home/HomeSectionError";
-import HomeSectionUidError from "../loading/home/HomeSectionUidError";
 
-export default function Answered({ sortValue, whoValue, namedValue }) {
+export default function Answered({
+	user,
+	prayer,
+	userData,
+	prayerData,
+	sortValue,
+	whoValue,
+	namedValue,
+}) {
 	const [prayerCounts, setPrayerCounts] = useState({});
 
-	const { user } = useSelector((state) => ({
-		...state,
-	}));
 	const dispatch = useDispatch();
 	const router = useRouter();
 	// default filters state should be allboth
 	const filters = whoValue + "/" + namedValue;
-
-	const {
-		isLoading: prayerLoading,
-		isError: prayerIsError,
-		data: prayerData,
-	} = useQuery("prayers", getPrayers, {
-		refetchOnmount: true,
-	});
-	const {
-		isLoading: userLoading,
-		isError: userIsError,
-		data: userData,
-		refetch,
-	} = useQuery("users", getUsers);
-
-	// Data validation loading, error, and redux store uid
-	if (prayerLoading || userLoading) return <HomeSectionLoading />;
-	if (prayerIsError || userIsError) return <HomeSectionError />;
-	if (user.uid === "") return <HomeSectionUidError />;
 
 	const handleCardClick = async (_id) => {
 		try {

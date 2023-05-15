@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Navigation from "@/components/overlays/Navigation";
 import Header from "@/components/overlays/Header";
-import Community from "@/components/sections/Community";
-import Answered from "@/components/sections/Answered";
-import PrivatePrayers from "@/components/sections/PrivatePrayers";
-import Settings from "@/components/sections/Settings";
 import FilterDrawer from "@/components/forms/FilterDrawer";
+import HomeContent from "@/components/sections/HomeContent";
 
 type Props = {};
 
@@ -181,35 +178,6 @@ export default function HomePage({}: Props) {
 		}
 	};
 
-	const componentSelector = () => {
-		switch (selection) {
-			case "Community Prayers":
-				return (
-					<Community
-						sortValue={sortValue}
-						whoValue={whoValue}
-						namedValue={namedValue}
-					/>
-				);
-			case "Private Prayers":
-				return (
-					<PrivatePrayers sortValue={sortValue} answeredValue={answeredValue} />
-				);
-			case "Answered Prayers":
-				return (
-					<Answered
-						sortValue={sortValue}
-						whoValue={whoValue}
-						namedValue={namedValue}
-					/>
-				);
-			case "Settings":
-				return <Settings />;
-			default:
-				console.log("You broke my app dummy!");
-		}
-	};
-
 	// functions for the navigation
 	const selectCall = (data: string) => {
 		setSelection(data);
@@ -238,7 +206,13 @@ export default function HomePage({}: Props) {
 				answeredValue={answeredValue}
 				sortApplied={sortApplied}
 			/>
-			{componentSelector()}
+			<HomeContent
+				selection={selection}
+				sortValue={sortValue}
+				whoValue={whoValue}
+				namedValue={namedValue}
+				answeredValue={answeredValue}
+			/>
 			<Navigation selectString={selectCall} selection={selection} />
 			{/* Sort/Filter Drawer */}
 			<FilterDrawer
