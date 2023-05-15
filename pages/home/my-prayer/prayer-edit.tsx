@@ -275,45 +275,50 @@ export default function NewPrayer({}: Props) {
 					</div>
 				</div>
 				{/* Post as */}
-				<div className={styles.optionToggleContainer}>
-					<p>Post as</p>
-					<div className={styles.radio}>
-						<input
-							type="radio"
-							name="postAs"
-							id="postAs1"
-							value="false"
-							className={styles.radioInput}
-							checked={asSelected(false)}
-							onChange={handleCheckedAs}
-						/>
-						<label htmlFor="postAs1" className={styles.radioLabel}>
-							{postAs === false ? (
-								<CheckIcon className={styles.toggleIcon} />
-							) : (
-								<BsIncognito className={styles.toggleIcon} />
-							)}
-							Anonymous
-						</label>
-						<input
-							type="radio"
-							name="postAs"
-							id="postAs2"
-							value="true"
-							className={styles.radioInput}
-							checked={asSelected(true)}
-							onChange={handleCheckedAs}
-						/>
-						<label htmlFor="postAs2" className={styles.radioLabel}>
-							{postAs === true ? (
-								<CheckIcon className={styles.toggleIcon} />
-							) : (
-								<PersonIcon className={styles.toggleIcon} />
-							)}
-							{user.name}
-						</label>
+				{postIn === true ? (
+					<></>
+				) : (
+					<div className={styles.optionToggleContainer}>
+						<p>Post as</p>
+						<div className={styles.radio}>
+							<input
+								type="radio"
+								name="postAs"
+								id="postAs1"
+								value="false"
+								className={styles.radioInput}
+								checked={asSelected(false)}
+								onChange={handleCheckedAs}
+							/>
+							<label htmlFor="postAs1" className={styles.radioLabel}>
+								{postAs === false ? (
+									<CheckIcon className={styles.toggleIcon} />
+								) : (
+									<BsIncognito className={styles.toggleIcon} />
+								)}
+								Anonymous
+							</label>
+							<input
+								type="radio"
+								name="postAs"
+								id="postAs2"
+								value="true"
+								className={styles.radioInput}
+								checked={asSelected(true)}
+								onChange={handleCheckedAs}
+							/>
+							<label htmlFor="postAs2" className={styles.radioLabel}>
+								{postAs === true ? (
+									<CheckIcon className={styles.toggleIcon} />
+								) : (
+									<PersonIcon className={styles.toggleIcon} />
+								)}
+								{user.name}
+							</label>
+						</div>
 					</div>
-				</div>
+				)}
+
 				{/* Prayer Status */}
 				<div className={styles.optionToggleContainer}>
 					<p>Prayer status</p>

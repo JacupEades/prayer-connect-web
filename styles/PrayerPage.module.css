@@ -15,7 +15,7 @@
 	min-height: 100vh;
 	max-width: 425px;
 	gap: 0.5rem;
-	padding: 4.5rem 1rem 10rem 1rem;
+	padding: 4.5rem 1rem 7.5rem 1rem;
 	flex-direction: column;
 	background-color: var(--sys-light-surface);
 	color: var(--sys-light-on-surface);

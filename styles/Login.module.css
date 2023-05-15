@@ -3,7 +3,7 @@
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
-	padding: 1.5rem 1.5rem 8rem 1.5rem;
+	padding: 1.5rem;
 	min-height: 100vh;
 	background-color: var(--sys-light-surface);
 	color: var(--sys-light-primary);
@@ -14,7 +14,7 @@
 	justify-content: flex-start;
 	align-items: center;
 	min-height: 100vh;
-	padding: 0rem 1rem 10rem 1rem;
+	padding: 0rem 1rem 3.5rem 1rem;
 	background-color: var(--sys-light-surface);
 	color: var(--sys-light-on-surface);
 }
