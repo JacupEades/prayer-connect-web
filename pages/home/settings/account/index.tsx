@@ -39,14 +39,23 @@ export default function Account({}: Props) {
 
 	const currentUserId = user.uid;
 	const firebaseUser = auth.currentUser;
-	const currentDBUserId = userData.find(
-		(ele: any) => ele.uid === currentUserId
-	);
+	const currentDBUserId = userData.filter((obj: any) => {
+		if (obj.uid === user.uid) {
+			return obj;
+		} else {
+			return;
+		}
+	});
+
 	// Delete Account
-	const handleDelete = () => {
-		setDBuid(currentDBUserId.uid);
-		setDb_id(currentDBUserId._id);
-		setDeletePopup(true);
+	const handleDelete = async () => {
+		if (currentDBUserId) {
+			setDBuid(currentDBUserId[0].uid);
+			setDb_id(currentDBUserId[0]._id);
+			setDeletePopup(true);
+		} else {
+			console.log("currentDBUserId", currentDBUserId);
+		}
 	};
 
 	const deleteConfirmed = async () => {
@@ -66,8 +75,8 @@ export default function Account({}: Props) {
 				toast.error("One or more conditions not met to delete account.");
 				console.log("firebaseUser", firebaseUser !== null ? true : false);
 				console.log("db_id", db_id);
-
 				console.log("dbUid === currentUserId", dbUid, currentUserId);
+				console.log("currentDBUserId", currentDBUserId);
 			}
 		} catch {
 			toast.error("Error, User was not deleted.");
