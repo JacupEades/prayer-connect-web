@@ -62,6 +62,10 @@ export default function Account({}: Props) {
 					});
 			} else {
 				toast.error("One or more conditions not met to delete account.");
+				console.log("firebaseUser", firebaseUser !== null ? true : false);
+				console.log("db_id", db_id);
+
+				console.log("dbUid === currentUserId", dbUid === currentUserId);
 			}
 		} catch {
 			toast.error("Error, User was not deleted.");

@@ -27,6 +27,8 @@ export default function Settings() {
 				.then(() => {
 					toast.success("Logged Out");
 					dispatch(userLoggedOut());
+					sessionStorage.setItem("title", "");
+					sessionStorage.setItem("detail", "");
 					router.push("/login/existing-user");
 				})
 				.catch((error) => {

@@ -36,8 +36,8 @@ export default function NewPrayer({}: Props) {
 		...state,
 	}));
 	const router = useRouter();
-	const localTitleCheck = localStorage.getItem("title");
-	const localDetailCheck = localStorage.getItem("detail");
+	const localTitleCheck = sessionStorage.getItem("title");
+	const localDetailCheck = sessionStorage.getItem("detail");
 
 	useEffect(() => {
 		let timer: any;
@@ -49,10 +49,10 @@ export default function NewPrayer({}: Props) {
 			Dvalue: string
 		) => {
 			if (Tvalue !== "") {
-				localStorage.setItem(Tkey, Tvalue);
+				sessionStorage.setItem(Tkey, Tvalue);
 			}
 			if (Dvalue !== "") {
-				localStorage.setItem(Dkey, Dvalue);
+				sessionStorage.setItem(Dkey, Dvalue);
 			}
 		};
 
@@ -108,13 +108,13 @@ export default function NewPrayer({}: Props) {
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
-		if (detail.length > 2000) {
+		if (detail.length > 1000) {
 			return toast.error("Prayer detail is to long.");
 		}
 		if (user.uid && title) {
 			await addPrayer(formData);
-			localStorage.setItem("title", "");
-			localStorage.setItem("detail", "");
+			sessionStorage.setItem("title", "");
+			sessionStorage.setItem("detail", "");
 			toast.success("Prayer submitted");
 			router.back();
 			// console.log(formData);

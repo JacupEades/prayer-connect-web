@@ -231,7 +231,7 @@ export default function NewPrayer({}: Props) {
 					id="detail"
 					label="Detail"
 					onChange={(d) => setDetail(d.target.value)}
-					defaultValue={message}
+					defaultValue={message.replaceAll("\\n", "\n") || ""}
 				/>
 				{/* Options */}
 				{/* Post in */}
