@@ -39,11 +39,13 @@ export default function Account({}: Props) {
 
 	const currentUserId = user.uid;
 	const firebaseUser = auth.currentUser;
-
+	const currentDBUserId = userData.find(
+		(ele: any) => ele.uid === currentUserId
+	);
 	// Delete Account
 	const handleDelete = () => {
-		setDBuid(userData[0].uid);
-		setDb_id(userData[0]._id);
+		setDBuid(currentDBUserId.uid);
+		setDb_id(currentDBUserId._id);
 		setDeletePopup(true);
 	};
 
