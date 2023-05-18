@@ -36,6 +36,52 @@ export default function NewPrayer({}: Props) {
 		...state,
 	}));
 	const router = useRouter();
+	const localTitleCheck = localStorage.getItem("title");
+	const localDetailCheck = localStorage.getItem("detail");
+
+	useEffect(() => {
+		let timer: any;
+
+		const delayedTitleSave = (
+			Tkey: string,
+			Tvalue: string,
+			Dkey: string,
+			Dvalue: string
+		) => {
+			if (Tvalue !== "") {
+				localStorage.setItem(Tkey, Tvalue);
+			}
+			if (Dvalue !== "") {
+				localStorage.setItem(Dkey, Dvalue);
+			}
+		};
+
+		const debounce = (
+			func: { (): void; apply?: any },
+			delay: number | undefined
+		) => {
+			return (...args: any) => {
+				clearTimeout(timer);
+				timer = setTimeout(() => {
+					func.apply(null, args);
+				}, delay);
+			};
+		};
+
+		const debouncedFunction = debounce(
+			() => delayedTitleSave("title", title, "detail", detail),
+			2000
+		);
+
+		const handleChange = () => {
+			debouncedFunction();
+		};
+
+		handleChange();
+		return () => {
+			clearTimeout(timer);
+		};
+	}, [title, detail]);
 
 	useEffect(() => {
 		const displayName = postAs ? user.name : "Anonymous";
@@ -44,7 +90,7 @@ export default function NewPrayer({}: Props) {
 			userId: user.uid,
 			name: displayName,
 			title: title,
-			message: detail,
+			message: detail.replace(/\r\n|\r|\n/g, "\\n"),
 			prayedFor: 0,
 			prayerNumber: 0,
 			answered: prayerStatus,
@@ -65,8 +111,10 @@ export default function NewPrayer({}: Props) {
 		if (detail.length > 2000) {
 			return toast.error("Prayer detail is to long.");
 		}
-		if (user.uid && title && detail) {
+		if (user.uid && title) {
 			await addPrayer(formData);
+			localStorage.setItem("title", "");
+			localStorage.setItem("detail", "");
 			toast.success("Prayer submitted");
 			router.back();
 			// console.log(formData);
@@ -116,7 +164,7 @@ export default function NewPrayer({}: Props) {
 							Cancel
 						</Button>
 						<MyButton
-							disabled={!title || !detail}
+							disabled={title === "" && localTitleCheck === ""}
 							type="submit"
 							className={styles.optionBtnPublish}>
 							Publish
@@ -140,6 +188,7 @@ export default function NewPrayer({}: Props) {
 					id="title"
 					label="Title"
 					onChange={(T) => setTitle(T.target.value)}
+					defaultValue={localTitleCheck ? localTitleCheck : ""}
 				/>
 				{/* Prayer */}
 				<TextField
@@ -157,6 +206,7 @@ export default function NewPrayer({}: Props) {
 					id="detail"
 					label="Detail"
 					onChange={(d) => setDetail(d.target.value)}
+					defaultValue={localDetailCheck ? localDetailCheck : ""}
 				/>
 				{/* Options */}
 				{/* Post in */}

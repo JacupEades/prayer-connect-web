@@ -43,7 +43,7 @@ export default function Support({}: Props) {
 				<div className={styles.greyBlock} />
 				{/* Bottom */}
 				<section className={styles.botSection}>
-					<p>Beta v1.0.0</p>
+					<p>Beta v1.1.0</p>
 					<Link
 						href={"/login/signup/terms-and-conditions"}
 						className={styles.termsLink}>

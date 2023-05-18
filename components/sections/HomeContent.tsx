@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 
 type Props = {
 	selection: string;
+	setSelection: any;
 	sortValue: string;
 	whoValue: string;
 	namedValue: string;
@@ -22,6 +23,7 @@ type Props = {
 
 export default function HomeContent({
 	selection,
+	setSelection,
 	sortValue,
 	whoValue,
 	namedValue,
@@ -43,7 +45,7 @@ export default function HomeContent({
 		isError: prayerIsError,
 		data: prayerData,
 	} = useQuery("prayers", getPrayers, {
-		refetchOnMount: true,
+		refetchOnMount: "always",
 	});
 	const {
 		isLoading: userLoading,
@@ -99,6 +101,7 @@ export default function HomeContent({
 			case "Settings":
 				return <Settings />;
 			default:
+				setSelection("Community Prayers");
 				console.log("You broke my app dummy!");
 		}
 	};

@@ -9,7 +9,7 @@ export async function getUsers(req, res) {
 
 		if (!users)
 			return res.status(404).json({ error: "Error, No users to load." });
-		res.status(200).json(users);
+		return res.status(200).json(users);
 	} catch (error) {
 		return res.status(404).json({ error: "Error While Fetching Data" });
 	}
@@ -35,8 +35,8 @@ export async function getUser(req, res) {
 		const user = await Users.findById(userId);
 
 		if (!userId)
-			res.status(404).json({ error: "Can not get the user to load." });
-		res.status(200).json(user);
+			return res.status(404).json({ error: "Can not get the user to load." });
+		return res.status(200).json(user);
 	} catch (error) {
 		return res.status(404).json({ error: "Can not get the user." });
 	}
@@ -49,7 +49,7 @@ export async function getPrayers(req, res) {
 
 		if (!prayers)
 			return res.status(404).json({ error: "Error, No prayers to load." });
-		res.status(200).json(prayers);
+		return res.status(200).json(prayers);
 	} catch (error) {
 		return res.status(404).json({ error: "Error While Fetching Data" });
 	}

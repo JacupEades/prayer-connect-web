@@ -196,7 +196,7 @@ export default function Answered({
 							{/* Title and Message */}
 							<div className={cardStyles.cardTextContainer}>
 								<h2>{obj.title}</h2>
-								<p>{obj.message}</p>
+								<p>{obj.message.replace(/\\n/g, " ")}</p>
 							</div>
 						</div>
 						{/* Count and pray Btn */}
@@ -251,7 +251,8 @@ export default function Answered({
 					<NoPrayersYet />
 				) : (
 					<p className={styles.masterContainerP}>
-						Praise God for all the answered prayers and blessings for your community.
+						Praise God for all the answered prayers and blessings for your
+						community.
 					</p>
 				)}
 				{/* Card Section */}

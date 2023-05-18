@@ -256,7 +256,7 @@ export default function Community({
 										{/* Title and Message */}
 										<div className={cardStyles.cardTextContainer}>
 											<h2>{obj.title}</h2>
-											<p>{obj.message}</p>
+											<p>{obj.message.replace(/\\n/g, " ")}</p>
 										</div>
 									</div>
 									{/* Count and pray Btn */}

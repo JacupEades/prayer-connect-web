@@ -107,7 +107,7 @@ export default function NewPrayer({}: Props) {
 		if (detail.length > 2000) {
 			return toast.error("Prayer detail is to long.");
 		}
-		if (userId === currentUserId && titleState && detail) {
+		if (userId === currentUserId && titleState) {
 			await updatePrayer(prayerId, formData);
 			toast.success("Prayer updated");
 			router.back();

@@ -167,7 +167,11 @@ export default function MyPrayerView() {
 	const componentSelector = (selection) => {
 		switch (selection) {
 			case "Details":
-				return <Details detail={objectWithId?.message || ""} />;
+				return (
+					<Details
+						detail={objectWithId?.message.replace(/\\n/g, "<br>") || ""}
+					/>
+				);
 			case "Edit":
 				return "";
 			case "Stats":

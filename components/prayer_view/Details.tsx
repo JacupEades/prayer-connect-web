@@ -4,5 +4,9 @@ import styles from "@/styles/PrayerPage.module.css";
 type Props = { detail: string };
 
 export default function Details({ detail }: Props) {
-	return <div className={styles.detailText}>{detail}</div>;
+	return (
+		<div
+			className={styles.detailText}
+			dangerouslySetInnerHTML={{ __html: detail }}></div>
+	);
 }

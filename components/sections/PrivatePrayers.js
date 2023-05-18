@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import styles from "@/styles/Community.module.css";
-import { getPrayers, getPrayer } from "@/lib/prayerHelper";
-import { getUsers } from "@/lib/userHelper";
-import { useQuery } from "react-query";
+import { getPrayer } from "@/lib/prayerHelper";
 import cardStyles from "@/styles/Components.module.css";
 import { FaPray } from "react-icons/fa";
 import ReplayIcon from "@mui/icons-material/Replay";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
 import { updateUserPrayerCount } from "../../lib/userHelper";
 
@@ -92,6 +90,7 @@ export default function PrivatePrayers({
 			})
 			.filter((obj) => {
 				const tabDefault = obj.personal === true && obj.userId === user.uid;
+
 				switch (answeredValue) {
 					case "answered":
 						if (tabDefault && obj.answered === true) {
@@ -110,9 +109,6 @@ export default function PrivatePrayers({
 				}
 			})
 			.map((obj, i) => {
-				const createdAt = obj.createdAt;
-				const momentCreatedAt = moment(createdAt);
-				const daysAgo = moment().diff(momentCreatedAt, "days");
 				const currentCount = prayerCounts[obj._id] || 0;
 				let displayNum = 0;
 
@@ -209,7 +205,7 @@ export default function PrivatePrayers({
 							{/* Title and Message */}
 							<div className={cardStyles.cardTextContainer}>
 								<h2>{obj.title}</h2>
-								<p>{obj.message}</p>
+								<p>{obj.message.replace(/\\n/g, " ")}</p>
 							</div>
 						</div>
 						{/* Count and pray Btn */}

@@ -10,7 +10,7 @@ type Props = {};
 
 export default function HomePage({}: Props) {
 	// Navigation tab selection
-	const [selection, setSelection] = useState("");
+	const [selection, setSelection] = useState("Community");
 	// Drawer open
 	const [fMenuOpen, setFMenuOpen] = useState(false);
 	// Sort right now can only take one value
@@ -29,6 +29,14 @@ export default function HomePage({}: Props) {
 	useEffect(() => {
 		setSelection(tab.tab);
 	}, [tab]);
+
+	useEffect(() => {
+		setSortValue("newest");
+		setSortApplied(false);
+		setWhoValue("all");
+		setNamedValue("both");
+		setAnsweredValue("no filter");
+	}, [selection]);
 
 	// Usefull for checking the filter states
 	// useEffect(() => {
@@ -223,6 +231,7 @@ export default function HomePage({}: Props) {
 			/>
 			<HomeContent
 				selection={selection}
+				setSelection={setSelection}
 				sortValue={sortValue}
 				whoValue={whoValue}
 				namedValue={namedValue}
