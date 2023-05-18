@@ -65,7 +65,7 @@ export default function Account({}: Props) {
 				console.log("firebaseUser", firebaseUser !== null ? true : false);
 				console.log("db_id", db_id);
 
-				console.log("dbUid === currentUserId", dbUid === currentUserId);
+				console.log("dbUid === currentUserId", dbUid, currentUserId);
 			}
 		} catch {
 			toast.error("Error, User was not deleted.");
