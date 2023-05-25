@@ -63,6 +63,10 @@ export default function NewPrayer({}: Props) {
 	);
 
 	useEffect(() => {
+		console.log(titleState);
+	}, [titleState]);
+
+	useEffect(() => {
 		const postAsCheck = data?.name === "Anonymous" ? false : true;
 		setTitleState(data?.title);
 		setDetail(data?.message);
@@ -81,7 +85,7 @@ export default function NewPrayer({}: Props) {
 	useEffect(() => {
 		setFormData({
 			title: titleState,
-			message: detail,
+			message: detail?.replace(/\r\n|\r|\n/g, "\\n"),
 			name: displayName,
 			personal: postIn,
 			answered: prayerStatus,
@@ -189,7 +193,7 @@ export default function NewPrayer({}: Props) {
 							Cancel
 						</Button>
 						<MyButton
-							disabled={!title || !detail}
+							disabled={titleState === ""}
 							type="submit"
 							className={styles.optionBtnPublish}>
 							Save

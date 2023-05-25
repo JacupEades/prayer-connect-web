@@ -17,10 +17,9 @@ const userSchema = new Schema(
 			required: true,
 			unique: true,
 		},
-		role: {
-			type: String,
-			enum: ["user", "admin"],
-			default: "user",
+		approvedCommunities: {
+			type: Array,
+			default: ["Public"],
 		},
 		prayerCounts: [
 			{

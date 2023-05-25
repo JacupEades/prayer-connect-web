@@ -9,7 +9,9 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoggedOut } from "@/redux/slices/userSlice";
 import SettingsNavCard from "../cards/SettingsNavCard";
+import SecurityIcon from "@mui/icons-material/Security";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 
@@ -56,12 +58,26 @@ export default function Settings() {
 			{/* <div className={stylesLogin.orSeperator}>
 				<div></div>
 			</div> */}
-
 			<SettingsNavCard
 				icon={<EmailOutlinedIcon />}
 				text={"Help & Info"}
 				route={"/home/settings/support"}
 			/>
+			<SettingsNavCard
+				disabled={true}
+				icon={<MeetingRoomOutlinedIcon />}
+				text={"Request To Join A New Community"}
+				route={"/home/settings/community-request"}
+			/>
+			{user.email === "jwae98@gmail.com" ? (
+				<SettingsNavCard
+					icon={<SecurityIcon />}
+					text={"Community Management"}
+					route={"/home/settings/admin"}
+				/>
+			) : (
+				<></>
+			)}
 			<div className={stylesLogin.logoutBtnContainer}>
 				<Button onClick={logout} className={stylesLogin.logoutBtn}>
 					{userId === "" ? "Log in" : "Log out"}

@@ -1,5 +1,6 @@
 import Prayers from "@/model/prayer";
 import Users from "@/model/user";
+import Communities from "@/model/communities";
 
 // USERS CONTROLLERS
 // GET: http://localhost:3000/api/users
@@ -207,7 +208,79 @@ export async function deleteUserInDB(req, res) {
 		}
 		return res
 			.status(404)
-			.json({ error: "Error deleting prayer. DELETE request." });
+			.json({ error: "Error deleting user. DELETE request." });
+	} catch (error) {
+		return res.status(404).json({ error: "Error while updating the data." });
+	}
+}
+
+// Communities CONTROLLERS
+// GET: http://localhost:3000/api/communities
+export async function getCommunities(req, res) {
+	try {
+		const communities = await Communities.find({});
+
+		if (!communities)
+			return res.status(404).json({ error: "Error, No communities to load." });
+		return res.status(200).json(communities);
+	} catch (error) {
+		return res.status(404).json({ error: "Error While Fetching Data" });
+	}
+}
+
+// POST: http://localhost:3000/api/communities
+export async function postCommunities(req, res) {
+	try {
+		const formData = await Communities.create(req.body);
+
+		if (!formData) {
+			return res.status(404).json({ error: "Form data not found." });
+		} else {
+			return res.status(200).json(formData);
+		}
+	} catch (error) {
+		if (error.code === 11000) {
+			// Duplicate key error
+			return res.status(400).json({ error: "Community already exists." });
+		} else {
+			return res.status(500).json({ error: "Failed to create community." });
+		}
+	}
+}
+
+// PUT: http://localhost:3000/api/communities/communityId
+export async function putCommunities(req, res) {
+	try {
+		const { communityId } = req.query;
+		const formData = req.body;
+
+		if (communityId && formData) {
+			let updatedCommunity = await Communities.findByIdAndUpdate(
+				communityId,
+				formData
+			);
+			return res.status(200).json(updatedCommunity);
+		}
+		return res
+			.status(404)
+			.json({ error: "Error editing Community. PUT request." });
+	} catch (error) {
+		return res.status(404).json({ error: "Error while updating the data." });
+	}
+}
+
+// DELETE: http://localhost:3000/api/communities/communityId
+export async function deleteCommunity(req, res) {
+	try {
+		const { communityId } = req.query;
+
+		if (communityId) {
+			let deletedCommunity = await Communities.findByIdAndDelete(communityId);
+			return res.status(200).json({ deleted: communityId });
+		}
+		return res
+			.status(404)
+			.json({ error: "Error deleting Community. DELETE request." });
 	} catch (error) {
 		return res.status(404).json({ error: "Error while updating the data." });
 	}

@@ -29,6 +29,8 @@ font-family: 'Source Sans Pro', sans-serif;*/
 	--sl-light-on-secondary: #d1c8e2;
 	--sl-light-on-primary: #806abd;
 	--sl-light-card: #f0e9f0;
+	--sl-light-warning: #a11a1a;
+	--sl-light-tertiary: #01574b;
 	--disable-light-primary: #1d1b201f;
 	/* Jacob made */
 	--sys-light-overlay-bg: #00000050;
