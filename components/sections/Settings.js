@@ -63,6 +63,7 @@ export default function Settings() {
 				text={"Help & Info"}
 				route={"/home/settings/support"}
 			/>
+			<p style={{ color: "#000" }}>Coming Soon!</p>
 			<SettingsNavCard
 				disabled={true}
 				icon={<MeetingRoomOutlinedIcon />}

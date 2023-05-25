@@ -1,6 +1,7 @@
 import Prayers from "@/model/prayer";
 import Users from "@/model/user";
 import Communities from "@/model/communities";
+import CommunityRequest from "@/model/communityRequest";
 
 // USERS CONTROLLERS
 // GET: http://localhost:3000/api/users
@@ -281,6 +282,52 @@ export async function deleteCommunity(req, res) {
 		return res
 			.status(404)
 			.json({ error: "Error deleting Community. DELETE request." });
+	} catch (error) {
+		return res.status(404).json({ error: "Error while updating the data." });
+	}
+}
+
+export async function getComRequest(req, res) {
+	try {
+		const comRequests = await CommunityRequest.find({});
+
+		if (!comRequests)
+			return res.status(404).json({ error: "Error, No comRequests to load." });
+		return res.status(200).json(comRequests);
+	} catch (error) {
+		return res.status(404).json({ error: "Error While Fetching Data" });
+	}
+}
+
+export async function postComRequest(req, res) {
+	try {
+		const formData = await CommunityRequest.create(req.body);
+		if (!formData) {
+			return res.status(404).json({ error: "Form data not found." });
+		} else {
+			return res.status(200).json(formData);
+		}
+	} catch (error) {
+		if (error.code === 11000) {
+			// Duplicate key error
+			return res.status(400).json({ error: "Request already exists." });
+		} else {
+			return res.status(500).json({ error: "Failed to create community." });
+		}
+	}
+}
+
+export async function deleteComRequest(req, res) {
+	try {
+		const { comRedId } = req.query;
+
+		if (comRedId) {
+			let deletedCommunity = await Communities.findByIdAndDelete(comRedId);
+			return res.status(200).json({ deleted: comRedId });
+		}
+		return res
+			.status(404)
+			.json({ error: "Error deleting Community Request. DELETE request." });
 	} catch (error) {
 		return res.status(404).json({ error: "Error while updating the data." });
 	}

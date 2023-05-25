@@ -19,7 +19,7 @@ const userSchema = new Schema(
 		},
 		approvedCommunities: {
 			type: Array,
-			default: ["Public"],
+			default: ["G"],
 		},
 		prayerCounts: [
 			{
