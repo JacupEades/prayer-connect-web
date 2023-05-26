@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./slices/userSlice";
 import prayerReducer from "./slices/prayerSlice";
 import tabReducer from "./slices/tabSlice";
+import communityReducer from "./slices/communitySlice";
 import { combineReducers } from "redux";
 // Persist
 import storage from "redux-persist/lib/storage";
@@ -17,11 +18,13 @@ const persistConfig = {
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
 const persistedPrayerReducer = persistReducer(persistConfig, prayerReducer);
 const persistedTabReducer = persistReducer(persistConfig, tabReducer);
+const persistedComReducer = persistReducer(persistConfig, communityReducer);
 
 const rootReducer = combineReducers({
 	user: persistedUserReducer,
 	prayer: persistedPrayerReducer,
 	tab: persistedTabReducer,
+	selectedCommunity: persistedComReducer,
 });
 
 export const store = configureStore({

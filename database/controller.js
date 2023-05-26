@@ -139,6 +139,7 @@ export async function putUsers(req, res) {
 		const updatedDate = formData.updated;
 		const putType = formData.putType;
 		const newDisplayName = formData.newDisplayName;
+		const newCommunity = formData.newCommunity;
 
 		switch (putType) {
 			case "prayerCount":
@@ -190,6 +191,12 @@ export async function putUsers(req, res) {
 					$set: { name: newDisplayName },
 				});
 				return res.status(200).json(updatedUserName);
+			case "newCommunity":
+				console.log("updatedCommunity Array 1 to:", newCommunity);
+				updatedComArr = await Users.findByIdAndUpdate(userId, {
+					$push: { approvedCommunities: newCommunity },
+				});
+				return res.status(200).json(updatedComArr);
 			default:
 				console.log("Error In putType selection: ", putType);
 				console.log("formData.putType:", formData.putType);
@@ -319,11 +326,11 @@ export async function postComRequest(req, res) {
 
 export async function deleteComRequest(req, res) {
 	try {
-		const { comRedId } = req.query;
+		const { comReqId } = req.query;
 
-		if (comRedId) {
-			let deletedCommunity = await Communities.findByIdAndDelete(comRedId);
-			return res.status(200).json({ deleted: comRedId });
+		if (comReqId) {
+			let deletedCommunity = await CommunityRequest.findByIdAndDelete(comReqId);
+			return res.status(200).json({ deleted: comReqId });
 		}
 		return res
 			.status(404)

@@ -22,7 +22,7 @@ export default function Home() {
 					userLoggedIn({
 						name: user.displayName,
 						email: user.email,
-						role: "admin",
+						role: "user",
 						uid: user.uid,
 					})
 				);

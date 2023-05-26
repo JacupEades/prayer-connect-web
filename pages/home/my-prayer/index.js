@@ -13,7 +13,7 @@ import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
 import { toast } from "react-toastify";
-import { updateUserPrayerCount } from "@/lib/userHelper";
+import { updateUser } from "@/lib/userHelper";
 import { getUsers } from "@/lib/userHelper";
 import ReplayIcon from "@mui/icons-material/Replay";
 import MyPrayerLoading from "@/components/loading/prayer/MyPrayerLoading";
@@ -139,9 +139,10 @@ export default function MyPrayerView() {
 			prayerCounts: [{ prayerId: prayerId, count: 1 }],
 			addUndo: false,
 			updated: currentDate,
+			newCommunity: "",
 			putType: "prayerCount",
 		};
-		await updateUserPrayerCount(userDBId, formData);
+		await updateUser(userDBId, formData);
 		refetch();
 		userPrayerCount();
 		userPrayedDate();
@@ -155,10 +156,11 @@ export default function MyPrayerView() {
 			prayerCounts: [{ prayerId: prayerId, count: 1 }],
 			addUndo: true,
 			updated: currentDate,
+			newCommunity: "",
 			putType: "prayerCount",
 		};
 
-		await updateUserPrayerCount(userDBId, formData);
+		await updateUser(userDBId, formData);
 		refetch();
 		userPrayerCount();
 		userPrayedDate();

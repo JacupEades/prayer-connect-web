@@ -63,9 +63,9 @@ export default function Settings() {
 				text={"Help & Info"}
 				route={"/home/settings/support"}
 			/>
-			<p style={{ color: "#000" }}>Coming Soon!</p>
+			{/* <p style={{ color: "#000" }}>Coming Soon!</p> */}
 			<SettingsNavCard
-				disabled={true}
+				// disabled={true}
 				icon={<MeetingRoomOutlinedIcon />}
 				text={"Request To Join A New Community"}
 				route={"/home/settings/community-request"}

@@ -8,7 +8,7 @@ import { updateProfile } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { userLoggedIn } from "@/redux/slices/userSlice";
-import { getUsers, updateUserPrayerCount } from "@/lib/userHelper";
+import { getUsers, updateUser } from "@/lib/userHelper";
 import { useQuery } from "react-query";
 import MyPrayerLoading from "@/components/loading/prayer/MyPrayerLoading";
 import HomeSectionError from "@/components/loading/home/HomeSectionError";
@@ -81,10 +81,11 @@ export default function ChangeName({}: Props) {
 						addUndo: false,
 						updated: "",
 						putType: "displayName",
+						newCommunity: "",
 						newDisplayName: name,
 					};
 
-					updateUserPrayerCount(userDBId, formData);
+					updateUser(userDBId, formData);
 				})
 				.then(() => {
 					toast.success("Name changed");

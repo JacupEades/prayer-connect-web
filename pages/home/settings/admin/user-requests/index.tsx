@@ -10,7 +10,8 @@ import { useQuery } from "react-query";
 import HomeSectionLoading from "@/components/loading/home/HomeSectionLoading";
 import HomeSectionError from "@/components/loading/home/HomeSectionError";
 import HomeSectionUidError from "@/components/loading/home/HomeSectionUidError";
-import { getComRequests } from "@/lib/comRequestHelper";
+import { deleteComRequest, getComRequests } from "@/lib/comRequestHelper";
+import { getUsers, updateUser } from "@/lib/userHelper";
 
 export default function UserRequests() {
 	const { user } = useSelector((state: any) => ({
@@ -31,15 +32,44 @@ export default function UserRequests() {
 		refetch,
 	} = useQuery("comRequests", getComRequests);
 
-	if (comRequestsLoading) return <HomeSectionLoading />;
-	if (comRequestsIsError) return <HomeSectionError />;
+	const {
+		isLoading: userLoading,
+		isError: userIsError,
+		data: userData,
+	} = useQuery("users", getUsers);
+
+	if (comRequestsLoading || userLoading) return <HomeSectionLoading />;
+	if (comRequestsIsError || userIsError) return <HomeSectionError />;
 	if (user.email !== "jwae98@gmail.com") return <HomeSectionUidError />;
 
-	const handleAccept = () => {
-		console.log("btn pressed");
+	const handleAccept = async (currentReq: any) => {
+		const { _id, uid, abbreviation } = currentReq;
+		const currentUserData = await userData.filter((obj: any) => {
+			if (obj.uid === uid) {
+				return obj;
+			} else {
+				return;
+			}
+		});
+
+		// update Database
+		const userRequestingID = `?userId=${currentUserData[0]._id}`;
+		const formData = {
+			prayerCounts: [{ prayerId: "", count: 0 }],
+			addUndo: false,
+			updated: "",
+			newCommunity: abbreviation,
+			newDisplayName: "",
+			putType: "newCommunity",
+		};
+
+		await updateUser(userRequestingID, formData);
+		refetch();
+		handleDecline(_id);
 	};
-	const handleDecline = () => {
-		console.log("btn pressed");
+	const handleDecline = (comReqId: string) => {
+		deleteComRequest(comReqId);
+		refetch();
 	};
 
 	return (
@@ -61,11 +91,13 @@ export default function UserRequests() {
 							<div className={admin.existIndexL}>{obj.name}</div>
 							<div className={admin.existIndexM}>{obj.abbreviation}</div>
 							<div className={admin.existIndexOptions}>
-								<Button onClick={handleAccept} className={admin.existIndexBtnA}>
+								<Button
+									onClick={() => handleAccept(obj)}
+									className={admin.existIndexBtnA}>
 									Accept
 								</Button>
 								<Button
-									onClick={handleDecline}
+									onClick={() => handleDecline(obj._id)}
 									className={admin.existIndexBtnB}>
 									Decline
 								</Button>

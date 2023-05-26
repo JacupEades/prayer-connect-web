@@ -21,6 +21,10 @@ const userSchema = new Schema(
 			type: Array,
 			default: ["G"],
 		},
+		selectedCommunity: {
+			type: String,
+			default: "G",
+		},
 		prayerCounts: [
 			{
 				prayerId: { type: String },

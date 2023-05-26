@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "@/styles/Header.module.css";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -12,6 +12,7 @@ import AnonymousBtn from "@/components/buttons/filter/AnonymousBtn";
 import PublicBtn from "@/components/buttons/filter/PublicBtn";
 import AnsweredBtn from "../buttons/filter/AnsweredBtn";
 import UnansweredBtn from "../buttons/filter/UnansweredBtn";
+import { useSelector } from "react-redux";
 
 export default function Header({
 	filterMenu,
@@ -32,10 +33,15 @@ export default function Header({
 	namedValue,
 }) {
 	const PrayerHeader = () => {
+		const { selectedCommunity } = useSelector((state) => ({
+			...state,
+		}));
+
 		return (
 			<header className={styles.headerMasterContainer}>
 				<div className={styles.headerTopContainer}>
 					<h1 className={styles.headerTitle}>
+						{selectedCommunity.community}{" "}
 						{selection === "Private Prayers" ? "My " : ""}
 						{selection}
 					</h1>
