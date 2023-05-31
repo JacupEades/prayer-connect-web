@@ -74,7 +74,7 @@ export default function CommunityRequest() {
 		return <HomeSectionLoading />;
 	if (comRequestsIsError || communitiesIsError || userIsError)
 		return <HomeSectionError />;
-	if (user.email !== "jwae98@gmail.com") return <HomeSectionUidError />;
+	if (user.email === "") return <HomeSectionUidError />;
 
 	const listStyle = (abb: string) => {
 		return {

@@ -109,14 +109,17 @@ export default function Header({
 							{selectedOption === "G" ? "Global" : selectedOption}
 						</button>
 						<ul style={dropdownStyles} className={styles.dropdownMain}>
-							{currentUserData[0].approvedCommunities.map((communitiesData) => (
-								<li
-									style={{ color: "black" }}
-									key={communitiesData.abbreviation}
-									onClick={() => handleClick(communitiesData.abbreviation)}>
-									{communitiesData.abbreviation}: {communitiesData.comName}
-								</li>
-							))}
+							{currentUserData[0] &&
+								currentUserData[0].approvedCommunities.map(
+									(communitiesData) => (
+										<li
+											style={{ color: "black" }}
+											key={communitiesData.abbreviation}
+											onClick={() => handleClick(communitiesData.abbreviation)}>
+											{communitiesData.abbreviation}: {communitiesData.comName}
+										</li>
+									)
+								)}
 						</ul>
 					</div>
 					{/* <SearchIcon className={styles.headerSearchIcon} /> */}
