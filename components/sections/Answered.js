@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import styles from "@/styles/Community.module.css";
-import { getPrayers, getPrayer } from "@/lib/prayerHelper";
-import { getUsers } from "@/lib/userHelper";
-import { useQuery } from "react-query";
+import { getPrayer } from "@/lib/prayerHelper";
 import cardStyles from "@/styles/Components.module.css";
 import { FaPray } from "react-icons/fa";
 import { useRouter } from "next/router";
 import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
 
 export default function Answered({
 	user,
-	prayer,
 	userData,
+	selectedCom,
 	prayerData,
 	sortValue,
 	whoValue,
@@ -89,7 +87,10 @@ export default function Answered({
 				}
 			})
 			.filter((obj) => {
-				const tabDefault = obj.answered === true && obj.personal === false;
+				const tabDefault =
+					obj.answered === true &&
+					obj.community === selectedCom &&
+					obj.personal === false;
 				const other = obj.userId !== user.uid;
 				const mine = obj.userId === user.uid;
 				const anon = obj.name === "Anonymous";

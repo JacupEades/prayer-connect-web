@@ -30,10 +30,11 @@ export default function HomeContent({
 	answeredValue,
 }: Props) {
 	// Redux Users/ Prayers
-	const { user, prayer } = useSelector((state: any) => ({
+	const { user, selectedCommunity } = useSelector((state: any) => ({
 		...state,
 	}));
 	const router = useRouter();
+	const selectedCom = selectedCommunity.community;
 
 	useEffect(() => {
 		if (user.uid === "") router.push("/login/existing-user");
@@ -65,8 +66,8 @@ export default function HomeContent({
 				return (
 					<Community
 						user={user}
-						prayer={prayer}
 						userData={userData}
+						selectedCom={selectedCom}
 						prayerData={prayerData}
 						refetch={refetch}
 						sortValue={sortValue}
@@ -78,7 +79,6 @@ export default function HomeContent({
 				return (
 					<PrivatePrayers
 						user={user}
-						prayer={prayer}
 						userData={userData}
 						prayerData={prayerData}
 						refetch={refetch}
@@ -90,8 +90,8 @@ export default function HomeContent({
 				return (
 					<Answered
 						user={user}
-						prayer={prayer}
 						userData={userData}
+						selectedCom={selectedCom}
 						prayerData={prayerData}
 						sortValue={sortValue}
 						whoValue={whoValue}

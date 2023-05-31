@@ -26,34 +26,22 @@ export default function ExistingUser() {
 				// The signed-in user info.
 				const user = result.user;
 				const currentUserName: any = auth.currentUser?.displayName;
-				if (!currentUserName) {
-					dispatch(
-						userLoggedIn({
-							email: user.email,
-							role: "user",
-							uid: user.uid,
-							token: token,
-						})
-					);
-					return router.push("/login/google-add-username");
-				} else {
-					addUser({
-						uid: user.uid,
+				addUser({
+					uid: user.uid,
+					name: currentUserName,
+					email: user.email,
+					role: "user",
+					language: "English",
+				});
+				dispatch(
+					userLoggedIn({
 						name: currentUserName,
 						email: user.email,
 						role: "user",
-						language: "English",
-					});
-					dispatch(
-						userLoggedIn({
-							name: currentUserName,
-							email: user.email,
-							role: "user",
-							uid: user.uid,
-							token: token,
-						})
-					);
-				}
+						uid: user.uid,
+						token: token,
+					})
+				);
 			})
 			.catch((error) => {
 				const errorCode = error.code;

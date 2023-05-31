@@ -18,12 +18,28 @@ const userSchema = new Schema(
 			unique: true,
 		},
 		approvedCommunities: {
-			type: Array,
-			default: ["G"],
+			type: [
+				{
+					abbreviation: String,
+					comName: String,
+				},
+			],
+			default: [
+				{
+					abbreviation: "G",
+					comName: "Global",
+				},
+			],
 		},
 		selectedCommunity: {
-			type: String,
-			default: "G",
+			type: {
+				abbreviation: String,
+				comName: String,
+			},
+			default: {
+				abbreviation: "G",
+				comName: "Global",
+			},
 		},
 		prayerCounts: [
 			{

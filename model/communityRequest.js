@@ -18,6 +18,10 @@ const CommunityRequestSchema = new Schema(
 			type: String,
 			required: true,
 		},
+		comName: {
+			type: String,
+			required: true,
+		},
 	},
 	{ timestamps: true }
 );
@@ -26,6 +30,7 @@ const CommunityRequestSchema = new Schema(
 CommunityRequestSchema.index({ uid: 1 }, { unique: false });
 CommunityRequestSchema.index({ name: 1 }, { unique: false });
 CommunityRequestSchema.index({ abbreviation: 1 }, { unique: true });
+CommunityRequestSchema.index({ comName: 1 }, { unique: true });
 
 try {
 	CommunityRequest = model("CommunityRequest");

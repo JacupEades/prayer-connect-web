@@ -252,44 +252,21 @@
 .botSection a:hover {
 	text-decoration: underline;
 }
-
-/* DROPDOWN FORM INPUT */
-.dropdownMain {
-	display: flex;
-	flex-direction: column;
-	width: 12rem;
-}
-.dropdownToggle {
-	/* @include H6; */
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 0.75rem;
-
-	height: 2.5rem;
-	width: 100%;
-	color: var(--sys-light-on-primary);
-	background-color: var(--sys-light-primary);
-	border: none;
+.requestFormMain {
+	border: 1px solid var(--sys-light-outline-variant);
 	border-radius: 0.75rem;
 }
-.dropdownToggle:hover {
+.requestForm:last-child {
+	border-bottom: none;
+	border-radius: 0 0 8px 8px;
+}
+.requestForm:nth-child(even) {
+	background-color: var(--sys-light-surface-container);
+}
+.requestForm {
+	padding: 1rem;
+	color: var(--sys-light-on-surface);
+}
+.requestForm:hover {
 	cursor: pointer;
-}
-.dropdownMain ul {
-	position: absolute;
-	margin-top: 2.5rem;
-	width: 12rem;
-	border-radius: 0.75rem;
-}
-.dropdownMain li {
-	position: relative;
-	list-style: none;
-	padding: 0.5rem 1rem;
-	color: var(--sys-light-on-secondary-container);
-	background-color: var(--sys-light-secondary-container);
-	z-index: 12;
-}
-.dropdownMain li:hover {
-	background-color: var(--sl-light-on-secondary);
 }

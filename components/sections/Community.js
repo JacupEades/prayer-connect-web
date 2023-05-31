@@ -9,12 +9,12 @@ import { useRouter } from "next/router";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
-import { updateUserPrayerCount } from "../../lib/userHelper";
+import { updateUser } from "../../lib/userHelper";
 
 export default function Community({
 	user,
-	prayer,
 	userData,
+	selectedCom,
 	prayerData,
 	refetch,
 	sortValue,
@@ -104,7 +104,9 @@ export default function Community({
 						})
 						.filter((obj) => {
 							const tabDefault =
-								obj.answered === false && obj.personal === false;
+								obj.answered === false &&
+								obj.community === selectedCom &&
+								obj.personal === false;
 							const other = obj.userId !== user.uid;
 							const mine = obj.userId === user.uid;
 							const anon = obj.name === "Anonymous";
@@ -194,7 +196,7 @@ export default function Community({
 									putType: "prayerCount",
 								};
 
-								await updateUserPrayerCount(userDBId, formData);
+								await updateUser(userDBId, formData);
 								refetch();
 							};
 							const undoBtnclicked = async (e) => {
@@ -214,7 +216,7 @@ export default function Community({
 									putType: "prayerCount",
 								};
 
-								await updateUserPrayerCount(userDBId, formData);
+								await updateUser(userDBId, formData);
 								refetch();
 							};
 

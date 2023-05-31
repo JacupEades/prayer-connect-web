@@ -12,7 +12,6 @@ import { addComRequest, getComRequests } from "@/lib/comRequestHelper";
 import HomeSectionLoading from "@/components/loading/home/HomeSectionLoading";
 import HomeSectionError from "@/components/loading/home/HomeSectionError";
 import HomeSectionUidError from "@/components/loading/home/HomeSectionUidError";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 export default function CommunityRequest() {
 	const { user } = useSelector((state: any) => ({
@@ -23,11 +22,11 @@ export default function CommunityRequest() {
 		label: "Select Community",
 	};
 	const [selectedOption, setSelectedOption] = useState(defaultOption);
-	const [isOpen, setIsOpen] = useState(false);
 	const [formData, setFormData] = useState({
 		uid: user.uid,
 		name: user.name,
 		abbreviation: selectedOption.value,
+		comName: selectedOption.label,
 	});
 	const dispatch = useDispatch();
 
@@ -42,18 +41,14 @@ export default function CommunityRequest() {
 			uid: user.uid,
 			name: user.name,
 			abbreviation: selectedOption.value,
+			comName: selectedOption.label,
 		});
-	}, [selectedOption.value, user.name, user.uid]);
-	const iconStyles = {
-		transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-		transition: "transform 0.25s ease-in-out",
-	};
+	}, [selectedOption.label, selectedOption.value, user.name, user.uid]);
 
 	const handleOptionSelect = (option: any) => {
 		const dbComName = option.name;
 		const dbComAbbreviation = option.abbreviation;
 		setSelectedOption({ value: dbComAbbreviation, label: dbComName });
-		setIsOpen(false);
 	};
 
 	const {
@@ -72,10 +67,12 @@ export default function CommunityRequest() {
 	if (comRequestsIsError || communitiesIsError) return <HomeSectionError />;
 	if (user.email !== "jwae98@gmail.com") return <HomeSectionUidError />;
 
-	const dropdownStyles = {
-		maxHeight: isOpen ? `${communitiesData.length * 40}px` : "0",
-		transition: "max-height 0.3s ease",
-		overflow: "hidden",
+	const listStyle = (abb: string) => {
+		return {
+			backgroundColor:
+				formData.abbreviation === abb ? "var(--sys-light-primary)" : "",
+			color: formData.abbreviation === abb ? "var(--sys-light-on-primary)" : "",
+		};
 	};
 	const MyButton = styled(Button)(({ theme }) => ({
 		"&.Mui-disabled": {
@@ -100,7 +97,12 @@ export default function CommunityRequest() {
 
 	const resetForm = () => {
 		setSelectedOption(defaultOption);
-		setFormData({ uid: user.uid, name: user.name, abbreviation: "" });
+		setFormData({
+			uid: user.uid,
+			name: user.name,
+			abbreviation: "",
+			comName: "",
+		});
 		console.log("Form reset");
 	};
 
@@ -145,24 +147,18 @@ export default function CommunityRequest() {
 					Name in Request: <span>{user.name}</span>
 				</p>
 				{/* Community Abbreviation */}
-				<div className={styles.dropdownMain}>
-					<button
-						className={styles.dropdownToggle}
-						onClick={(e: any) => {
-							e.preventDefault(), setIsOpen(!isOpen);
-						}}>
-						{selectedOption.label}
-						<KeyboardArrowDownIcon style={iconStyles} />
-					</button>
-					<ul style={dropdownStyles}>
-						{communitiesData.map((communitiesData: any) => (
-							<li
+				<div className={styles.requestFormMain}>
+					{communitiesData
+						.filter((obj: any) => obj.abbreviation !== "G")
+						.map((communitiesData: any) => (
+							<div
+								className={styles.requestForm}
+								style={listStyle(communitiesData.abbreviation)}
 								key={communitiesData.abbreviation}
 								onClick={() => handleOptionSelect(communitiesData)}>
 								{communitiesData.abbreviation}: {communitiesData.name}
-							</li>
+							</div>
 						))}
-					</ul>
 				</div>
 				{/* Cancel and Save button */}
 				<div className={admin.topBtnsMain}>
@@ -174,7 +170,7 @@ export default function CommunityRequest() {
 							disabled={formData.abbreviation === ""}
 							type="submit"
 							className={formStyle.optionBtnPublish}>
-							Send Request
+							Request {formData.abbreviation}
 						</MyButton>
 					</div>
 				</div>

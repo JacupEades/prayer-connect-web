@@ -215,3 +215,44 @@
 	font-size: 0.875rem;
 	color: var(--sys-light-on-surface-variant);
 }
+/* DROPDOWN FORM INPUT */
+.dropdownMain {
+	display: flex;
+	flex-direction: column;
+	min-width: 2rem;
+	max-height: 2rem;
+}
+.dropdownToggle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.75rem;
+
+	height: 2.5rem;
+	min-width: 5rem;
+	color: var(--sys-light-on-primary);
+	background-color: var(--sys-light-primary);
+	border: none;
+	border-radius: 0.75rem;
+}
+.dropdownToggle:hover {
+	cursor: pointer;
+}
+.dropdownMain ul {
+	position: absolute;
+	right: 1.5rem;
+	margin-top: 2.5rem;
+	width: 12rem;
+	border-radius: 0.75rem;
+}
+.dropdownMain li {
+	position: relative;
+	list-style: none;
+	padding: 0.5rem 1rem;
+	color: var(--sys-light-on-secondary-container);
+	background-color: var(--sys-light-secondary-container);
+	z-index: 12;
+}
+.dropdownMain li:hover {
+	background-color: var(--sl-light-on-secondary);
+}

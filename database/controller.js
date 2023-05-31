@@ -140,6 +140,7 @@ export async function putUsers(req, res) {
 		const putType = formData.putType;
 		const newDisplayName = formData.newDisplayName;
 		const newCommunity = formData.newCommunity;
+		console.log("newCommunity--->", newCommunity);
 
 		switch (putType) {
 			case "prayerCount":

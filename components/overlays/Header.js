@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "@/styles/Header.module.css";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -13,6 +13,10 @@ import PublicBtn from "@/components/buttons/filter/PublicBtn";
 import AnsweredBtn from "../buttons/filter/AnsweredBtn";
 import UnansweredBtn from "../buttons/filter/UnansweredBtn";
 import { useSelector } from "react-redux";
+import { getUsers } from "@/lib/userHelper";
+import { useQuery } from "react-query";
+import { useDispatch } from "react-redux";
+import { changeCommunity } from "@/redux/slices/communitySlice";
 
 export default function Header({
 	filterMenu,
@@ -33,18 +37,88 @@ export default function Header({
 	namedValue,
 }) {
 	const PrayerHeader = () => {
-		const { selectedCommunity } = useSelector((state) => ({
+		const { selectedCommunity, user } = useSelector((state) => ({
 			...state,
 		}));
+		const [isOpen, setIsOpen] = useState(false);
+		const [newSelection, setNewSelection] = useState(false);
+		const [selectedOption, setSelectedOption] = useState(
+			selectedCommunity.community
+		);
+		const dispatch = useDispatch();
+
+		useEffect(() => {
+			setSelectedOption(selectedCommunity.community);
+		}, [selectedCommunity.community]);
+
+		useEffect(() => {
+			if (selectedOption && newSelection === true) {
+				dispatch(changeCommunity({ community: selectedOption }));
+				setNewSelection(false);
+			}
+		}, [selectedOption, newSelection, dispatch]);
+
+		const {
+			isLoading: userLoading,
+			isError: userIsError,
+			data: userData,
+		} = useQuery("users", getUsers);
+
+		// Data validation loading, error, and redux store uid
+		if (userLoading) return <div>loading</div>;
+		if (userIsError) return <div>error</div>;
+		if (user.uid === "") return;
+
+		const currentUserData = userData.filter((obj) => {
+			if (obj.uid === user.uid) {
+				return obj;
+			} else if (obj.email === user.email) {
+				return obj;
+			} else {
+				return;
+			}
+		});
+
+		const dropdownStyles = {
+			maxHeight: isOpen
+				? `${currentUserData[0].approvedCommunities.length * 40}px`
+				: "0",
+			transition: "max-height 0.3s ease",
+			overflow: "hidden",
+		};
+
+		const handleClick = (data) => {
+			setSelectedOption(data);
+			setIsOpen(false);
+			setNewSelection(true);
+		};
 
 		return (
 			<header className={styles.headerMasterContainer}>
 				<div className={styles.headerTopContainer}>
 					<h1 className={styles.headerTitle}>
-						{selectedCommunity.community}{" "}
 						{selection === "Private Prayers" ? "My " : ""}
 						{selection}
 					</h1>
+					<div className={styles.dropdownMain}>
+						<button
+							className={styles.dropdownToggle}
+							onClick={() => {
+								setIsOpen(!isOpen);
+							}}>
+							{selectedOption === "G" ? "Global" : selectedOption}
+						</button>
+						<ul style={dropdownStyles} className={styles.dropdownMain}>
+							{currentUserData[0].approvedCommunities.map((communitiesData) => (
+								<li
+									style={{ color: "black" }}
+									key={communitiesData.abbreviation}
+									onClick={() => handleClick(communitiesData.abbreviation)}>
+									{communitiesData.abbreviation}: {communitiesData.comName}
+								</li>
+							))}
+						</ul>
+					</div>
 					{/* <SearchIcon className={styles.headerSearchIcon} /> */}
 				</div>
 				<div className={styles.headerBottomContainer}>

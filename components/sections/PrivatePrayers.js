@@ -6,14 +6,12 @@ import { FaPray } from "react-icons/fa";
 import ReplayIcon from "@mui/icons-material/Replay";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
-import moment from "moment";
 import { useDispatch } from "react-redux";
 import { prayerById } from "@/redux/slices/prayerSlice";
-import { updateUserPrayerCount } from "../../lib/userHelper";
+import { updateUser } from "../../lib/userHelper";
 
 export default function PrivatePrayers({
 	user,
-	prayer,
 	userData,
 	prayerData,
 	refetch,
@@ -141,8 +139,9 @@ export default function PrivatePrayers({
 						updated: currentDate,
 						putType: "prayerCount",
 					};
-
-					await updateUserPrayerCount(userDBId, formData);
+					console.log("userDBId", userDBId);
+					console.log("formData", formData);
+					await updateUser(userDBId, formData);
 					refetch();
 				};
 				const undoBtnclicked = async (e) => {
@@ -162,7 +161,7 @@ export default function PrivatePrayers({
 						putType: "prayerCount",
 					};
 
-					await updateUserPrayerCount(userDBId, formData);
+					await updateUser(userDBId, formData);
 					refetch();
 				};
 

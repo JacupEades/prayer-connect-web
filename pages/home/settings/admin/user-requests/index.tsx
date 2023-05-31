@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styles from "@/styles/Settings.module.css";
 import admin from "@/styles/AdminPages.module.css";
 import router from "next/router";
-import { Button, styled } from "@mui/material";
+import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import SettingsHeaders from "@/components/overlays/SettingsHeaders";
-import { addCommunity } from "@/lib/communityHelper";
 import { useQuery } from "react-query";
 import HomeSectionLoading from "@/components/loading/home/HomeSectionLoading";
 import HomeSectionError from "@/components/loading/home/HomeSectionError";
@@ -43,7 +42,7 @@ export default function UserRequests() {
 	if (user.email !== "jwae98@gmail.com") return <HomeSectionUidError />;
 
 	const handleAccept = async (currentReq: any) => {
-		const { _id, uid, abbreviation } = currentReq;
+		const { _id, uid, abbreviation, comName } = currentReq;
 		const currentUserData = await userData.filter((obj: any) => {
 			if (obj.uid === uid) {
 				return obj;
@@ -58,7 +57,7 @@ export default function UserRequests() {
 			prayerCounts: [{ prayerId: "", count: 0 }],
 			addUndo: false,
 			updated: "",
-			newCommunity: abbreviation,
+			newCommunity: { abbreviation, comName },
 			newDisplayName: "",
 			putType: "newCommunity",
 		};

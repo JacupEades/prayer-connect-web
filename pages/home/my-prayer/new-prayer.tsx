@@ -16,6 +16,9 @@ import { toast } from "react-toastify";
 type Props = {};
 
 export default function NewPrayer({}: Props) {
+	const { user, selectedCommunity } = useSelector((state: any) => ({
+		...state,
+	}));
 	const [title, setTitle] = useState("");
 	const [detail, setDetail] = useState("");
 	const [postIn, setPostIn] = useState(true);
@@ -30,11 +33,10 @@ export default function NewPrayer({}: Props) {
 		prayerNumber: 0,
 		answered: prayerStatus,
 		personal: false,
+		community: "Global",
 		approved: false,
 	});
-	const { user } = useSelector((state: any) => ({
-		...state,
-	}));
+
 	const router = useRouter();
 	const localTitleCheck = sessionStorage.getItem("title");
 	const localDetailCheck = sessionStorage.getItem("detail");
@@ -95,9 +97,19 @@ export default function NewPrayer({}: Props) {
 			prayerNumber: 0,
 			answered: prayerStatus,
 			personal: postIn,
+			community: selectedCommunity.community,
 			approved: false,
 		});
-	}, [title, detail, postIn, postAs, prayerStatus, user.uid, user.name]);
+	}, [
+		title,
+		detail,
+		postIn,
+		postAs,
+		prayerStatus,
+		user.uid,
+		user.name,
+		selectedCommunity.community,
+	]);
 
 	const MyButton = styled(Button)(({ theme }) => ({
 		"&.Mui-disabled": {
@@ -228,6 +240,9 @@ export default function NewPrayer({}: Props) {
 							) : (
 								<GroupsIcon className={styles.toggleIcon} />
 							)}
+							{selectedCommunity.community === "G"
+								? "Global"
+								: selectedCommunity.community}{" "}
 							Community
 						</label>
 						<input
