@@ -19,28 +19,14 @@ export async function getUsers(req, res) {
 // POST: http://localhost:3000/api/users
 export async function postUser(req, res) {
 	try {
-		const { name, email } = req.body;
-
-		// Check if user with the same name or email already exists
-		const existingUser = await Users.findOne({
-			$or: [{ name: name }, { email: email }],
-		});
-
-		if (existingUser) {
-			return res
-				.status(400)
-				.json({ error: "User with the same name or email already exists." });
-		}
-
 		const formData = await Users.create(req.body);
 
 		if (!formData) {
 			return res.status(404).json({ error: "Form data not found." });
 		}
-
 		return res.status(200).json(formData);
 	} catch (error) {
-		return res.status(500).json({ error: "Error while creating the user." });
+		return res.status(404).json({ error });
 	}
 }
 
