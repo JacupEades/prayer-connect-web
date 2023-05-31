@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-	community: "Global",
+	community: "G",
 };
 
 export const communitySlice = createSlice({

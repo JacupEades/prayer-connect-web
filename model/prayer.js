@@ -44,7 +44,7 @@ const prayerSchema = new Schema(
 		},
 		community: {
 			type: String,
-			default: "Global",
+			default: "G",
 		},
 		approved: {
 			type: Boolean,
