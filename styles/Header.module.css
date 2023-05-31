@@ -248,6 +248,9 @@
 .dropdownMain li {
 	position: relative;
 	list-style: none;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	padding: 0.5rem 1rem;
 	color: var(--sys-light-on-secondary-container);
 	background-color: var(--sys-light-secondary-container);

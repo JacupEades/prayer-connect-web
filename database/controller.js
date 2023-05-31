@@ -19,14 +19,28 @@ export async function getUsers(req, res) {
 // POST: http://localhost:3000/api/users
 export async function postUser(req, res) {
 	try {
+		const { name, email } = req.body;
+
+		// Check if user with the same name or email already exists
+		const existingUser = await Users.findOne({
+			$or: [{ name: name }, { email: email }],
+		});
+
+		if (existingUser) {
+			return res
+				.status(400)
+				.json({ error: "User with the same name or email already exists." });
+		}
+
 		const formData = await Users.create(req.body);
 
 		if (!formData) {
 			return res.status(404).json({ error: "Form data not found." });
 		}
+
 		return res.status(200).json(formData);
 	} catch (error) {
-		return res.status(404).json({ error });
+		return res.status(500).json({ error: "Error while creating the user." });
 	}
 }
 
@@ -193,11 +207,36 @@ export async function putUsers(req, res) {
 				});
 				return res.status(200).json(updatedUserName);
 			case "newCommunity":
-				console.log("updatedCommunity Array 1 to:", newCommunity);
-				updatedComArr = await Users.findByIdAndUpdate(userId, {
-					$push: { approvedCommunities: newCommunity },
-				});
-				return res.status(200).json(updatedComArr);
+				try {
+					const { abbreviation, comName } = newCommunity;
+
+					const user = await Users.findById(userId);
+
+					const communityExists = user.approvedCommunities.some(
+						(community) =>
+							community.abbreviation === abbreviation ||
+							community.comName === comName
+					);
+
+					if (communityExists) {
+						return res.status(400).json({
+							error: "Community already exists in the approved communities.",
+						});
+					}
+
+					const updatedComArr = await Users.findByIdAndUpdate(
+						userId,
+						{ $push: { approvedCommunities: newCommunity } },
+						{ new: true }
+					);
+
+					return res.status(200).json(updatedComArr);
+				} catch (error) {
+					return res
+						.status(500)
+						.json({ error: "Error while adding the new community." });
+				}
+
 			default:
 				console.log("Error In putType selection: ", putType);
 				console.log("formData.putType:", formData.putType);

@@ -20,8 +20,14 @@ const userSchema = new Schema(
 		approvedCommunities: {
 			type: [
 				{
-					abbreviation: String,
-					comName: String,
+					abbreviation: {
+						type: String,
+						unique: true,
+					},
+					comName: {
+						type: String,
+						unique: true,
+					},
 				},
 			],
 			default: [

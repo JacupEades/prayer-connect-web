@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import SettingsHeaders from "@/components/overlays/SettingsHeaders";
 import { useQuery } from "react-query";
 import { addComRequest, getComRequests } from "@/lib/comRequestHelper";
+import { getUsers } from "@/lib/userHelper";
 import HomeSectionLoading from "@/components/loading/home/HomeSectionLoading";
 import HomeSectionError from "@/components/loading/home/HomeSectionError";
 import HomeSectionUidError from "@/components/loading/home/HomeSectionUidError";
@@ -45,6 +46,12 @@ export default function CommunityRequest() {
 		});
 	}, [selectedOption.label, selectedOption.value, user.name, user.uid]);
 
+	const {
+		isLoading: userLoading,
+		isError: userIsError,
+		data: userData,
+	} = useQuery("users", getUsers);
+
 	const handleOptionSelect = (option: any) => {
 		const dbComName = option.name;
 		const dbComAbbreviation = option.abbreviation;
@@ -63,8 +70,10 @@ export default function CommunityRequest() {
 		data: communitiesData,
 	} = useQuery("communities", getCommunities);
 
-	if (comRequestsLoading || communitiesLoading) return <HomeSectionLoading />;
-	if (comRequestsIsError || communitiesIsError) return <HomeSectionError />;
+	if (comRequestsLoading || communitiesLoading || userLoading)
+		return <HomeSectionLoading />;
+	if (comRequestsIsError || communitiesIsError || userIsError)
+		return <HomeSectionError />;
 	if (user.email !== "jwae98@gmail.com") return <HomeSectionUidError />;
 
 	const listStyle = (abb: string) => {
@@ -149,7 +158,7 @@ export default function CommunityRequest() {
 				{/* Community Abbreviation */}
 				<div className={styles.requestFormMain}>
 					{communitiesData
-						.filter((obj: any) => obj.abbreviation !== "G")
+						.filter((obj: any) => obj.abbreviation !== "G" && userData[0])
 						.map((communitiesData: any) => (
 							<div
 								className={styles.requestForm}
