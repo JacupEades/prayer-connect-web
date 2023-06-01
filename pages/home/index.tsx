@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navigation from "@/components/overlays/Navigation";
 import Header from "@/components/overlays/Header";
 import FilterDrawer from "@/components/forms/FilterDrawer";
+import CommunityDrawer from "@/components/forms/CommunityDrawer";
 import HomeContent from "@/components/sections/HomeContent";
 import { useDispatch, useSelector } from "react-redux";
 import { tabSelect } from "@/redux/slices/tabSlice";
@@ -13,6 +14,7 @@ export default function HomePage({}: Props) {
 	const [selection, setSelection] = useState("Community");
 	// Drawer open
 	const [fMenuOpen, setFMenuOpen] = useState(false);
+	const [cMenuOpen, setCMenuOpen] = useState(false);
 	// Sort right now can only take one value
 	const [sortValue, setSortValue] = useState("newest");
 	const [sortApplied, setSortApplied] = useState(false);
@@ -57,6 +59,9 @@ export default function HomePage({}: Props) {
 	// functions for the Header
 	const filterMenu = () => {
 		setFMenuOpen(!fMenuOpen);
+	};
+	const communityMenu = () => {
+		setCMenuOpen(!cMenuOpen);
 	};
 	// defaults sort shorthands
 	const sortBase = sortValue === "newest";
@@ -210,6 +215,7 @@ export default function HomePage({}: Props) {
 		<>
 			<Header
 				filterMenu={filterMenu}
+				communityMenu={communityMenu}
 				// sort funcs
 				oldFirst={oldFirst}
 				mostPrayed={mostPrayed}
@@ -250,6 +256,8 @@ export default function HomePage({}: Props) {
 				setSortApplied={setSortApplied}
 				sortApplied={sortApplied}
 			/>
+			{/* Community Drawer */}
+			<CommunityDrawer cMenuOpen={cMenuOpen} communityMenu={communityMenu} />
 		</>
 	);
 }

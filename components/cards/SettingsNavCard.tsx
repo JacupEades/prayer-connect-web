@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 type Props = {
-	icon: any;
+	icon?: any;
 	text: String;
 	route: string | URL;
 	disabled?: boolean;

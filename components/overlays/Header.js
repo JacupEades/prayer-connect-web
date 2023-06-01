@@ -17,9 +17,11 @@ import { getUsers } from "@/lib/userHelper";
 import { useQuery } from "react-query";
 import { useDispatch } from "react-redux";
 import { changeCommunity } from "@/redux/slices/communitySlice";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 export default function Header({
 	filterMenu,
+	communityMenu,
 	oldFirst,
 	mostPrayed,
 	leastPrayed,
@@ -37,10 +39,9 @@ export default function Header({
 	namedValue,
 }) {
 	const PrayerHeader = () => {
-		const { selectedCommunity, user } = useSelector((state) => ({
+		const { selectedCommunity } = useSelector((state) => ({
 			...state,
 		}));
-		const [isOpen, setIsOpen] = useState(false);
 		const [newSelection, setNewSelection] = useState(false);
 		const [selectedOption, setSelectedOption] = useState(
 			selectedCommunity.community
@@ -58,41 +59,6 @@ export default function Header({
 			}
 		}, [selectedOption, newSelection, dispatch]);
 
-		const {
-			isLoading: userLoading,
-			isError: userIsError,
-			data: userData,
-		} = useQuery("users", getUsers);
-
-		// Data validation loading, error, and redux store uid
-		if (userLoading) return <div>loading</div>;
-		if (userIsError) return <div>error</div>;
-		if (user.uid === "") return;
-
-		const currentUserData = userData.filter((obj) => {
-			if (obj.uid === user.uid) {
-				return obj;
-			} else if (obj.email === user.email) {
-				return obj;
-			} else {
-				return;
-			}
-		});
-
-		const dropdownStyles = {
-			maxHeight: isOpen
-				? `${currentUserData[0].approvedCommunities.length * 40}px`
-				: "0",
-			transition: "max-height 0.3s ease",
-			overflow: "hidden",
-		};
-
-		const handleClick = (data) => {
-			setSelectedOption(data);
-			setIsOpen(false);
-			setNewSelection(true);
-		};
-
 		return (
 			<header className={styles.headerMasterContainer}>
 				<div className={styles.headerTopContainer}>
@@ -104,23 +70,11 @@ export default function Header({
 						<button
 							className={styles.dropdownToggle}
 							onClick={() => {
-								setIsOpen(!isOpen);
+								communityMenu();
 							}}>
 							{selectedOption === "G" ? "Global" : selectedOption}
+							<ArrowDropDownIcon className={styles.dropdownArrow} />
 						</button>
-						<ul style={dropdownStyles} className={styles.dropdownMain}>
-							{currentUserData[0] &&
-								currentUserData[0].approvedCommunities.map(
-									(communitiesData) => (
-										<li
-											style={{ color: "black" }}
-											key={communitiesData.abbreviation}
-											onClick={() => handleClick(communitiesData.abbreviation)}>
-											{communitiesData.abbreviation}: {communitiesData.comName}
-										</li>
-									)
-								)}
-						</ul>
 					</div>
 					{/* <SearchIcon className={styles.headerSearchIcon} /> */}
 				</div>
