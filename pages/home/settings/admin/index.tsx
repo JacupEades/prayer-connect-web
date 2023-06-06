@@ -51,7 +51,7 @@ export default function CommunityManagement() {
 
 	if (communitiesLoading) return <HomeSectionLoading />;
 	if (communitiesIsError) return <HomeSectionError />;
-	if (user.email !== "jwae98@gmail.com") return <HomeSectionUidError />;
+	if (user.email !== "jwae98@gmail.com" || "jacpb.wa.eades@gmail.com") return <HomeSectionUidError />;
 
 	const MyButton = styled(Button)(({ theme }) => ({
 		"&.Mui-disabled": {
