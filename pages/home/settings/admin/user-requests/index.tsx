@@ -19,7 +19,10 @@ export default function UserRequests() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (user.email !== "jwae98@gmail.com" || "jacob.wa.eades@gmail.com") {
+		if (
+			user.email !== "jwae98@gmail.com" ||
+			user.email !== "jacob.wa.eades@gmail.com"
+		) {
 			router.push("/home");
 		}
 	}, [user]);
@@ -39,7 +42,10 @@ export default function UserRequests() {
 
 	if (comRequestsLoading || userLoading) return <HomeSectionLoading />;
 	if (comRequestsIsError || userIsError) return <HomeSectionError />;
-	if (user.email !== "jwae98@gmail.com" || "jacob.wa.eades@gmail.com")
+	if (
+		user.email !== "jwae98@gmail.com" ||
+		user.email !== "jacob.wa.eades@gmail.com"
+	)
 		return <HomeSectionUidError />;
 
 	const handleAccept = async (currentReq: any) => {
