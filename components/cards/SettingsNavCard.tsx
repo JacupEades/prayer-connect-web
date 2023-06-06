@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "@/styles/Settings.module.css";
-import { FaPray } from "react-icons/fa";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";

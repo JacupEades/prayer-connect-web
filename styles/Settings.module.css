@@ -270,3 +270,29 @@
 .requestForm:hover {
 	cursor: pointer;
 }
+/* Community Requests  */
+.comReqMain {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	width: 100%;
+	min-height: 85vh;
+
+	margin: 5rem auto 0 auto;
+	padding: 0 1rem 10rem 1rem;
+}
+.comHeaderTitle {
+	width: max-content;
+	font-family: "Lora", serif;
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.25rem;
+	margin-bottom: 0.75rem;
+	color: var(--sys-light-on-surface);
+}
+.comReqSectionMain {
+}
+.comBottomP {
+	font-size: 0.875rem;
+	color: var(--sys-light-on-surface);
+}

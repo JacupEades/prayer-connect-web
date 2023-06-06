@@ -10,8 +10,6 @@ const CommunityRequestSchema = new Schema(
 		},
 		name: {
 			type: String,
-			maxlength: 300,
-			text: true,
 			required: true,
 		},
 		abbreviation: {

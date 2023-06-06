@@ -14,6 +14,10 @@ const CommunitySchema = new Schema(
 			type: String,
 			required: true,
 		},
+		comDescription: {
+			type: String,
+			default: "No description provided. Contact Jacob Eades.",
+		},
 	},
 	{ timestamps: true }
 );
@@ -21,6 +25,7 @@ const CommunitySchema = new Schema(
 // Create unique indexes
 CommunitySchema.index({ name: 1 }, { unique: true });
 CommunitySchema.index({ abbreviation: 1 }, { unique: true });
+CommunitySchema.index({ comDescription: 1 }, { unique: false });
 
 try {
 	Communities = model("community");

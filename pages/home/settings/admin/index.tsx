@@ -18,9 +18,11 @@ import AlarmAddIcon from "@mui/icons-material/AlarmAdd";
 export default function CommunityManagement() {
 	const [comName, setComName] = useState("");
 	const [abbreviation, setAbbreviation] = useState("");
+	const [description, setDescription] = useState("");
 	const [formData, setFormData] = useState({
 		name: comName,
 		abbreviation: abbreviation,
+		description: description,
 	});
 	const { user } = useSelector((state: any) => ({
 		...state,
@@ -37,8 +39,9 @@ export default function CommunityManagement() {
 		setFormData({
 			name: comName,
 			abbreviation: abbreviation,
+			description: description,
 		});
-	}, [comName, abbreviation]);
+	}, [comName, abbreviation, description]);
 
 	const {
 		isLoading: communitiesLoading,
@@ -56,6 +59,14 @@ export default function CommunityManagement() {
 			backgroundColor: "var(--disable-light-primary)",
 		},
 	}));
+
+	const resetForm = () => {
+		setComName("");
+		setAbbreviation("");
+		setDescription("");
+		setFormData({ name: "", abbreviation: "", description: "" });
+		console.log("Form reset");
+	};
 
 	const handleSubmit = async (e: { preventDefault: () => void }) => {
 		e.preventDefault();
@@ -76,18 +87,13 @@ export default function CommunityManagement() {
 				console.log("nameDupCheck or abbDupCheck not unique");
 			} else {
 				addCommunity(formData);
+				resetForm();
+				console.log("Form submit request success:", formData);
 			}
 			console.log("Form submit request made:", formData);
 		} catch (error) {
 			console.log("Error");
 		}
-	};
-
-	const resetForm = () => {
-		setComName("");
-		setAbbreviation("");
-		setFormData({ name: "", abbreviation: "" });
-		console.log("Form reset");
 	};
 
 	return (
@@ -156,6 +162,23 @@ export default function CommunityManagement() {
 					label="Abbreviation"
 					onChange={(A) => setAbbreviation(A.target.value)}
 					value={abbreviation}
+				/>
+				<TextField
+					multiline
+					className={formStyle.detailText}
+					sx={{
+						"& .MuiInputLabel-root.Mui-focused": {
+							color: "var(--sys-light-primary)",
+						},
+						"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+							{
+								borderColor: "var(--sys-light-primary)",
+							},
+					}}
+					id="description"
+					label="Description"
+					onChange={(D) => setDescription(D.target.value)}
+					value={description}
 				/>
 				{/* Cancel and Save button */}
 				<div className={admin.topBtnsMain}>

@@ -262,6 +262,64 @@
 	font-family: "Lora", serif;
 	color: var(--sys-light-on-surface);
 }
+.comDetailDrawerMain {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+
+	padding: 0.375rem 1rem;
+	margin: 0 auto;
+	max-width: 425px;
+	width: 100%;
+	border-radius: 1.75rem 1.75rem 0 0;
+	background-color: var(--sys-light-surface-container-low);
+}
+.comDetailDrawerTop {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: 0 0.25rem;
+}
+.comDrawerTitleBlock {
+	width: 2.5rem;
+	height: 2.5rem;
+}
+.comDetailDrawerClose.comDetailDrawerClose {
+	width: 2.5rem;
+	height: 2.5rem;
+	padding: 0.5rem;
+	min-width: 0;
+}
+.comDetailDrawerCloseIcon.comDetailDrawerCloseIcon {
+	width: 1.5rem;
+	height: 1.5rem;
+	color: var(--sys-light-on-surface);
+}
+.comDetailDrawerDetailMain {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: var(--sys-light-on-surface);
+	background-color: var(--sys-light-on-primary);
+	width: 100%;
+	padding: 1rem 0.75rem;
+	border-radius: 0.75rem;
+}
+.comDetailDrawerDetailH3 {
+	font-family: "Lora", serif;
+	font-weight: 500;
+	font-size: 1.375rem;
+}
+.comDetailDrawerDetailP {
+	text-align: center;
+}
+.comDetailDrawerDisclaimer {
+	font-size: 0.875rem;
+}
 .comDrawerMidMain {
 	width: 100%;
 	color: var(--sys-light-on-surface);
@@ -280,6 +338,15 @@
 	gap: 0.5rem;
 
 	padding: 0 1rem;
+	margin: 0;
+	width: 100%;
+}
+.comReqRadioGroup.comReqRadioGroup {
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+
+	padding: 0;
 	margin: 0;
 	width: 100%;
 }

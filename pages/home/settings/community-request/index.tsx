@@ -3,6 +3,7 @@ import styles from "@/styles/Settings.module.css";
 import formStyle from "@/styles/PrayerPage.module.css";
 import admin from "@/styles/AdminPages.module.css";
 import router from "next/router";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Button, styled } from "@mui/material";
 import { getCommunities } from "@/lib/communityHelper";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,50 +14,54 @@ import { getUsers } from "@/lib/userHelper";
 import HomeSectionLoading from "@/components/loading/home/HomeSectionLoading";
 import HomeSectionError from "@/components/loading/home/HomeSectionError";
 import HomeSectionUidError from "@/components/loading/home/HomeSectionUidError";
+import settingstyles from "@/styles/Settings.module.css";
+import { FormControl, FormControlLabel, RadioGroup } from "@mui/material";
+import headerStyles from "@/styles/Header.module.css";
+import Radio from "@mui/material/Radio";
+import { useRouter } from "next/router";
+import AddIcon from "@mui/icons-material/Add";
+import { changeCommunity } from "@/redux/slices/communitySlice";
+import ComDetailDrawer from "@/components/forms/ComDetailDrawer";
 
 export default function CommunityRequest() {
-	const { user } = useSelector((state: any) => ({
+	const { selectedCommunity, user } = useSelector((state: any) => ({
 		...state,
 	}));
-	const defaultOption = {
-		value: "",
-		label: "Select Community",
-	};
-	const [selectedOption, setSelectedOption] = useState(defaultOption);
-	const [formData, setFormData] = useState({
-		uid: user.uid,
-		name: user.name,
-		abbreviation: selectedOption.value,
-		comName: selectedOption.label,
+	const [newSelection, setNewSelection] = useState(false);
+	const [cdMenuOpen, setCdMenuOpen] = useState(false);
+	const [comData, setComData] = useState({
+		name: "Default",
+		abbreviation: "Def",
+		comDescription: "Default",
 	});
+	const [selectedOption, setSelectedOption] = useState(
+		selectedCommunity.community
+	);
 	const dispatch = useDispatch();
+	const router = useRouter();
+
+	useEffect(() => {
+		setSelectedOption(selectedCommunity.community);
+	}, [selectedCommunity.community]);
+
+	useEffect(() => {
+		if (selectedOption && newSelection === true) {
+			dispatch(changeCommunity({ community: selectedOption }));
+			setNewSelection(false);
+		}
+	}, [selectedOption, newSelection, dispatch]);
 
 	useEffect(() => {
 		if (user.uid === "") {
 			router.push("/login/existing-user");
 		}
-	}, [user]);
-
-	useEffect(() => {
-		setFormData({
-			uid: user.uid,
-			name: user.name,
-			abbreviation: selectedOption.value,
-			comName: selectedOption.label,
-		});
-	}, [selectedOption.label, selectedOption.value, user.name, user.uid]);
+	}, [router, user]);
 
 	const {
 		isLoading: userLoading,
 		isError: userIsError,
 		data: userData,
 	} = useQuery("users", getUsers);
-
-	const handleOptionSelect = (option: any) => {
-		const dbComName = option.name;
-		const dbComAbbreviation = option.abbreviation;
-		setSelectedOption({ value: dbComAbbreviation, label: dbComName });
-	};
 
 	const {
 		isLoading: comRequestsLoading,
@@ -76,114 +81,205 @@ export default function CommunityRequest() {
 		return <HomeSectionError />;
 	if (user.email === "") return <HomeSectionUidError />;
 
-	const listStyle = (abb: string) => {
-		return {
-			backgroundColor:
-				formData.abbreviation === abb ? "var(--sys-light-primary)" : "",
-			color: formData.abbreviation === abb ? "var(--sys-light-on-primary)" : "",
-		};
-	};
-	const MyButton = styled(Button)(({ theme }) => ({
-		"&.Mui-disabled": {
-			color: "var(--sys-light-on-surface-variant)",
-			backgroundColor: "var(--disable-light-primary)",
-		},
-	}));
-
-	const handleSubmit = async (e: { preventDefault: () => void }) => {
+	const handleSelection = (e: any) => {
 		e.preventDefault();
-		try {
-			if (user.uid === "") {
-				console.log("nameDupCheck or abbDupCheck not unique");
-			} else {
-				addComRequest(formData);
-				refetch();
-			}
-		} catch (error) {
-			console.log("Error");
+		setNewSelection(true);
+	};
+
+	const comDetailMenu = () => {
+		setCdMenuOpen(!cdMenuOpen);
+	};
+
+	const handleRequestBtn = (request: any) => {
+		setComData(request);
+		comDetailMenu();
+	};
+
+	const handleSubmit = () => {
+		console.log("request made");
+		if (comData) {
+			addComRequest({
+				uid: user.uid,
+				name: user.name,
+				abbreviation: comData.abbreviation,
+				comName: comData.name,
+			});
+			comDetailMenu();
+			refetch();
+		} else {
+			console.log("comData was null");
+		}
+	};
+	const currentUserData = userData.filter((obj: any) => obj.uid === user.uid);
+
+	const UserComMap = () => {
+		if (currentUserData.length === 0) {
+			return <p style={{ color: "red" }}>User Data Did Not Load Correctly</p>;
+		} else {
+			return (
+				currentUserData[0] &&
+				currentUserData[0].approvedCommunities.map((communitiesData: any) => {
+					return (
+						<FormControlLabel
+							key={communitiesData.abbreviation}
+							className={headerStyles.comLabel}
+							value={communitiesData.abbreviation}
+							onChange={() => setSelectedOption(communitiesData.abbreviation)}
+							control={
+								<Radio
+									sx={{
+										width: "24px",
+										height: "24px",
+										color: "var(--sys-light-on-surface-variant)",
+										"&.Mui-checked": {
+											color: "var(--sys-light-primary)",
+										},
+									}}
+								/>
+							}
+							label={communitiesData.comName}
+						/>
+					);
+				})
+			);
 		}
 	};
 
-	const resetForm = () => {
-		setSelectedOption(defaultOption);
-		setFormData({
-			uid: user.uid,
-			name: user.name,
-			abbreviation: "",
-			comName: "",
+	const AvailableRequestOption = () => {
+		const requestPendingCheck = comRequestsData.filter((comRequest: any) => {
+			// Check if any object in communitiesData has the same abbreviation
+			return !communitiesData.some(
+				(community: any) => community.comName === comRequest.abbreviation
+			);
 		});
-		console.log("Form reset");
+
+		const availableCommunities = communitiesData.filter((obj: any) => {
+			return requestPendingCheck.every((comRequest: any) => {
+				return (
+					obj._id !== currentUserData[0].approvedCommunities._id &&
+					obj.abbreviation !== comRequest.abbreviation
+				);
+			});
+		});
+
+		return (
+			<>
+				{availableCommunities &&
+					availableCommunities
+						.filter((obj: any) => {
+							if (Array.isArray(currentUserData[0].approvedCommunities)) {
+								const userComs = currentUserData[0].approvedCommunities;
+								const abbSearch = obj.abbreviation;
+								const abbreviationExists = userComs.some(
+									(obj: any) => obj.abbreviation === abbSearch
+								);
+								return (
+									obj.abbreviation !== "G" &&
+									userData[0] &&
+									abbreviationExists === false
+								);
+							} else {
+								return obj.abbreviation !== "G" && userData[0];
+							}
+						})
+						.map((communitiesData: any) => (
+							<div
+								className={styles.settingsBtnContainer}
+								key={communitiesData.abbreviation}>
+								<Button
+									className={styles.settingsBtn}
+									onClick={() => handleRequestBtn(communitiesData)}>
+									<div className={styles.settingsBtnLeft}>
+										<div className={styles.settingsBtnText}>
+											{communitiesData.abbreviation}
+										</div>
+									</div>
+									<NavigateNextIcon />
+								</Button>
+							</div>
+						))}
+				{/* Section title */}
+				<p className={styles.comHeaderTitle}>Pending Requests</p>
+				{requestPendingCheck.length === 0 ? (
+					<p style={{ color: "black" }}>No Pending Requests</p>
+				) : (
+					<></>
+				)}
+				{requestPendingCheck &&
+					requestPendingCheck
+						.filter((obj: any) => {
+							if (Array.isArray(currentUserData[0].approvedCommunities)) {
+								const userComs = currentUserData[0].approvedCommunities;
+								const abbSearch = obj.abbreviation;
+								const abbreviationExists = userComs.some(
+									(obj: any) => obj.abbreviation === abbSearch
+								);
+								return (
+									obj.abbreviation !== "G" &&
+									userData[0] &&
+									abbreviationExists === false
+								);
+							} else {
+								return obj.abbreviation !== "G" && userData[0];
+							}
+						})
+						.map((communitiesData: any) => (
+							<div
+								className={styles.settingsBtnContainer}
+								key={communitiesData.abbreviation}>
+								<Button className={styles.settingsBtn}>
+									<div className={styles.settingsBtnLeft}>
+										<div className={styles.settingsBtnText}>
+											{communitiesData.abbreviation}: {communitiesData.comName}
+										</div>
+									</div>
+								</Button>
+							</div>
+						))}
+			</>
+		);
 	};
 
 	return (
-		<main className={styles.main}>
-			<SettingsHeaders title="Community Requests" />
-			{/* Existing Communities Display */}
-			<div className={admin.existMain}>
-				<article className={admin.existIndexTitle}>
-					<div>Outgoing Requests</div>
-				</article>
-				<article className={admin.existIndex}>
-					<div className={admin.existIndexL}>User</div>
-					<div className={admin.existIndexR}>Community</div>
-				</article>
-				{comRequestsData
-					.filter((obj: any) => {
-						if (obj.uid === user.uid) {
-							return obj;
-						}
-					})
-					.map((obj: any, i: React.Key | null | undefined) => {
-						return (
-							<article className={admin.existIndex} key={i}>
-								<div className={admin.existIndexL}>{obj.name}</div>
-								<div className={admin.existIndexR}>{obj.abbreviation}</div>
-							</article>
-						);
-					})}
+		<main className={styles.comReqMain}>
+			{/* Header */}
+			<SettingsHeaders title="Community" />
+			{/* Section 1 */}
+			<div className={styles.comReqSectionMain}>
+				{/* Section title */}
+				<p className={styles.comHeaderTitle}>Your Community</p>
+				<FormControl className={headerStyles.comFormControl}>
+					<RadioGroup
+						className={headerStyles.comReqRadioGroup}
+						aria-labelledby="Global community"
+						value={selectedOption}
+						onChange={handleSelection}
+						name="communitySelection">
+						<UserComMap />
+					</RadioGroup>
+				</FormControl>
 			</div>
-			{/* New Community Form */}
-			<form onSubmit={handleSubmit} className={formStyle.editFormContainer}>
-				{/* Title */}
-				<div>
-					<h2 className={admin.formTitle}>Community Request Form</h2>
-					<p className={admin.formInstro}>
-						Select the Community by thier Abbreviation to send a request.
-					</p>
-				</div>
-				{/* Display Name sending Request */}
-				<p className={admin.formUserName}>
-					Name in Request: <span>{user.name}</span>
+			{/* Section 2 */}
+			<div className={styles.comReqSectionMain}>
+				{/* Section title */}
+				<p className={styles.comHeaderTitle}>Request to Join Community</p>
+				{/* List of requestables */}
+				<AvailableRequestOption />
+			</div>
+			{/* Section 3 */}
+			<div className={styles.comReqSectionMain}>
+				{/* Section title */}
+				<p className={styles.comHeaderTitle}>Create New Community</p>
+				<p className={styles.comBottomP}>
+					Please contact the app creator Jacob Eades to create a new community.
 				</p>
-				{/* Community Abbreviation */}
-				<div className={styles.requestFormMain}>
-					{communitiesData
-						.filter((obj: any) => obj.abbreviation !== "G" && userData[0])
-						.map((communitiesData: any) => (
-							<div
-								className={styles.requestForm}
-								style={listStyle(communitiesData.abbreviation)}
-								key={communitiesData.abbreviation}
-								onClick={() => handleOptionSelect(communitiesData)}>
-								{communitiesData.abbreviation}: {communitiesData.name}
-							</div>
-						))}
-				</div>
-				{/* Cancel and Save button */}
-				<div className={admin.topBtnsMain}>
-					<div className={formStyle.topBtns}>
-						<Button onClick={() => resetForm()} className={formStyle.optionBtn}>
-							Reset
-						</Button>
-						<MyButton
-							disabled={formData.abbreviation === ""}
-							type="submit"
-							className={formStyle.optionBtnPublish}>
-							Request {formData.abbreviation}
-						</MyButton>
-					</div>
-				</div>
-			</form>
+			</div>
+			<ComDetailDrawer
+				cdMenuOpen={cdMenuOpen}
+				comDetailMenu={comDetailMenu}
+				comData={comData}
+				handleSubmit={handleSubmit}
+			/>
 		</main>
 	);
 }

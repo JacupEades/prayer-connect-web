@@ -28,6 +28,7 @@ export default function CommunityDrawer({ cMenuOpen, communityMenu }: Props) {
 		...state,
 	}));
 	const [newSelection, setNewSelection] = useState(false);
+	const [userMap, setUserMap] = useState([]);
 	const [selectedOption, setSelectedOption] = useState(
 		selectedCommunity.community
 	);
@@ -44,10 +45,6 @@ export default function CommunityDrawer({ cMenuOpen, communityMenu }: Props) {
 			setNewSelection(false);
 		}
 	}, [selectedOption, newSelection, dispatch]);
-
-	useEffect(() => {
-		console.log("selectedOption", selectedOption);
-	}, [selectedOption]);
 
 	const {
 		isLoading: userLoading,
@@ -66,15 +63,40 @@ export default function CommunityDrawer({ cMenuOpen, communityMenu }: Props) {
 		setNewSelection(true);
 	};
 
-	const currentUserData = userData.filter((obj: any) => {
-		if (obj.uid === user.uid) {
-			return obj;
-		} else if (obj.email === user.email) {
-			return obj;
+	const currentUserData = userData.filter((obj: any) => obj.uid === user.uid);
+
+	const UserComMap = () => {
+		if (!currentUserData) {
+			return <></>;
 		} else {
-			return;
+			return (
+				currentUserData[0] &&
+				currentUserData[0].approvedCommunities.map((communitiesData: any) => {
+					return (
+						<FormControlLabel
+							key={communitiesData.abbreviation}
+							className={headerStyles.comLabel}
+							value={communitiesData.abbreviation}
+							onChange={() => setSelectedOption(communitiesData.abbreviation)}
+							control={
+								<Radio
+									sx={{
+										width: "24px",
+										height: "24px",
+										color: "var(--sys-light-on-surface-variant)",
+										"&.Mui-checked": {
+											color: "var(--sys-light-primary)",
+										},
+									}}
+								/>
+							}
+							label={communitiesData.comName}
+						/>
+					);
+				})
+			);
 		}
-	});
+	};
 
 	return (
 		<>
@@ -102,46 +124,10 @@ export default function CommunityDrawer({ cMenuOpen, communityMenu }: Props) {
 									value={selectedOption}
 									onChange={handleSelection}
 									name="communitySelection">
-									{currentUserData[0] &&
-										currentUserData[0].approvedCommunities.map(
-											(communitiesData: any) => (
-												<FormControlLabel
-													key={communitiesData.abbreviation}
-													className={headerStyles.comLabel}
-													value={communitiesData.abbreviation}
-													onChange={() =>
-														setSelectedOption(communitiesData.abbreviation)
-													}
-													control={
-														<Radio
-															sx={{
-																width: "24px",
-																height: "24px",
-																color: "var(--sys-light-on-surface-variant)",
-																"&.Mui-checked": {
-																	color: "var(--sys-light-primary)",
-																},
-															}}
-														/>
-													}
-													label={communitiesData.comName}
-												/>
-											)
-										)}
+									<UserComMap />
 								</RadioGroup>
 							</FormControl>
 						</div>
-						{/* {currentUserData[0] &&
-								currentUserData[0].approvedCommunities.map(
-									(communitiesData: any) => (
-										<button
-											className={headerStyles.comDrawerMidBtn}
-											key={communitiesData.abbreviation}
-											onClick={() => handleClick(communitiesData.abbreviation)}>
-											{communitiesData.abbreviation}: {communitiesData.comName}
-										</button>
-									)
-								)} */}
 					</div>
 					<div style={{ padding: "0 1rem", width: "100%" }}>
 						<div

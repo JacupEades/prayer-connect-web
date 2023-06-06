@@ -7,6 +7,7 @@ font-family: 'Source Sans Pro', sans-serif;*/
 
 :root {
 	--sys-light-surface-container: #f2ecf1;
+	--sys-light-surface-container-low: #f7f2f7;
 	--sys-light-surface-container-high: #ece7eb;
 	--sys-light-primary-container: #e9ddff;
 	--sys-light-on-primary-container: #22005d;
