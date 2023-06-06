@@ -3,7 +3,7 @@ import styles from "@/styles/Settings.module.css";
 import admin from "@/styles/AdminPages.module.css";
 import router from "next/router";
 import { Button } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import SettingsHeaders from "@/components/overlays/SettingsHeaders";
 import { useQuery } from "react-query";
 import HomeSectionLoading from "@/components/loading/home/HomeSectionLoading";
@@ -16,13 +16,19 @@ export default function UserRequests() {
 	const { user } = useSelector((state: any) => ({
 		...state,
 	}));
-	const dispatch = useDispatch();
 
 	useEffect(() => {
+		console.log(
+			"user.email",
+			user.email === "jwae98@gmail.com" ||
+				user.email === "jacob.wa.eades@gmail.com"
+		);
 		if (
-			user.email !== "jwae98@gmail.com" ||
-			user.email !== "jacob.wa.eades@gmail.com"
+			user.email === "jwae98@gmail.com" ||
+			user.email === "jacob.wa.eades@gmail.com"
 		) {
+			console.log("welcome");
+		} else {
 			router.push("/home");
 		}
 	}, [user]);
@@ -43,10 +49,13 @@ export default function UserRequests() {
 	if (comRequestsLoading || userLoading) return <HomeSectionLoading />;
 	if (comRequestsIsError || userIsError) return <HomeSectionError />;
 	if (
-		user.email !== "jwae98@gmail.com" ||
-		user.email !== "jacob.wa.eades@gmail.com"
-	)
+		user.email === "jwae98@gmail.com" ||
+		user.email === "jacob.wa.eades@gmail.com"
+	) {
+		console.log("welcome");
+	} else {
 		return <HomeSectionUidError />;
+	}
 
 	const handleAccept = async (currentReq: any) => {
 		const { _id, uid, abbreviation, comName } = currentReq;

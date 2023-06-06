@@ -63,7 +63,7 @@ export default function Settings() {
 				text={"Help & Info"}
 				route={"/home/settings/support"}
 			/>
-			{user.email === "jwae98@gmail.com" || "jacpb.wa.eades@gmail.com" ? (
+			{user.email === "jwae98@gmail.com" || "jacob.wa.eades@gmail.com" ? (
 				<SettingsNavCard
 					icon={<SecurityIcon />}
 					text={"Community Management"}

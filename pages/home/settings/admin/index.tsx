@@ -30,10 +30,17 @@ export default function CommunityManagement() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
+		console.log(
+			"user.email",
+			user.email === "jwae98@gmail.com" ||
+				user.email === "jacob.wa.eades@gmail.com"
+		);
 		if (
-			user.email !== "jwae98@gmail.com" ||
-			user.email !== "jacob.wa.eades@gmail.com"
+			user.email === "jwae98@gmail.com" ||
+			user.email === "jacob.wa.eades@gmail.com"
 		) {
+			console.log("welcome");
+		} else {
 			router.push("/home");
 		}
 	}, [user]);
@@ -55,10 +62,13 @@ export default function CommunityManagement() {
 	if (communitiesLoading) return <HomeSectionLoading />;
 	if (communitiesIsError) return <HomeSectionError />;
 	if (
-		user.email !== "jwae98@gmail.com" ||
-		user.email !== "jacob.wa.eades@gmail.com"
-	)
+		user.email === "jwae98@gmail.com" ||
+		user.email === "jacob.wa.eades@gmail.com"
+	) {
+		console.log("welcome");
+	} else {
 		return <HomeSectionUidError />;
+	}
 
 	const MyButton = styled(Button)(({ theme }) => ({
 		"&.Mui-disabled": {
