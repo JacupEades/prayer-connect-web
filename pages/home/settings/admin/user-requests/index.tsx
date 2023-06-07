@@ -66,6 +66,8 @@ export default function UserRequests() {
 				return;
 			}
 		});
+		const emailLink = `mailto:${currentUserData[0].email}`;
+		window.location.href = emailLink;
 
 		// update Database
 		const userRequestingID = `?userId=${currentUserData[0]._id}`;
@@ -79,6 +81,7 @@ export default function UserRequests() {
 		};
 
 		await updateUser(userRequestingID, formData);
+
 		refetch();
 		handleDecline(_id);
 	};

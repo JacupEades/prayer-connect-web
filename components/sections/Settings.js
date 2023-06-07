@@ -10,8 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLoggedOut } from "@/redux/slices/userSlice";
 import SettingsNavCard from "../cards/SettingsNavCard";
 import SecurityIcon from "@mui/icons-material/Security";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
+import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 
@@ -59,11 +58,17 @@ export default function Settings() {
 				<div></div>
 			</div> */}
 			<SettingsNavCard
+				icon={<GroupsOutlinedIcon />}
+				text={"Community"}
+				route={"/home/settings/community-request"}
+			/>
+			<SettingsNavCard
 				icon={<EmailOutlinedIcon />}
 				text={"Help & Info"}
 				route={"/home/settings/support"}
 			/>
-			{user.email === "jwae98@gmail.com" || "jacob.wa.eades@gmail.com" ? (
+			{user.email === "jwae98@gmail.com" ||
+			user.email === "jacob.wa.eades@gmail.com" ? (
 				<SettingsNavCard
 					icon={<SecurityIcon />}
 					text={"Community Management"}
