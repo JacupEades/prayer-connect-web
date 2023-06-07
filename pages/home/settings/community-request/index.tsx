@@ -189,27 +189,17 @@ export default function CommunityRequest() {
 			}
 		);
 
-		console.log("requestPendingCheckByUser", requestPendingCheckByUser);
-
 		return (
 			<>
 				{availableCommunities &&
 					availableCommunities
 						.filter((obj: any) => {
-							if (Array.isArray(currentUserData[0].approvedCommunities)) {
-								const userComs = currentUserData[0].approvedCommunities;
-								const abbSearch = obj.abbreviation;
-								const abbreviationExists = userComs.some(
-									(obj: any) => obj.abbreviation === abbSearch
+							const hasMatchingAbbreviation =
+								currentUserData[0].approvedCommunities.some(
+									(community: any) =>
+										community.abbreviation === obj.abbreviation
 								);
-								return (
-									obj.abbreviation !== "G" &&
-									userData[0] &&
-									abbreviationExists === false
-								);
-							} else {
-								return obj.abbreviation !== "G" && userData[0];
-							}
+							return obj.abbreviation !== "G" && !hasMatchingAbbreviation;
 						})
 						.map((communitiesData: any) => {
 							return (
