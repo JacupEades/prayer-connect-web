@@ -344,6 +344,7 @@ export async function getComRequest(req, res) {
 export async function postComRequest(req, res) {
 	try {
 		const formData = await CommunityRequest.create(req.body);
+		console.log("formData from controller", formData);
 		if (!formData) {
 			return res.status(404).json({ error: "Form data not found." });
 		} else {

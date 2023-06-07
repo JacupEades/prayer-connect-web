@@ -24,12 +24,6 @@ const CommunityRequestSchema = new Schema(
 	{ timestamps: true }
 );
 
-// Create unique indexes
-CommunityRequestSchema.index({ uid: 1 }, { unique: false });
-CommunityRequestSchema.index({ name: 1 }, { unique: false });
-CommunityRequestSchema.index({ abbreviation: 1 }, { unique: true });
-CommunityRequestSchema.index({ comName: 1 }, { unique: true });
-
 try {
 	CommunityRequest = model("CommunityRequest");
 } catch {

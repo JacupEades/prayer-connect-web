@@ -81,7 +81,8 @@ export default function CommunityRequest() {
 				}
 			}
 		}
-	}, [selectedOption, user.uid, userData]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [selectedOption]);
 
 	const {
 		isLoading: comRequestsLoading,
@@ -117,6 +118,17 @@ export default function CommunityRequest() {
 
 	const handleSubmit = () => {
 		console.log("request made");
+		console.log(
+			"uid:",
+			user.uid,
+			"name:",
+			user.name,
+			"abbreviation:",
+			comData.abbreviation,
+			"comName:",
+			comData.name
+		);
+
 		if (comData) {
 			addComRequest({
 				uid: user.uid,
@@ -138,7 +150,7 @@ export default function CommunityRequest() {
 		} else {
 			return (
 				currentUserData[0] &&
-				currentUserData[0].approvedCommunities.map((communitiesData: any) => {
+				currentUserData[0]?.approvedCommunities?.map((communitiesData: any) => {
 					return (
 						<FormControlLabel
 							key={communitiesData.abbreviation}
@@ -168,15 +180,15 @@ export default function CommunityRequest() {
 	const AvailableRequestOption = () => {
 		const requestPendingCheck = comRequestsData.filter((comRequest: any) => {
 			// Check if any object in communitiesData has the same abbreviation
-			return !communitiesData.some(
-				(community: any) => community.comName === comRequest.abbreviation
-			);
+			return communitiesData.some((community: any) => {
+				return community.abbreviation === comRequest.abbreviation;
+			});
 		});
 
 		const availableCommunities = communitiesData.filter((obj: any) => {
 			return requestPendingCheck.every((comRequest: any) => {
 				return (
-					obj._id !== currentUserData[0].approvedCommunities._id &&
+					obj._id !== currentUserData[0]?.approvedCommunities[0]?._id &&
 					obj.abbreviation !== comRequest.abbreviation
 				);
 			});
@@ -195,7 +207,7 @@ export default function CommunityRequest() {
 					availableCommunities
 						.filter((obj: any) => {
 							const hasMatchingAbbreviation =
-								currentUserData[0].approvedCommunities.some(
+								currentUserData[0]?.approvedCommunities?.some(
 									(community: any) =>
 										community.abbreviation === obj.abbreviation
 								);
