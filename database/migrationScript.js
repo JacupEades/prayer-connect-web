@@ -1,8 +1,8 @@
-require("dotenv").config();
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
+const { Schema, connect, model, connection } = mongoose;
+require("dotenv").config();
 
-mongoose.connect(process.env.MONGODB_URI, {
+connect(process.env.MONGODB_URI, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });
@@ -21,6 +21,9 @@ const userSchema = new Schema(
 			type: String,
 			required: true,
 			unique: true,
+		},
+		role: {
+			type: String,
 		},
 		approvedCommunities: {
 			type: [
@@ -68,22 +71,11 @@ const userSchema = new Schema(
 	{ timestamps: true }
 );
 
-const Users = mongoose.model("User", userSchema);
+const Users = model("User", userSchema);
 
 // Update function to migrate each document
 async function migrateUser(user) {
-	// Check if the new fields already exist in the document
-	if (
-		user.selectedCommunity &&
-		user.approvedCommunities &&
-		user.selectedCommunity.abbreviation &&
-		user.selectedCommunity.comName &&
-		user.approvedCommunities.length > 0
-	) {
-		// If the new fields already exist, no action is needed
-		console.log("Skipped migration for user:", user._id);
-		return;
-	}
+	user.role = "user";
 
 	// Update the document with the new fields and values
 	user.selectedCommunity = {
@@ -117,7 +109,7 @@ async function runMigration() {
 		console.error("Error occurred during migration:", error);
 	} finally {
 		// Close the database connection
-		mongoose.connection.close();
+		connection.close();
 	}
 }
 

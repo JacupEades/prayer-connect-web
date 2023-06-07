@@ -2,20 +2,26 @@ import styles from "@/styles/Login.module.css";
 import Image from "next/image";
 import { Button } from "@mui/material";
 import LoginForm from "../../../components/forms/LoginForm";
-import React from "react";
+import React, { useEffect } from "react";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { provider } from "@/firebase/firebaseApp";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { userLoggedIn } from "@/redux/slices/userSlice";
+import { userLoggedIn, userLoggedOut } from "@/redux/slices/userSlice";
 import Link from "next/link";
 import { addUser } from "@/lib/userHelper";
+import { resetCommunity } from "@/redux/slices/communitySlice";
 
 export default function ExistingUser() {
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const auth = getAuth();
+
+	useEffect(() => {
+		dispatch(resetCommunity());
+		dispatch(userLoggedOut());
+	}, [dispatch]);
 
 	const handleGoogle = async () => {
 		signInWithPopup(auth, provider)

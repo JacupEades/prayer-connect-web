@@ -5,13 +5,16 @@ import tabReducer from "./slices/tabSlice";
 import communityReducer from "./slices/communitySlice";
 import { combineReducers } from "redux";
 // Persist
-import storage from "redux-persist/lib/storage";
+import storageSession from "redux-persist/lib/storage/session";
 import { persistReducer, persistStore } from "redux-persist";
+// Can try this if storageSession does not work
+// import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2 ";
 import thunk from "redux-thunk";
 
 const persistConfig = {
 	key: "root",
-	storage,
+	storage: storageSession,
+	// stateReconciler: autoMergeLevel2,
 };
 
 // Make the reducer persistable

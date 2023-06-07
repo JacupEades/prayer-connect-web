@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from "react";
 import styles from "@/styles/Settings.module.css";
-import formStyle from "@/styles/PrayerPage.module.css";
-import admin from "@/styles/AdminPages.module.css";
-import router from "next/router";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { Button, styled } from "@mui/material";
+import { Button } from "@mui/material";
 import { getCommunities } from "@/lib/communityHelper";
 import { useDispatch, useSelector } from "react-redux";
 import SettingsHeaders from "@/components/overlays/SettingsHeaders";
 import { useQuery } from "react-query";
 import { addComRequest, getComRequests } from "@/lib/comRequestHelper";
-import { getUsers } from "@/lib/userHelper";
+import { getUsers, updateUser } from "@/lib/userHelper";
 import HomeSectionLoading from "@/components/loading/home/HomeSectionLoading";
 import HomeSectionError from "@/components/loading/home/HomeSectionError";
 import HomeSectionUidError from "@/components/loading/home/HomeSectionUidError";
-import settingstyles from "@/styles/Settings.module.css";
 import { FormControl, FormControlLabel, RadioGroup } from "@mui/material";
 import headerStyles from "@/styles/Header.module.css";
 import Radio from "@mui/material/Radio";
 import { useRouter } from "next/router";
-import AddIcon from "@mui/icons-material/Add";
 import { changeCommunity } from "@/redux/slices/communitySlice";
 import ComDetailDrawer from "@/components/forms/ComDetailDrawer";
 
@@ -62,6 +57,31 @@ export default function CommunityRequest() {
 		isError: userIsError,
 		data: userData,
 	} = useQuery("users", getUsers);
+
+	useEffect(() => {
+		if (userData) {
+			const currentUserData = userData.filter(
+				(obj: any) => obj.uid === user.uid
+			);
+			if (currentUserData) {
+				// get the comName for the DB formData
+				const comObj = currentUserData[0]?.approvedCommunities.filter(
+					(obj: any) => obj.abbreviation === selectedOption
+				);
+				if (comObj) {
+					const userDBId = `?userId=${currentUserData[0]?._id}`;
+					const formData = {
+						putType: "selectCommunity",
+						selectCommunity: {
+							abbreviation: selectedOption,
+							comName: comObj[0]?.comName,
+						},
+					};
+					updateUser(userDBId, formData);
+				}
+			}
+		}
+	}, [selectedOption, user.uid, userData]);
 
 	const {
 		isLoading: comRequestsLoading,
@@ -182,29 +202,26 @@ export default function CommunityRequest() {
 								return obj.abbreviation !== "G" && userData[0];
 							}
 						})
-						.map((communitiesData: any) => (
-							<div
-								className={styles.settingsBtnContainer}
-								key={communitiesData.abbreviation}>
-								<Button
-									className={styles.settingsBtn}
-									onClick={() => handleRequestBtn(communitiesData)}>
-									<div className={styles.settingsBtnLeft}>
-										<div className={styles.settingsBtnText}>
-											{communitiesData.abbreviation}
+						.map((communitiesData: any) => {
+							return (
+								<div
+									className={styles.settingsBtnContainer}
+									key={communitiesData.abbreviation}>
+									<Button
+										className={styles.settingsBtn}
+										onClick={() => handleRequestBtn(communitiesData)}>
+										<div className={styles.settingsBtnLeft}>
+											<div className={styles.settingsBtnText}>
+												{communitiesData.name}
+											</div>
 										</div>
-									</div>
-									<NavigateNextIcon />
-								</Button>
-							</div>
-						))}
-				{/* Section title */}
+										<NavigateNextIcon />
+									</Button>
+								</div>
+							);
+						})}
+				{/* New Section */}
 				<p className={styles.comHeaderTitle}>Pending Requests</p>
-				{requestPendingCheck.length === 0 ? (
-					<p style={{ color: "black" }}>No Pending Requests</p>
-				) : (
-					<></>
-				)}
 				{requestPendingCheck &&
 					requestPendingCheck
 						.filter((obj: any) => {
@@ -224,16 +241,16 @@ export default function CommunityRequest() {
 							}
 						})
 						.map((communitiesData: any) => (
-							<div
-								className={styles.settingsBtnContainer}
-								key={communitiesData.abbreviation}>
-								<Button className={styles.settingsBtn}>
-									<div className={styles.settingsBtnLeft}>
-										<div className={styles.settingsBtnText}>
-											{communitiesData.abbreviation}: {communitiesData.comName}
+							<div key={communitiesData.abbreviation}>
+								<div className={styles.settingsBtnContainer}>
+									<Button className={styles.settingsBtn}>
+										<div className={styles.settingsBtnLeft}>
+											<div className={styles.settingsBtnText}>
+												{communitiesData.name}
+											</div>
 										</div>
-									</div>
-								</Button>
+									</Button>
+								</div>
 							</div>
 						))}
 			</>

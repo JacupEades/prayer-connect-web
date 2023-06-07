@@ -11,7 +11,7 @@ import headerStyles from "@/styles/Header.module.css";
 import Radio from "@mui/material/Radio";
 import styles from "@/styles/Header.module.css";
 import { useSelector } from "react-redux";
-import { getUsers } from "@/lib/userHelper";
+import { getUsers, updateUser } from "@/lib/userHelper";
 import { useQuery } from "react-query";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
@@ -28,10 +28,7 @@ export default function CommunityDrawer({ cMenuOpen, communityMenu }: Props) {
 		...state,
 	}));
 	const [newSelection, setNewSelection] = useState(false);
-	const [userMap, setUserMap] = useState([]);
-	const [selectedOption, setSelectedOption] = useState(
-		selectedCommunity.community
-	);
+	const [selectedOption, setSelectedOption] = useState("");
 	const dispatch = useDispatch();
 	const router = useRouter();
 
@@ -44,7 +41,8 @@ export default function CommunityDrawer({ cMenuOpen, communityMenu }: Props) {
 			dispatch(changeCommunity({ community: selectedOption }));
 			setNewSelection(false);
 		}
-	}, [selectedOption, newSelection, dispatch]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [selectedOption, newSelection]);
 
 	const {
 		isLoading: userLoading,
@@ -52,18 +50,43 @@ export default function CommunityDrawer({ cMenuOpen, communityMenu }: Props) {
 		data: userData,
 	} = useQuery("users", getUsers);
 
+	useEffect(() => {
+		if (userData) {
+			const currentUserData = userData.filter(
+				(obj: any) => obj.uid === user.uid
+			);
+			if (currentUserData) {
+				// get the comName for the DB formData
+				const comObj = currentUserData[0]?.approvedCommunities.filter(
+					(obj: any) => obj.abbreviation === selectedOption
+				);
+				if (comObj) {
+					const userDBId = `?userId=${currentUserData[0]?._id}`;
+					const formData = {
+						putType: "selectCommunity",
+						selectCommunity: {
+							abbreviation: selectedOption,
+							comName: comObj[0]?.comName,
+						},
+					};
+					updateUser(userDBId, formData);
+				}
+			}
+		}
+	}, [selectedOption, user.uid, userData]);
+
 	// Data validation loading, error, and redux store uid
 	if (userLoading) return <div>loading</div>;
 	if (userIsError) return <div>error</div>;
 	if (user.uid === "") return <></>;
+
+	const currentUserData = userData.filter((obj: any) => obj.uid === user.uid);
 
 	const handleSelection = (e: any) => {
 		e.preventDefault();
 		communityMenu();
 		setNewSelection(true);
 	};
-
-	const currentUserData = userData.filter((obj: any) => obj.uid === user.uid);
 
 	const UserComMap = () => {
 		if (!currentUserData) {
@@ -121,7 +144,6 @@ export default function CommunityDrawer({ cMenuOpen, communityMenu }: Props) {
 								<RadioGroup
 									className={headerStyles.comRadioGroup}
 									aria-labelledby="Global community"
-									value={selectedOption}
 									onChange={handleSelection}
 									name="communitySelection">
 									<UserComMap />

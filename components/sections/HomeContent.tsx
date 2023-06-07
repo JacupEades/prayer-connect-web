@@ -11,6 +11,7 @@ import HomeSectionLoading from "../loading/home/HomeSectionLoading";
 import HomeSectionError from "../loading/home/HomeSectionError";
 import HomeSectionUidError from "../loading/home/HomeSectionUidError";
 import { useRouter } from "next/router";
+import { changeCommunity } from "@/redux/slices/communitySlice";
 
 type Props = {
 	selection: string;
@@ -33,6 +34,7 @@ export default function HomeContent({
 	const { user, selectedCommunity } = useSelector((state: any) => ({
 		...state,
 	}));
+	const dispatch = useDispatch();
 	const router = useRouter();
 	const selectedCom = selectedCommunity.community;
 
@@ -54,6 +56,21 @@ export default function HomeContent({
 		data: userData,
 		refetch,
 	} = useQuery("users", getUsers);
+
+	useEffect(() => {
+		if (userData) {
+			const currentuserData = userData.filter(
+				(obj: any) => obj.uid === user.uid
+			);
+			if (currentuserData) {
+				dispatch(
+					changeCommunity({
+						community: currentuserData[0]?.selectedCommunity.abbreviation,
+					})
+				);
+			}
+		}
+	}, [dispatch, user.uid, userData]);
 
 	// Data validation loading, error, and redux store uid
 	if (prayerLoading || userLoading) return <HomeSectionLoading />;

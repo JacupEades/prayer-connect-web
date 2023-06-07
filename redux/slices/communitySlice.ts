@@ -11,9 +11,12 @@ export const communitySlice = createSlice({
 		changeCommunity: (state, action) => {
 			state.community = action.payload.community;
 		},
+		resetCommunity: (state) => {
+			state.community = "G";
+		},
 	},
 });
 
-export const { changeCommunity } = communitySlice.actions;
+export const { changeCommunity, resetCommunity } = communitySlice.actions;
 
 export default communitySlice.reducer;

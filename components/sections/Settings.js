@@ -13,6 +13,7 @@ import SecurityIcon from "@mui/icons-material/Security";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import { resetCommunity } from "@/redux/slices/communitySlice";
 
 export default function Settings() {
 	const { user } = useSelector((state) => ({
@@ -37,6 +38,7 @@ export default function Settings() {
 				});
 		} else {
 			dispatch(userLoggedOut());
+			dispatch(resetCommunity());
 			router.push("/login/existing-user");
 		}
 	};

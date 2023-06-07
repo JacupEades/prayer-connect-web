@@ -20,9 +20,9 @@ export const userSlice = createSlice({
 			state.token = action.payload.token;
 		},
 		userLoggedOut: (state) => {
-			state.name = "Anonymous";
+			state.name = "";
 			state.email = "";
-			state.role = "Anonymous";
+			state.role = "";
 			state.uid = "";
 			state.token = "";
 		},

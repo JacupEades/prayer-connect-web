@@ -134,16 +134,13 @@ export async function putUsers(req, res) {
 				.json({ error: "Error editing prayer. PUT request." });
 		}
 
-		const checkOldCounts = await Users.findById(userId);
-		const [{ prayerId }] = formData.prayerCounts;
-		const updatedDate = formData.updated;
 		const putType = formData.putType;
-		const newDisplayName = formData.newDisplayName;
-		const newCommunity = formData.newCommunity;
-		console.log("newCommunity--->", newCommunity);
 
 		switch (putType) {
 			case "prayerCount":
+				const checkOldCounts = await Users.findById(userId);
+				const [{ prayerId }] = formData.prayerCounts;
+				const updatedDate = formData.updated;
 				const oldCountBObj = checkOldCounts.prayerCounts.find(
 					(obj) => obj.prayerId === prayerId
 				);
@@ -186,13 +183,16 @@ export async function putUsers(req, res) {
 					);
 				}
 				return res.status(200).json(updatedPrayerCount);
+
 			case "displayName":
-				console.log("updatedUserName 1 to:", newDisplayName);
+				const newDisplayName = formData.newDisplayName;
 				updatedUserName = await Users.findByIdAndUpdate(userId, {
 					$set: { name: newDisplayName },
 				});
 				return res.status(200).json(updatedUserName);
+
 			case "newCommunity":
+				const newCommunity = formData.newCommunity;
 				try {
 					const { abbreviation, comName } = newCommunity;
 
@@ -222,6 +222,15 @@ export async function putUsers(req, res) {
 						.status(500)
 						.json({ error: "Error while adding the new community." });
 				}
+
+			case "selectCommunity":
+				const { abbreviation, comName } = formData.selectCommunity;
+				updatedComSelection = await Users.findByIdAndUpdate(userId, {
+					$set: {
+						selectedCommunity: { abbreviation: abbreviation, comName: comName },
+					},
+				});
+				return res.status(200).json(updatedUserName);
 
 			default:
 				console.log("Error In putType selection: ", putType);

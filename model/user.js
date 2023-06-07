@@ -17,6 +17,10 @@ const userSchema = new Schema(
 			required: true,
 			unique: true,
 		},
+		role: {
+			type: String,
+			default: "user",
+		},
 		approvedCommunities: {
 			type: [
 				{

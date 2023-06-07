@@ -30,7 +30,7 @@ export default function LoginForm() {
 					userLoggedIn({
 						name: user.displayName,
 						email: user.email,
-						role: "admin",
+						role: "user",
 						uid: user.uid,
 					})
 				);
