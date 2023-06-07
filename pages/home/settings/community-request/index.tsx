@@ -182,6 +182,15 @@ export default function CommunityRequest() {
 			});
 		});
 
+		const requestPendingCheckByUser = requestPendingCheck.filter(
+			(comRequest: any) => {
+				// Check if any object in communitiesData has the same abbreviation
+				return comRequest.uid === user.uid;
+			}
+		);
+
+		console.log("requestPendingCheckByUser", requestPendingCheckByUser);
+
 		return (
 			<>
 				{availableCommunities &&
@@ -222,8 +231,8 @@ export default function CommunityRequest() {
 						})}
 				{/* New Section */}
 				<p className={styles.comHeaderTitle}>Pending Requests</p>
-				{requestPendingCheck &&
-					requestPendingCheck
+				{requestPendingCheckByUser &&
+					requestPendingCheckByUser
 						.filter((obj: any) => {
 							if (Array.isArray(currentUserData[0].approvedCommunities)) {
 								const userComs = currentUserData[0].approvedCommunities;
@@ -246,7 +255,7 @@ export default function CommunityRequest() {
 									<Button className={styles.settingsBtn}>
 										<div className={styles.settingsBtnLeft}>
 											<div className={styles.settingsBtnText}>
-												{communitiesData.name}
+												{communitiesData.comName}
 											</div>
 										</div>
 									</Button>
