@@ -6,7 +6,11 @@ import { getCommunities } from "@/lib/communityHelper";
 import { useDispatch, useSelector } from "react-redux";
 import SettingsHeaders from "@/components/overlays/SettingsHeaders";
 import { useQuery } from "react-query";
-import { addComRequest, getComRequests } from "@/lib/comRequestHelper";
+import {
+	addComRequest,
+	deleteComRequest,
+	getComRequests,
+} from "@/lib/comRequestHelper";
 import { getUsers, updateUser } from "@/lib/userHelper";
 import HomeSectionLoading from "@/components/loading/home/HomeSectionLoading";
 import HomeSectionError from "@/components/loading/home/HomeSectionError";
@@ -17,6 +21,7 @@ import Radio from "@mui/material/Radio";
 import { useRouter } from "next/router";
 import { changeCommunity } from "@/redux/slices/communitySlice";
 import ComDetailDrawer from "@/components/forms/ComDetailDrawer";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function CommunityRequest() {
 	const { selectedCommunity, user } = useSelector((state: any) => ({
@@ -116,21 +121,9 @@ export default function CommunityRequest() {
 		comDetailMenu();
 	};
 
-	const handleSubmit = () => {
-		console.log("request made");
-		console.log(
-			"uid:",
-			user.uid,
-			"name:",
-			user.name,
-			"abbreviation:",
-			comData.abbreviation,
-			"comName:",
-			comData.name
-		);
-
+	const handleSubmit = async () => {
 		if (comData) {
-			addComRequest({
+			await addComRequest({
 				uid: user.uid,
 				name: user.name,
 				abbreviation: comData.abbreviation,
@@ -143,6 +136,11 @@ export default function CommunityRequest() {
 		}
 	};
 	const currentUserData = userData.filter((obj: any) => obj.uid === user.uid);
+
+	const handleDecline = async (comReqId: string) => {
+		await deleteComRequest(comReqId);
+		refetch();
+	};
 
 	const UserComMap = () => {
 		if (currentUserData.length === 0) {
@@ -200,9 +198,37 @@ export default function CommunityRequest() {
 				return comRequest.uid === user.uid;
 			}
 		);
+		const reqLength = availableCommunities.filter((obj: any) => {
+			const hasMatchingAbbreviation =
+				currentUserData[0]?.approvedCommunities?.some(
+					(community: any) => community.abbreviation === obj.abbreviation
+				);
+			return obj.abbreviation !== "G" && !hasMatchingAbbreviation;
+		});
+		const pendingLength = requestPendingCheckByUser.filter((obj: any) => {
+			if (Array.isArray(currentUserData[0].approvedCommunities)) {
+				const userComs = currentUserData[0].approvedCommunities;
+				const abbSearch = obj.abbreviation;
+				const abbreviationExists = userComs.some(
+					(obj: any) => obj.abbreviation === abbSearch
+				);
+				return (
+					obj.abbreviation !== "G" &&
+					userData[0] &&
+					abbreviationExists === false
+				);
+			} else {
+				return obj.abbreviation !== "G" && userData[0];
+			}
+		});
 
 		return (
 			<>
+				{reqLength.length === 0 ? (
+					<></>
+				) : (
+					<p className={styles.comHeaderTitle}>Request to Join Community</p>
+				)}
 				{availableCommunities &&
 					availableCommunities
 						.filter((obj: any) => {
@@ -232,7 +258,15 @@ export default function CommunityRequest() {
 							);
 						})}
 				{/* New Section */}
-				<p className={styles.comHeaderTitle}>Pending Requests</p>
+				{pendingLength.length === 0 ? (
+					<></>
+				) : (
+					<p
+						className={styles.comHeaderTitle}
+						style={{ paddingTop: "1.25rem" }}>
+						Pending Requests
+					</p>
+				)}
 				{requestPendingCheckByUser &&
 					requestPendingCheckByUser
 						.filter((obj: any) => {
@@ -254,12 +288,15 @@ export default function CommunityRequest() {
 						.map((communitiesData: any) => (
 							<div key={communitiesData.abbreviation}>
 								<div className={styles.settingsBtnContainer}>
-									<Button className={styles.settingsBtn}>
+									<Button
+										className={styles.settingsBtn}
+										onClick={() => handleDecline(communitiesData._id)}>
 										<div className={styles.settingsBtnLeft}>
 											<div className={styles.settingsBtnText}>
 												{communitiesData.comName}
 											</div>
 										</div>
+										<CloseIcon />
 									</Button>
 								</div>
 							</div>
@@ -289,8 +326,6 @@ export default function CommunityRequest() {
 			</div>
 			{/* Section 2 */}
 			<div className={styles.comReqSectionMain}>
-				{/* Section title */}
-				<p className={styles.comHeaderTitle}>Request to Join Community</p>
 				{/* List of requestables */}
 				<AvailableRequestOption />
 			</div>

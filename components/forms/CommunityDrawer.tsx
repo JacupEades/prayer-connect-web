@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import AddIcon from "@mui/icons-material/Add";
 import { changeCommunity } from "@/redux/slices/communitySlice";
+import { Global } from "@emotion/react";
 
 type Props = {
 	cMenuOpen: boolean;
@@ -34,7 +35,7 @@ export default function CommunityDrawer({ cMenuOpen, communityMenu }: Props) {
 
 	useEffect(() => {
 		setSelectedOption(selectedCommunity.community);
-	}, [selectedCommunity.community]);
+	}, [selectedCommunity.community, dispatch]);
 
 	useEffect(() => {
 		if (selectedOption && newSelection === true) {
@@ -90,7 +91,26 @@ export default function CommunityDrawer({ cMenuOpen, communityMenu }: Props) {
 
 	const UserComMap = () => {
 		if (!currentUserData) {
-			return <></>;
+			return (
+				<FormControlLabel
+					key={1}
+					className={headerStyles.comLabel}
+					value={"Global"}
+					control={
+						<Radio
+							sx={{
+								width: "24px",
+								height: "24px",
+								color: "var(--sys-light-on-surface-variant)",
+								"&.Mui-checked": {
+									color: "var(--sys-light-primary)",
+								},
+							}}
+						/>
+					}
+					label={"Global"}
+				/>
+			);
 		} else {
 			return (
 				currentUserData[0] &&
@@ -144,6 +164,7 @@ export default function CommunityDrawer({ cMenuOpen, communityMenu }: Props) {
 								<RadioGroup
 									className={headerStyles.comRadioGroup}
 									aria-labelledby="Global community"
+									value={selectedCommunity.community}
 									onChange={handleSelection}
 									name="communitySelection">
 									<UserComMap />
