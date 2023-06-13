@@ -75,8 +75,8 @@ export default function Community({
 		<>
 			<section className={styles.masterContainer}>
 				<p className={styles.masterContainerP}>
-					Pray with your church community. Keep track of number of times
-					you&apos;ve prayed.{" "}
+					Pray with your community. Keep track of number of times you&apos;ve
+					prayed.{" "}
 					<span style={{ fontStyle: "italic" }}>
 						Note: You can&apos;t see others&apos; prayer counts.
 					</span>
