@@ -1,6 +1,14 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Document, Model } from "mongoose";
 
-let Communities;
+let Communities: Model<ICommunities>;
+
+export interface ICommunities extends Document {
+	name: string;
+	abbreviation: string;
+	comDescription: string;
+	createdAt: Date;
+	updatedAt: Date;
+}
 
 const CommunitySchema = new Schema(
 	{
@@ -28,8 +36,8 @@ CommunitySchema.index({ abbreviation: 1 }, { unique: true });
 CommunitySchema.index({ comDescription: 1 }, { unique: false });
 
 try {
-	Communities = model("community");
+	Communities = model<ICommunities>("community");
 } catch {
-	Communities = model("community", CommunitySchema);
+	Communities = model<ICommunities>("community", CommunitySchema);
 }
 export default Communities;

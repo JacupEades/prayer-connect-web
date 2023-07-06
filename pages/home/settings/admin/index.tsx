@@ -61,14 +61,6 @@ export default function CommunityManagement() {
 
 	if (communitiesLoading) return <HomeSectionLoading />;
 	if (communitiesIsError) return <HomeSectionError />;
-	if (
-		user.email === "jwae98@gmail.com" ||
-		user.email === "jacob.wa.eades@gmail.com"
-	) {
-		console.log("welcome");
-	} else {
-		return <HomeSectionUidError />;
-	}
 
 	const MyButton = styled(Button)(({ theme }) => ({
 		"&.Mui-disabled": {
@@ -113,105 +105,114 @@ export default function CommunityManagement() {
 		}
 	};
 
-	return (
-		<main className={styles.main}>
-			<SettingsHeaders title="Community Management" />
-			{/* Pending user requests */}
-			<SettingsNavCard
-				icon={<AlarmAddIcon />}
-				text={"Pending user requests"}
-				route={"/home/settings/admin/user-requests"}
-			/>
-			{/* Existing Communities Display */}
-			<div className={admin.existMain}>
-				<article className={admin.existIndexTitle}>
-					<div>Existing Communities</div>
-				</article>
-				<article className={admin.existIndex}>
-					<div>Name</div>
-					<div>Abbreviation</div>
-				</article>
-				{communitiesData.map((obj: any, i: React.Key | null | undefined) => {
-					return (
-						<article className={admin.existIndex} key={i}>
-							<div>{obj.name}</div>
-							<div>{obj.abbreviation}</div>
-						</article>
-					);
-				})}
-			</div>
-			{/* New Community Form */}
-			<form onSubmit={handleSubmit} className={formStyle.editFormContainer}>
-				{/* Title */}
-				<h2 className={admin.formTitle}>Add New Community</h2>
-				{/* Community Name */}
-				<TextField
-					multiline
-					className={formStyle.title}
-					sx={{
-						"& .MuiInputLabel-root.Mui-focused": {
-							color: "var(--sys-light-primary)",
-						},
-						"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-							{
-								borderColor: "var(--sys-light-primary)",
-							},
-					}}
-					id="comName"
-					label="Community Name"
-					onChange={(N) => setComName(N.target.value)}
-					value={comName}
+	if (
+		user.email === "jwae98@gmail.com" ||
+		user.email === "jacob.wa.eades@gmail.com"
+	) {
+		return (
+			<main className={styles.main}>
+				<SettingsHeaders title="Community Management" />
+				{/* Pending user requests */}
+				<SettingsNavCard
+					icon={<AlarmAddIcon />}
+					text={"Pending user requests"}
+					route={"/home/settings/admin/user-requests"}
 				/>
-				{/* Community Abbreviation */}
-				<TextField
-					multiline
-					className={formStyle.detailText}
-					sx={{
-						"& .MuiInputLabel-root.Mui-focused": {
-							color: "var(--sys-light-primary)",
-						},
-						"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-							{
-								borderColor: "var(--sys-light-primary)",
-							},
-					}}
-					id="abbreviation"
-					label="Abbreviation"
-					onChange={(A) => setAbbreviation(A.target.value)}
-					value={abbreviation}
-				/>
-				<TextField
-					multiline
-					className={formStyle.detailText}
-					sx={{
-						"& .MuiInputLabel-root.Mui-focused": {
-							color: "var(--sys-light-primary)",
-						},
-						"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-							{
-								borderColor: "var(--sys-light-primary)",
-							},
-					}}
-					id="description"
-					label="Description"
-					onChange={(D) => setDescription(D.target.value)}
-					value={description}
-				/>
-				{/* Cancel and Save button */}
-				<div className={admin.topBtnsMain}>
-					<div className={formStyle.topBtns}>
-						<Button onClick={() => resetForm()} className={formStyle.optionBtn}>
-							Reset
-						</Button>
-						<MyButton
-							disabled={comName === "" || abbreviation === ""}
-							type="submit"
-							className={formStyle.optionBtnPublish}>
-							Add
-						</MyButton>
-					</div>
+				{/* Existing Communities Display */}
+				<div className={admin.existMain}>
+					<article className={admin.existIndexTitle}>
+						<div>Existing Communities</div>
+					</article>
+					<article className={admin.existIndex}>
+						<div>Name</div>
+						<div>Abbreviation</div>
+					</article>
+					{communitiesData.map((obj: any, i: React.Key | null | undefined) => {
+						return (
+							<article className={admin.existIndex} key={i}>
+								<div>{obj.name}</div>
+								<div>{obj.abbreviation}</div>
+							</article>
+						);
+					})}
 				</div>
-			</form>
-		</main>
-	);
+				{/* New Community Form */}
+				<form onSubmit={handleSubmit} className={formStyle.editFormContainer}>
+					{/* Title */}
+					<h2 className={admin.formTitle}>Add New Community</h2>
+					{/* Community Name */}
+					<TextField
+						multiline
+						className={formStyle.title}
+						sx={{
+							"& .MuiInputLabel-root.Mui-focused": {
+								color: "var(--sys-light-primary)",
+							},
+							"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+								{
+									borderColor: "var(--sys-light-primary)",
+								},
+						}}
+						id="comName"
+						label="Community Name"
+						onChange={(N) => setComName(N.target.value)}
+						value={comName}
+					/>
+					{/* Community Abbreviation */}
+					<TextField
+						multiline
+						className={formStyle.detailText}
+						sx={{
+							"& .MuiInputLabel-root.Mui-focused": {
+								color: "var(--sys-light-primary)",
+							},
+							"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+								{
+									borderColor: "var(--sys-light-primary)",
+								},
+						}}
+						id="abbreviation"
+						label="Abbreviation"
+						onChange={(A) => setAbbreviation(A.target.value)}
+						value={abbreviation}
+					/>
+					<TextField
+						multiline
+						className={formStyle.detailText}
+						sx={{
+							"& .MuiInputLabel-root.Mui-focused": {
+								color: "var(--sys-light-primary)",
+							},
+							"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+								{
+									borderColor: "var(--sys-light-primary)",
+								},
+						}}
+						id="description"
+						label="Description"
+						onChange={(D) => setDescription(D.target.value)}
+						value={description}
+					/>
+					{/* Cancel and Save button */}
+					<div className={admin.topBtnsMain}>
+						<div className={formStyle.topBtns}>
+							<Button
+								onClick={() => resetForm()}
+								className={formStyle.optionBtn}>
+								Reset
+							</Button>
+							<MyButton
+								disabled={comName === "" || abbreviation === ""}
+								type="submit"
+								className={formStyle.optionBtnPublish}>
+								Add
+							</MyButton>
+						</div>
+					</div>
+				</form>
+			</main>
+		);
+	} else {
+		return <HomeSectionUidError />;
+	}
 }

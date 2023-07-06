@@ -1,6 +1,27 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Document, Model } from "mongoose";
 
-let Users;
+let Users: Model<IUser>;
+
+export interface IUser extends Document {
+	uid: string;
+	name: string;
+	email: string;
+	role?: string;
+	approvedCommunities?: {
+		abbreviation: string;
+		comName: string;
+	}[];
+	selectedCommunity?: {
+		abbreviation: string;
+		comName: string;
+	};
+	prayerCounts?: {
+		prayerId: string;
+		count: number;
+		updated: Date;
+	}[];
+	language: "Spanish" | "English" | "Mandarin";
+}
 
 const userSchema = new Schema(
 	{
@@ -68,9 +89,9 @@ const userSchema = new Schema(
 );
 
 try {
-	Users = model("Users");
+	Users = model<IUser>("Users");
 } catch {
-	Users = model("Users", userSchema);
+	Users = model<IUser>("Users", userSchema);
 }
 
 export default Users;
