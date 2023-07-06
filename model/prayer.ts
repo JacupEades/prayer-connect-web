@@ -1,6 +1,21 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Document, Model } from "mongoose";
 
-let Prayers;
+let Prayers: Model<IPrayer>;
+
+export interface IPrayer extends Document {
+	userId: string;
+	name: string;
+	title: string;
+	message: string;
+	prayedFor: number;
+	prayerNumber: number;
+	answered: boolean;
+	personal: boolean;
+	community: string;
+	approved: boolean;
+	createdAt: Date;
+	updatedAt: Date;
+}
 
 const prayerSchema = new Schema(
 	{
@@ -56,8 +71,8 @@ const prayerSchema = new Schema(
 );
 
 try {
-	Prayers = model("prayer");
+	Prayers = model<IPrayer>("prayer");
 } catch {
-	Prayers = model("prayer", prayerSchema);
+	Prayers = model<IPrayer>("prayer", prayerSchema);
 }
 export default Prayers;

@@ -17,7 +17,6 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import AddIcon from "@mui/icons-material/Add";
 import { changeCommunity } from "@/redux/slices/communitySlice";
-import { Global } from "@emotion/react";
 
 type Props = {
 	cMenuOpen: boolean;
