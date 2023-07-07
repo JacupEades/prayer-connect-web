@@ -14,7 +14,6 @@ import { auth } from "@/firebase/firebaseApp";
 import { userLoggedOut } from "@/redux/slices/userSlice";
 import MyPrayerLoading from "@/components/loading/prayer/MyPrayerLoading";
 import HomeSectionError from "@/components/loading/home/HomeSectionError";
-import HomeSectionUidError from "@/components/loading/home/HomeSectionUidError";
 
 type Props = {};
 
@@ -35,7 +34,6 @@ export default function Account({}: Props) {
 
 	if (userLoading) return <MyPrayerLoading />;
 	if (userIsError) return <HomeSectionError />;
-	if (user.uid === "") return <HomeSectionUidError />;
 
 	const currentUserId = user.uid;
 	const firebaseUser = auth.currentUser;

@@ -14,7 +14,6 @@ import {
 import { getUsers, updateUser } from "@/lib/userHelper";
 import HomeSectionLoading from "@/components/loading/home/HomeSectionLoading";
 import HomeSectionError from "@/components/loading/home/HomeSectionError";
-import HomeSectionUidError from "@/components/loading/home/HomeSectionUidError";
 import { FormControl, FormControlLabel, RadioGroup } from "@mui/material";
 import headerStyles from "@/styles/Header.module.css";
 import Radio from "@mui/material/Radio";
@@ -105,7 +104,6 @@ export default function CommunityRequest() {
 		return <HomeSectionLoading />;
 	if (comRequestsIsError || communitiesIsError || userIsError)
 		return <HomeSectionError />;
-	if (user.email === "") return <HomeSectionUidError />;
 
 	const handleSelection = (e: any) => {
 		e.preventDefault();

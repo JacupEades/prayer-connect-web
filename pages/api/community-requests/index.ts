@@ -38,7 +38,7 @@ async function handleGetRequest(res: any) {
 async function handlePostRequest(req: any, res: any) {
 	try {
 		const formData = await CommunityRequest.create(req.body);
-		console.log("formData from controller", formData);
+
 		if (!formData) {
 			return res.status(404).json({ error: "Form data not found." });
 		} else {

@@ -70,12 +70,12 @@ export default function HomeContent({
 				);
 			}
 		}
-	}, [dispatch, user.uid, userData]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [userData]);
 
 	// Data validation loading, error, and redux store uid
 	if (prayerLoading || userLoading) return <HomeSectionLoading />;
 	if (prayerIsError || userIsError) return <HomeSectionError />;
-	if (user.uid === "") return <HomeSectionUidError />;
 
 	const componentSelector = () => {
 		switch (selection) {

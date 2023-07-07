@@ -5,15 +5,18 @@ const initialState = {
 };
 
 export const tabSlice = createSlice({
-	name: "user",
+	name: "tab",
 	initialState,
 	reducers: {
 		tabSelect: (state, action) => {
 			state.tab = action.payload.tab;
 		},
+		resetTab: (state) => {
+			state.tab = "Community Prayers";
+		},
 	},
 });
 
-export const { tabSelect } = tabSlice.actions;
+export const { tabSelect, resetTab } = tabSlice.actions;
 
 export default tabSlice.reducer;

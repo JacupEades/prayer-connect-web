@@ -6,12 +6,12 @@ export interface IUser extends Document {
 	uid: string;
 	name: string;
 	email: string;
-	role?: string;
-	approvedCommunities?: {
+	role: string;
+	approvedCommunities: {
 		abbreviation: string;
 		comName: string;
 	}[];
-	selectedCommunity?: {
+	selectedCommunity: {
 		abbreviation: string;
 		comName: string;
 	};
@@ -36,7 +36,6 @@ const userSchema = new Schema(
 		email: {
 			type: String,
 			required: true,
-			unique: true,
 		},
 		role: {
 			type: String,

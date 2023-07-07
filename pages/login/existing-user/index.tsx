@@ -8,7 +8,7 @@ import { provider } from "@/firebase/firebaseApp";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { userLoggedIn, userLoggedOut } from "@/redux/slices/userSlice";
+import { userLoggedIn } from "@/redux/slices/userSlice";
 import Link from "next/link";
 import { addUser } from "@/lib/userHelper";
 import { resetCommunity } from "@/redux/slices/communitySlice";
@@ -20,15 +20,11 @@ export default function ExistingUser() {
 
 	useEffect(() => {
 		dispatch(resetCommunity());
-		dispatch(userLoggedOut());
 	}, [dispatch]);
 
 	const handleGoogle = async () => {
 		signInWithPopup(auth, provider)
 			.then((result) => {
-				// This gives you a Google Access Token. You can use it to access the Google API.
-				const credential: any = GoogleAuthProvider.credentialFromResult(result);
-				const token = credential.accessToken;
 				// The signed-in user info.
 				const user = result.user;
 				const currentUserName: any = auth.currentUser?.displayName;
@@ -45,7 +41,6 @@ export default function ExistingUser() {
 						email: user.email,
 						role: "user",
 						uid: user.uid,
-						token: token,
 					})
 				);
 			})
