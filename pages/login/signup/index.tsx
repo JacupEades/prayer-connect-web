@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import styles from "@/styles/Login.module.css";
 import Image from "next/image";
 import { Button } from "@mui/material";
-import SignUpForm from "../../../components/forms/SignUpForm";
-import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import SignUpForm from "@/components/forms/SignUpForm";
+import { getAuth, signInWithPopup } from "firebase/auth";
 import { provider } from "@/firebase/firebaseApp";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { userLoggedIn, userLoggedOut } from "@/redux/slices/userSlice";
+import { userLoggedIn } from "@/redux/slices/userSlice";
 import Link from "next/link";
 import { addUser } from "@/lib/userHelper";
 import { resetCommunity } from "@/redux/slices/communitySlice";
@@ -20,15 +20,11 @@ export default function NewUser() {
 
 	useEffect(() => {
 		dispatch(resetCommunity());
-		dispatch(userLoggedOut());
 	}, [dispatch]);
 
 	const handleGoogle = async () => {
 		signInWithPopup(auth, provider)
 			.then((result) => {
-				// This gives you a Google Access Token. You can use it to access the Google API.
-				const credential: any = GoogleAuthProvider.credentialFromResult(result);
-				const token = credential.accessToken;
 				// The signed-in user info.
 				const user = result.user;
 				const currentUserName: any = auth.currentUser?.displayName;
@@ -38,7 +34,6 @@ export default function NewUser() {
 							email: user.email,
 							role: "user",
 							uid: user.uid,
-							token: token,
 						})
 					);
 					return router.push("/login/google-add-username");
@@ -56,7 +51,6 @@ export default function NewUser() {
 							email: user.email,
 							role: "user",
 							uid: user.uid,
-							token: token,
 						})
 					);
 				}

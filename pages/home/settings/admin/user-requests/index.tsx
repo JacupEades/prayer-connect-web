@@ -49,13 +49,10 @@ export default function UserRequests() {
 	if (comRequestsLoading || userLoading) return <HomeSectionLoading />;
 	if (comRequestsIsError || userIsError) return <HomeSectionError />;
 	if (
-		user.email === "jwae98@gmail.com" ||
-		user.email === "jacob.wa.eades@gmail.com"
-	) {
-		console.log("welcome");
-	} else {
+		user.email !== "jwae98@gmail.com" ||
+		user.email !== "jacob.wa.eades@gmail.com"
+	)
 		return <HomeSectionUidError />;
-	}
 
 	const handleAccept = async (currentReq: any) => {
 		const { _id, uid, abbreviation, comName } = currentReq;

@@ -12,7 +12,6 @@ import { getUsers, updateUser } from "@/lib/userHelper";
 import { useQuery } from "react-query";
 import MyPrayerLoading from "@/components/loading/prayer/MyPrayerLoading";
 import HomeSectionError from "@/components/loading/home/HomeSectionError";
-import HomeSectionUidError from "@/components/loading/home/HomeSectionUidError";
 
 type Props = {};
 
@@ -48,7 +47,6 @@ export default function ChangeName({}: Props) {
 
 	if (userLoading) return <MyPrayerLoading />;
 	if (userIsError) return <HomeSectionError />;
-	if (user.uid === "") return <HomeSectionUidError />;
 
 	const currentUserData = userData.filter((obj: { uid: String }) => {
 		if (obj.uid === user.uid) {
