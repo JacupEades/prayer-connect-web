@@ -8,12 +8,13 @@ import { auth } from "@/firebase/firebaseApp";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoggedOut } from "@/redux/slices/userSlice";
+import { resetCommunity } from "@/redux/slices/communitySlice";
+import { resetTab } from "../../redux/slices/tabSlice";
 import SettingsNavCard from "../cards/SettingsNavCard";
 import SecurityIcon from "@mui/icons-material/Security";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import { resetCommunity } from "@/redux/slices/communitySlice";
 
 export default function Settings() {
 	const { user } = useSelector((state) => ({
@@ -33,12 +34,14 @@ export default function Settings() {
 					sessionStorage.setItem("detail", "");
 					router.push("/login/existing-user");
 				})
+				.then(dispatch(resetTab()))
 				.catch((error) => {
 					toast.error("User Log Out failed: ", { error });
 				});
 		} else {
 			dispatch(userLoggedOut());
 			dispatch(resetCommunity());
+			dispatch(resetTab());
 			router.push("/login/existing-user");
 		}
 	};

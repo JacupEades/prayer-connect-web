@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "@/styles/Login.module.css";
 import { Button, OutlinedInput } from "@mui/material";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import InputAdornment from "@mui/material/InputAdornment";
-import { auth } from "../../firebase/firebaseApp";
-import { updateProfile, onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebase/firebaseApp";
+import { updateProfile } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
@@ -14,29 +14,6 @@ export default function UserNameForm() {
 	const [name, setName] = useState("");
 	const router = useRouter();
 	const dispatch = useDispatch();
-
-	// kick out logged in users who are logged in
-	useEffect(() => {
-		onAuthStateChanged(auth, (user) => {
-			if (user) {
-				// Redux store
-				dispatch(
-					userLoggedIn({
-						name: user.displayName,
-						email: user.email,
-						role: "admin",
-						uid: user.uid,
-					})
-				);
-			}
-			if (user && user.uid) {
-				router.push("/home");
-			} else {
-				console.log("User is null");
-			}
-		});
-		console.log("logged in check pushed you home");
-	}, [dispatch, router]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();

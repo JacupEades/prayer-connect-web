@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "react-redux";
 import { store, persistor } from "../redux/store";
 import { PersistGate } from "redux-persist/integration/react";
+import LoginCheck from "@/firebase/LoginCheck";
 
 export default function App({ Component, pageProps }: AppProps) {
 	const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
 			<PersistGate loading={null} persistor={persistor}>
 				<QueryClientProvider client={queryClient}>
 					<ToastContainer />
+					<LoginCheck />
 					<Component {...pageProps} />
 					<Analytics />
 					{/* comment out to remove the RQ icon */}

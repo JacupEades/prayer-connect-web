@@ -41,8 +41,16 @@ async function handleGetRequest(res: any) {
 
 async function handlePostRequest(req: any, res: any) {
 	try {
+		const users: IUser[] = await Users.find({});
+		const matchingUser = users.find((user) => user.email === req.body.email);
+		// User exists already
+		if (matchingUser) {
+			return res
+				.status(400)
+				.json({ error: "You already have account using this email." });
+		}
+		// Does not exist yet
 		const formData = await Users.create(req.body);
-
 		if (!formData) {
 			return res.status(404).json({ error: "Form data not found." });
 		}

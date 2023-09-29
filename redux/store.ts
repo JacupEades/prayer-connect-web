@@ -11,17 +11,28 @@ import { persistReducer, persistStore } from "redux-persist";
 // import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2 ";
 import thunk from "redux-thunk";
 
-const persistConfig = {
-	key: "root",
+const persistConfig1 = {
+	key: "user",
 	storage: storageSession,
-	// stateReconciler: autoMergeLevel2,
+};
+const persistConfig2 = {
+	key: "prayer",
+	storage: storageSession,
+};
+const persistConfig3 = {
+	key: "tab",
+	storage: storageSession,
+};
+const persistConfig4 = {
+	key: "selectedCommunity",
+	storage: storageSession,
 };
 
 // Make the reducer persistable
-const persistedUserReducer = persistReducer(persistConfig, userReducer);
-const persistedPrayerReducer = persistReducer(persistConfig, prayerReducer);
-const persistedTabReducer = persistReducer(persistConfig, tabReducer);
-const persistedComReducer = persistReducer(persistConfig, communityReducer);
+const persistedUserReducer = persistReducer(persistConfig1, userReducer);
+const persistedPrayerReducer = persistReducer(persistConfig2, prayerReducer);
+const persistedTabReducer = persistReducer(persistConfig3, tabReducer);
+const persistedComReducer = persistReducer(persistConfig4, communityReducer);
 
 const rootReducer = combineReducers({
 	user: persistedUserReducer,

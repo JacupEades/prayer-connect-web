@@ -18,7 +18,6 @@ import { getUsers } from "@/lib/userHelper";
 import ReplayIcon from "@mui/icons-material/Replay";
 import MyPrayerLoading from "@/components/loading/prayer/MyPrayerLoading";
 import HomeSectionError from "@/components/loading/home/HomeSectionError";
-import HomeSectionUidError from "@/components/loading/home/HomeSectionUidError";
 
 export default function MyPrayerView() {
 	const [selection, setSelection] = useState("Details");
@@ -60,7 +59,6 @@ export default function MyPrayerView() {
 	// Data validation loading, error, and redux store uid
 	if (prayerLoading || userLoading) return <MyPrayerLoading />;
 	if (prayerIsError || userIsError) return <HomeSectionError />;
-	if (user.uid === "") return <HomeSectionUidError />;
 	if (prayerId === "") return <MyPrayerLoading />;
 
 	const objectWithId = prayerData.find((obj) => obj._id === prayerId);
